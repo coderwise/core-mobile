@@ -2,24 +2,24 @@ package com.coderwise.core.ui.sample
 
 import androidx.lifecycle.viewModelScope
 import com.coderwise.core.data.SampleRepository
+import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.ui.arch.BaseViewModel
 import kotlinx.coroutines.launch
 
-data class SampleModelState(
-    val test: String = ""
-)
 
 class SampleViewModel(
     private val sampleRepository: SampleRepository
 ) : BaseViewModel<SampleModelState, SampleUiState>(
     initialState = SampleModelState(),
-    mapper = { SampleUiState() }
+    mapper = { it.asUiState() }
 ) {
     init {
         viewModelScope.launch {
-            sampleRepository.flow.collect {
-                reduce {
-                    it.copy(test = it.test)
+            sampleRepository.flow.collect { outcome ->
+                outcome.onSuccess { sample ->
+                    reduce {
+                        it.copy(samples = listOf(sample))
+                    }
                 }
             }
         }
@@ -27,14 +27,11 @@ class SampleViewModel(
 
     fun onAction(action: SampleAction) {
         when (action) {
-            SampleAction.ButtonClicked -> {
-                reduce {
-                    it.copy(test = "test")
-                }
-                effect {
-
-                }
-            }
+            is SampleAction.ItemClicked -> {}
         }
     }
 }
+
+private fun SampleModelState.asUiState() = SampleUiState(
+    items = samples?.map { it.value } ?: emptyList()
+)
