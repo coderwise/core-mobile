@@ -55,7 +55,7 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
             implementation(libs.kotlinx.serialization.protobuf)
 
-            implementation(libs.androidx.datastore.preferences)
+            //implementation(libs.androidx.datastore.preferences)
         }
     }
 }
