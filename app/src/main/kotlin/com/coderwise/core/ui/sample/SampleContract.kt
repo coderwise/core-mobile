@@ -22,4 +22,5 @@ data class SampleModelState(
 
 sealed interface SampleAction : Action {
     data class ItemClicked(val id: String) : SampleAction
+    data object AddButtonClicked : SampleAction
 }

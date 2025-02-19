@@ -1,6 +1,7 @@
 package com.coderwise.core.ui.sample
 
 import androidx.lifecycle.viewModelScope
+import com.coderwise.core.data.Sample
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.ui.arch.Action
@@ -8,6 +9,7 @@ import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.sample.edit.EditRoute
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 
 class SampleViewModel(
@@ -34,6 +36,15 @@ class SampleViewModel(
             is SampleAction.ItemClicked -> effect { state ->
                 //uiMessenger.showMessage("Item clicked: ${action.id}")
                 navRouter.navigate(EditRoute(action.id))
+            }
+
+            is SampleAction.AddButtonClicked -> effect { state ->
+                sampleRepository.update(
+                    Sample(
+                        id = Clock.System.now().epochSeconds.toString(),
+                        value = "New sample"
+                    )
+                )
             }
         }
     }

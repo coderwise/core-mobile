@@ -85,7 +85,7 @@ fun <Entity, Id, Record> List<Record>.findById(
     recordToEntity: (Record) -> Entity
 ): Entity? = map {
     recordToEntity(it)
-}.first {
+}.find {
     id == identify(it)
 }
 

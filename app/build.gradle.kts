@@ -62,6 +62,9 @@ dependencies {
     implementation(libs.androidx.datastore.core.okio)
     implementation(libs.kotlinx.serialization.protobuf)
 
+    // date-time library
+    implementation(libs.kotlinx.datetime)
+
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 

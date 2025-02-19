@@ -45,8 +45,6 @@ class EditViewModel(
                     it.copy(sample = null, isProgress = true)
                 }
 
-                delay(2.seconds)
-
                 sampleRepository.update(state.sample).onSuccess {
                     reduce {
                         it.copy(isProgress = false)

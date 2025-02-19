@@ -29,9 +29,18 @@ class DataStoreLocalSourceTest {
         val record = list.findById("2", Sample::id, SampleRecord::asDomainModel)
         assertEquals("existing 2", record?.value)
 
-        val updatedRecord = record?.copy(value = "updated")
-        val updatedList = list.upsert(updatedRecord!!, Sample::id, SampleRecord::asDomainModel, Sample::asRecord)
-        assertEquals("updated", updatedList.findById("2", Sample::id, SampleRecord::asDomainModel)?.value)
+        val newEntity = Sample("100", "added")
+        val alteredList =
+            list.upsert(newEntity, Sample::id, SampleRecord::asDomainModel, Sample::asRecord)
+        assertEquals(6, alteredList.size)
+
+        val updatedRecord = record!!.copy(value = "updated")
+        val updatedList =
+            list.upsert(updatedRecord, Sample::id, SampleRecord::asDomainModel, Sample::asRecord)
+        assertEquals(
+            "updated",
+            updatedList.findById("2", Sample::id, SampleRecord::asDomainModel)?.value
+        )
 
         val newList = list.delete("2", Sample::id, SampleRecord::asDomainModel)
         assertEquals(4, newList.size)
