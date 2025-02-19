@@ -7,7 +7,7 @@ import kotlinx.serialization.KSerializer
 import okio.FileSystem
 import okio.Path.Companion.toOkioPath
 
-public inline fun <reified Entity> createDataStore(
+inline fun <reified Entity> createDataStore(
     context: Context,
     defaultValue: Entity,
     serializer: KSerializer<Entity>

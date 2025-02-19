@@ -75,13 +75,14 @@ private fun ItemsList(
         modifier = modifier
     ) {
         items(uiState.items.size) { index ->
+            val item = uiState.items[index]
             Text(
-                text = uiState.items[index],
+                text = item.value,
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
                     .clickable {
-                        dispatch(SampleAction.ItemClicked(index))
+                        dispatch(SampleAction.ItemClicked(item.id))
                     }
             )
         }
@@ -140,7 +141,12 @@ private fun SamplePreview() {
         Surface {
             SampleContent(
                 uiState = SampleUiState(
-                    items = listOf("test1", "test2", "test3", "test4", "test5")
+                    items = List(5) {
+                        SampleUiState.Item(
+                            id = it.toString(),
+                            value = "Item $it"
+                        )
+                    }
                 ),
                 dispatch = {}
             )

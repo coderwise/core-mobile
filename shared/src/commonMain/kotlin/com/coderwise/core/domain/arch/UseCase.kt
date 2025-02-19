@@ -23,6 +23,8 @@ abstract class CoroutineUseCase<in Params, out Result>(
     protected abstract suspend fun execute(params: Params): Outcome<Result>
 }
 
+suspend operator fun <Result> CoroutineUseCase<Unit, Result>.invoke(): Outcome<Result> = this(Unit)
+
 abstract class FlowUseCase<in Params, out Result>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
@@ -32,3 +34,5 @@ abstract class FlowUseCase<in Params, out Result>(
 
     protected abstract fun execute(params: Params): Flow<Outcome<Result>>
 }
+
+operator fun <Result> FlowUseCase<Unit, Result>.invoke(): Flow<Outcome<Result>> = this(Unit)

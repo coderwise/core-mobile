@@ -8,13 +8,18 @@ import kotlinx.serialization.Serializable
 data object SampleRoute
 
 data class SampleUiState(
-    val items: List<String>
-)
+    val items: List<Item>
+) {
+    data class Item(
+        val id: String,
+        val value: String
+    )
+}
 
 data class SampleModelState(
     val samples: List<Sample>? = null
 )
 
 sealed interface SampleAction : Action {
-    data class ItemClicked(val index: Int) : SampleAction
+    data class ItemClicked(val id: String) : SampleAction
 }

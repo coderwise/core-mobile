@@ -1,21 +1,19 @@
 package com.coderwise.core.data
 
 import android.content.Context
-import androidx.datastore.dataStoreFile
 import com.coderwise.core.data.arch.DataStoreLocalSource
 import com.coderwise.core.data.arch.DataStoreRecord
 import com.coderwise.core.data.arch.MemoryLocalSource
 import com.coderwise.core.data.arch.RepositoryImpl
-import com.coderwise.core.data.utils.DataStoreCreator
+import com.coderwise.core.data.utils.createDataStore
 import com.coderwise.core.domain.arch.Outcome
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
-import okio.FileSystem
-import okio.Path.Companion.toOkioPath
 
 @Serializable
 data class SampleRecord(
+    val id: String,
     val value: String
 )
 
@@ -29,33 +27,40 @@ class SampleRepositoryImpl(
         remote = null
     )
 
-    private val dataStore = DataStoreCreator.create(
+    private val dataStore = createDataStore(
+        context = context,
         defaultValue = DataStoreRecord<SampleRecord>(
-            List(10) { SampleRecord("sample $it") }
+            List(10) { SampleRecord(it.toString(), "sample $it") }
         ),
-        serializer = DataStoreRecord.serializer(SampleRecord.serializer()),
-        fileSystem = FileSystem.SYSTEM,
-        producePath = {
-            val file = context.dataStoreFile("${SampleRecord::class.java.simpleName}.pb")
-            file.absoluteFile.toOkioPath()
-        }
+        serializer = DataStoreRecord.serializer(SampleRecord.serializer())
     )
 
-    private val dataStoreLocalSource = DataStoreLocalSource<Sample, Int, SampleRecord>(
-        identify = { it.value.hashCode() },
-        mapToEntity = { it.asDomainModel() },
-        mapToRecord = { it.asRecord() },
+    private val dataStoreLocalSource = DataStoreLocalSource<Sample, String, SampleRecord>(
+        identify = { it.id },
+        recordToEntity = { it.asDomainModel() },
+        entityToRecord = { it.asRecord() },
         dataStore = dataStore
     )
 
-    override val flow: Flow<Outcome<List<Sample>>> =
-        dataStoreLocalSource.flow.map { list -> Outcome.Success(list) }
+    override val flow: Flow<Outcome<List<Sample>>> = dataStoreLocalSource.flow.map { list ->
+        Outcome.Success(list)
+    }
+
+    override fun flowById(sampleId: String) = dataStoreLocalSource
+        .flowById(sampleId)
+        .map { Outcome.Success(it) }
+
+    override suspend fun update(sample: Sample): Outcome<String> = Outcome.Success(
+        dataStoreLocalSource.update(sample)
+    )
 }
 
-private fun Sample.asRecord() = SampleRecord(
+fun Sample.asRecord() = SampleRecord(
+    id = id,
     value = value
 )
 
-private fun SampleRecord.asDomainModel() = Sample(
+fun SampleRecord.asDomainModel() = Sample(
+    id = id,
     value = value
 )

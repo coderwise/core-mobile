@@ -17,10 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
 import com.coderwise.core.ui.sample.SampleRoute
 import com.coderwise.core.ui.sample.SampleScreen
+import com.coderwise.core.ui.sample.edit.EditRoute
+import com.coderwise.core.ui.sample.edit.EditScreen
 import com.coderwise.core.ui.theme.Core_LibraryTheme
 
 class MainActivity : ComponentActivity() {
@@ -51,6 +54,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable<SampleRoute> { SampleScreen() }
+                        composable<EditRoute> { EditScreen(args = it.toRoute()) }
                     }
                 }
             }

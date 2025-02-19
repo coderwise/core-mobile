@@ -6,13 +6,12 @@ import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.ui.arch.Action
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
-import com.coderwise.core.ui.arch.UiMessenger
+import com.coderwise.core.ui.sample.edit.EditRoute
 import kotlinx.coroutines.launch
 
 
 class SampleViewModel(
     private val navRouter: NavigationRouter,
-    private val uiMessenger: UiMessenger,
     private val sampleRepository: SampleRepository
 ) : BaseViewModel<SampleModelState, SampleUiState>(
     initialState = SampleModelState(),
@@ -33,13 +32,13 @@ class SampleViewModel(
     override fun dispatch(action: Action) {
         when (action) {
             is SampleAction.ItemClicked -> effect { state ->
-                uiMessenger.showMessage("Item clicked: ${state.samples?.get(action.index)?.value}")
-                //navRouter.navigate(NavDestination.Detail(action.item))
+                //uiMessenger.showMessage("Item clicked: ${action.id}")
+                navRouter.navigate(EditRoute(action.id))
             }
         }
     }
 }
 
 private fun SampleModelState.asUiState() = SampleUiState(
-    items = samples?.map { it.value } ?: emptyList()
+    items = samples?.map { SampleUiState.Item(it.id, it.value) } ?: emptyList()
 )
