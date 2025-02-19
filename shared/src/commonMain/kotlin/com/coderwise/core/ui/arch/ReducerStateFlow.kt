@@ -21,17 +21,16 @@ class ReducerStateFlow<State>(
 
     private val stateFlow = actions
         .receiveAsFlow()
-        .runningFold(initialState) { acc, reducer -> reducer(acc)}
+        .runningFold(initialState) { state, reducer -> reducer(state) }
         .stateIn(scope, Eagerly, initialState)
 
     override val replayCache: List<State> = stateFlow.replayCache
+
     override val value: State = stateFlow.value
 
     override suspend fun collect(collector: FlowCollector<State>): Nothing {
         stateFlow.collect(collector)
     }
 
-    fun reduce(reducer: Reducer<State>) {
-        actions.trySend(reducer)
-    }
+    fun reduce(reducer: Reducer<State>) = actions.trySend(reducer)
 }

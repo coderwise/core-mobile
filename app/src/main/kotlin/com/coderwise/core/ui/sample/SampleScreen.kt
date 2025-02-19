@@ -53,11 +53,10 @@ private fun SampleContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
     ) {
-        SearchRow(
-            modifier = Modifier.fillMaxWidth()
-        )
+//        SearchRow(
+//            //modifier = Modifier.fillMaxWidth()
+//        )
         ItemsList(
             uiState = uiState,
             dispatch = dispatch,
@@ -79,7 +78,7 @@ private fun ItemsList(
             Text(
                 text = uiState.items[index],
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .clickable {
                         dispatch(SampleAction.ItemClicked(index))
                     }

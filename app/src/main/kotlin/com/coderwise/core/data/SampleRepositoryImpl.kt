@@ -30,7 +30,9 @@ class SampleRepositoryImpl(
     )
 
     private val dataStore = DataStoreCreator.create(
-        defaultValue = DataStoreRecord<SampleRecord>(listOf()),
+        defaultValue = DataStoreRecord<SampleRecord>(
+            List(10) { SampleRecord("sample $it") }
+        ),
         serializer = DataStoreRecord.serializer(SampleRecord.serializer()),
         fileSystem = FileSystem.SYSTEM,
         producePath = {

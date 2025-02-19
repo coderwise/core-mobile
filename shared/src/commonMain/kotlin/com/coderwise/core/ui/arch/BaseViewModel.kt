@@ -19,9 +19,9 @@ open class BaseViewModel<ModelState, UiState>(
         modelState.reduce(reducer)
     }
 
-    protected fun effect(effect: suspend () -> Unit) {
+    protected fun effect(effect: suspend (ModelState) -> Unit) {
         viewModelScope.launch {
-            effect()
+            effect(modelState.value)
         }
     }
 }

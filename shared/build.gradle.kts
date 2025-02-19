@@ -48,6 +48,8 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(libs.navigation.compose)
+
             implementation(libs.lifecycle.viewmodel.compose)
 
             // datastore
@@ -55,7 +57,9 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
             implementation(libs.kotlinx.serialization.protobuf)
 
-            //implementation(libs.androidx.datastore.preferences)
+            // koin
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
     }
 }
