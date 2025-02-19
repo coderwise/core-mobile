@@ -8,5 +8,5 @@ import org.koin.dsl.module
 
 val appModule = module {
     single<SampleRepository> { SampleRepositoryImpl(get()) }
-    viewModel { SampleViewModel(get(), get()) }
+    viewModel { SampleViewModel(get(), get(), get()) }
 }

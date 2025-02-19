@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-open class BaseViewModel<ModelState, UiState>(
+interface Action
+
+abstract class BaseViewModel<ModelState, UiState>(
     initialState: ModelState,
     mapper: (ModelState) -> UiState
 ) : ViewModel() {
@@ -24,4 +26,6 @@ open class BaseViewModel<ModelState, UiState>(
             effect(modelState.value)
         }
     }
+
+    abstract fun dispatch(action: Action)
 }

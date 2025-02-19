@@ -41,7 +41,7 @@ fun SampleScreen(
 
     SampleContent(
         uiState = uiState,
-        dispatch = viewModel::onAction
+        dispatch = viewModel::dispatch
     )
 }
 
@@ -79,6 +79,7 @@ private fun ItemsList(
                 text = uiState.items[index],
                 modifier = Modifier
                     .padding(8.dp)
+                    .fillMaxWidth()
                     .clickable {
                         dispatch(SampleAction.ItemClicked(index))
                     }
