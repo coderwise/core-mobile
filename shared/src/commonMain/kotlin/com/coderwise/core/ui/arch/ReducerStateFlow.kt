@@ -24,9 +24,9 @@ class ReducerStateFlow<State>(
         .runningFold(initialState) { state, reducer -> reducer(state) }
         .stateIn(scope, Eagerly, initialState)
 
-    override val replayCache: List<State> = stateFlow.replayCache
+    override val replayCache: List<State> get() = stateFlow.replayCache
 
-    override val value: State = stateFlow.value
+    override val value: State get() = stateFlow.value
 
     override suspend fun collect(collector: FlowCollector<State>): Nothing {
         stateFlow.collect(collector)
