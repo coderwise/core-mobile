@@ -4,20 +4,17 @@ import androidx.lifecycle.viewModelScope
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
-import com.coderwise.core.ui.arch.Action
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.seconds
 
 class EditViewModel(
     private val sampleId: String,
     private val uiMessenger: UiMessenger,
     private val navigationRouter: NavigationRouter,
     private val sampleRepository: SampleRepository
-) : BaseViewModel<EditModelState, EditUiState>(
+) : BaseViewModel<EditModelState, EditUiState, EditAction>(
     initialState = EditModelState(),
     mapper = { it.asUiState() }
 ) {
@@ -33,7 +30,7 @@ class EditViewModel(
         }
     }
 
-    override fun dispatch(action: Action) {
+    override fun handle(action: EditAction) {
         when (action) {
             is EditAction.ValueUpdated -> reduce {
                 it.copy(sample = it.sample?.copy(value = action.value))
@@ -49,7 +46,9 @@ class EditViewModel(
                     reduce {
                         it.copy(isProgress = false)
                     }
-                    uiMessenger.showMessage("Sample updated")
+                    effect {
+                        uiMessenger.showMessage("Sample updated")
+                    }
                     navigationRouter.navigateUp()
                 }.onError {
                     reduce {

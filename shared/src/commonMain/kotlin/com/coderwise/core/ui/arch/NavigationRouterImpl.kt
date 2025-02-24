@@ -18,11 +18,10 @@ class NavControllerProvider {
 class NavigationRouterImpl(
     private val navControllerProvider: NavControllerProvider,
 ) : NavigationRouter {
-    override fun navigate(route: Any, clearBackstack: Boolean) {
+    override fun navigate(route: Any, addToBackStack: Boolean) {
         navControllerProvider.get().navigate(route = route) {
-            if (clearBackstack) {
+            if (!addToBackStack) {
                 val popUpRoute = currentRoute()
-                launchSingleTop = true
                 if (popUpRoute != null) {
                     popUpTo(popUpRoute) { inclusive = true }
                 }

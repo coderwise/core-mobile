@@ -4,6 +4,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 class SnackbarHostStateProvider {
@@ -18,10 +20,13 @@ class SnackbarHostStateProvider {
 
 @Stable
 class UiMessengerImpl(
-    private val snackbarHostStateProvider: SnackbarHostStateProvider
+    private val snackbarHostStateProvider: SnackbarHostStateProvider,
+    private val scope: CoroutineScope
 ) : UiMessenger {
-    override suspend fun showMessage(message: String) {
-        snackbarHostStateProvider.get().showSnackbar(message)
+    override fun showMessage(message: String) {
+        scope.launch {
+            snackbarHostStateProvider.get().showSnackbar(message)
+        }
     }
 }
 

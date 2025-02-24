@@ -4,7 +4,7 @@ import com.coderwise.core.data.utils.MemCache
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 
-class MemoryLocalSource<Entity, Id>(
+open class MemoryLocalSource<Entity, Id>(
     identify: (Entity) -> Id
 ) : LocalSource<Entity, Id> {
     private val memCache = MemCache(
