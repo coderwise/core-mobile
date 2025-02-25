@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-interface ActionHandler
-
-abstract class BaseViewModel<ModelState, UiState, Action>(
+open class BaseViewModel<ModelState, UiState>(
     initialState: ModelState,
     mapper: (ModelState) -> UiState
 ) : ViewModel() {
@@ -21,16 +19,27 @@ abstract class BaseViewModel<ModelState, UiState, Action>(
         modelState.reduce(reducer)
     }
 
+    protected open fun reduce(state: ModelState, action: Action): ModelState = state
+
     protected fun effect(block: suspend (ModelState) -> Unit) {
         viewModelScope.launch {
             block(modelState.value)
         }
     }
 
+    protected fun <TState> TState.effect(block: suspend () -> Unit): TState {
+        viewModelScope.launch {
+            block()
+        }
+        return this
+    }
+
     fun dispatch(action: Action) {
+        modelState.reduce { reduce(it, action) }
         viewModelScope.launch {
             handle(action)
         }
     }
-    abstract fun handle(action: Action)
+
+    protected open fun handle(action: Action) {}
 }

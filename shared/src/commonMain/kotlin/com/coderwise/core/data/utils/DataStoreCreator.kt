@@ -12,8 +12,11 @@ import okio.BufferedSource
 import okio.FileSystem
 import okio.Path
 
-object DataStoreCreator {
+interface DataStorePathProducer {
+    fun producePath(fileName: String): Path
+}
 
+object DataStoreCreator {
     @OptIn(ExperimentalSerializationApi::class)
     inline fun <reified Entity> create(
         defaultValue: Entity,
@@ -38,3 +41,9 @@ object DataStoreCreator {
         )
     )
 }
+
+expect inline fun <reified Entity> createDataStore(
+    defaultValue: Entity,
+    serializer: KSerializer<Entity>,
+    pathProducer: DataStorePathProducer
+): DataStore<Entity>

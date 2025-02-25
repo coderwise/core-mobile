@@ -16,4 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Core_Library"
 include(":shared")
-include(":app")
+include(":androidApp")
+include(":composeApp")

@@ -19,3 +19,14 @@ inline fun <reified Entity> createDataStore(
         context.dataStoreFile("${Entity::class.java.simpleName}.pb").toOkioPath()
     }
 )
+
+actual inline fun <reified Entity> createDataStore(
+    defaultValue: Entity,
+    serializer: KSerializer<Entity>,
+    pathProducer: DataStorePathProducer
+) = DataStoreCreator.create(
+    defaultValue = defaultValue,
+    serializer = serializer,
+    fileSystem = FileSystem.SYSTEM,
+    producePath = { pathProducer.producePath(Entity::class.simpleName!!) }
+)

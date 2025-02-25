@@ -69,6 +69,7 @@ open class ReduxViewModel<ModelState, UiState>(
     )
 
     fun dispatch(action: Action) {
+        store.dispatch(action)
         viewModelScope.launch {
             handle(action)
         }
@@ -76,9 +77,7 @@ open class ReduxViewModel<ModelState, UiState>(
 
     protected open fun reduce(state: ModelState, action: Action): ModelState = state
 
-    protected open fun handle(action: Action) {
-        dispatch(action)
-    }
+    protected open fun handle(action: Action) {}
 
     protected fun reduce(reducer: (ModelState) -> ModelState) {
         store.reduce(reducer)
