@@ -12,7 +12,8 @@ import okio.BufferedSource
 import okio.FileSystem
 import okio.Path
 
-interface DataStorePathProducer {
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+expect class DataStorePathProducer {
     fun producePath(fileName: String): Path
 }
 
@@ -22,7 +23,7 @@ object DataStoreCreator {
         defaultValue: Entity,
         serializer: KSerializer<Entity>,
         fileSystem: FileSystem,
-        noinline producePath: () -> Path
+        pathProducer: DataStorePathProducer
     ): DataStore<Entity> = DataStoreFactory.create(
         storage = OkioStorage(
             fileSystem = fileSystem,
@@ -37,13 +38,7 @@ object DataStoreCreator {
                     sink.write(ProtoBuf.Default.encodeToByteArray(serializer, t))
                 }
             },
-            producePath = producePath
+            producePath = { pathProducer.producePath(Entity::class.simpleName!!) }
         )
     )
 }
-
-expect inline fun <reified Entity> createDataStore(
-    defaultValue: Entity,
-    serializer: KSerializer<Entity>,
-    pathProducer: DataStorePathProducer
-): DataStore<Entity>

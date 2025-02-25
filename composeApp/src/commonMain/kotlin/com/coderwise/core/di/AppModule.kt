@@ -4,10 +4,9 @@ import com.coderwise.core.data.SampleRecord
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.data.SampleRepositoryImpl
 import com.coderwise.core.data.arch.DataStoreRecord
-import com.coderwise.core.data.arch.LocalSource
 import com.coderwise.core.data.di.coreDataModule
 import com.coderwise.core.data.local.DataStoreSampleSource
-import com.coderwise.core.data.utils.createDataStore
+import com.coderwise.core.data.utils.DataStoreCreator
 import com.coderwise.core.ui.di.coreUiModule
 import com.coderwise.core.ui.sample.SampleViewModel
 import com.coderwise.core.ui.sample.edit.EditViewModel
@@ -24,22 +23,24 @@ fun initKoin(koinConfig: KoinAppDeclaration? = null) {
 }
 
 val appModule = module {
-    includes(coreDataModule())
+    includes(coreDataModule)
     includes(coreUiModule)
 
     factory {
         DataStoreSampleSource(
-            dataStore = createDataStore(
+            dataStore = DataStoreCreator.create(
                 defaultValue = DataStoreRecord<SampleRecord>(
                     List(10) { SampleRecord(it.toString(), "sample $it") }
                 ),
                 serializer = DataStoreRecord.serializer(SampleRecord.serializer()),
+                fileSystem = get(),
                 pathProducer = get()
             )
         )
     }
 
     single<SampleRepository> { SampleRepositoryImpl(get()) }
+
     viewModel { SampleViewModel(get(), get(), get()) }
     viewModel { EditViewModel(get(), get(), get(), get()) }
 }

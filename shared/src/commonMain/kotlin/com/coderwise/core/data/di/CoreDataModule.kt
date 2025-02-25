@@ -2,4 +2,4 @@ package com.coderwise.core.data.di
 
 import org.koin.core.module.Module
 
-expect fun coreDataModule(): Module
+expect val coreDataModule: Module

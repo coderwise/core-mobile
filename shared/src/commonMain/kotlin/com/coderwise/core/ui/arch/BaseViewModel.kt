@@ -15,19 +15,20 @@ open class BaseViewModel<ModelState, UiState>(
 
     val uiState = modelState.map(mapper).stateIn(viewModelScope, Eagerly, mapper(initialState))
 
-    protected fun reduce(reducer: Reducer<ModelState>) {
+    protected fun reduce(reducer: ModelState.() -> ModelState) {
         modelState.reduce(reducer)
     }
 
     protected open fun reduce(state: ModelState, action: Action): ModelState = state
 
-    protected fun effect(block: suspend (ModelState) -> Unit) {
+    protected fun asyncAction(block: suspend (ModelState) -> Unit) {
+        val modelState = modelState.value
         viewModelScope.launch {
-            block(modelState.value)
+            block(modelState)
         }
     }
 
-    protected fun <TState> TState.effect(block: suspend () -> Unit): TState {
+    protected fun <TState> TState.sideEffect(block: suspend () -> Unit): TState {
         viewModelScope.launch {
             block()
         }
@@ -37,9 +38,9 @@ open class BaseViewModel<ModelState, UiState>(
     fun dispatch(action: Action) {
         modelState.reduce { reduce(it, action) }
         viewModelScope.launch {
-            handle(action)
+            onAction(action)
         }
     }
 
-    protected open fun handle(action: Action) {}
+    protected open fun onAction(action: Action) {}
 }

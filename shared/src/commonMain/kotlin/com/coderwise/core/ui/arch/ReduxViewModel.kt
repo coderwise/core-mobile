@@ -71,15 +71,15 @@ open class ReduxViewModel<ModelState, UiState>(
     fun dispatch(action: Action) {
         store.dispatch(action)
         viewModelScope.launch {
-            handle(action)
+            onAction(action)
         }
     }
 
     protected open fun reduce(state: ModelState, action: Action): ModelState = state
 
-    protected open fun handle(action: Action) {}
+    protected open fun onAction(action: Action) {}
 
-    protected fun reduce(reducer: (ModelState) -> ModelState) {
+    protected fun reduce(reducer: ModelState.() -> ModelState) {
         store.reduce(reducer)
     }
 
@@ -90,9 +90,10 @@ open class ReduxViewModel<ModelState, UiState>(
         return this
     }
 
-    protected fun effect(block: suspend (ModelState) -> Unit) {
+    protected fun asyncAction(block: suspend (ModelState) -> Unit) {
+        val state = store.state.value
         viewModelScope.launch {
-            block(store.state.value)
+            block(state)
         }
     }
 }

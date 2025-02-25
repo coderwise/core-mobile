@@ -8,7 +8,7 @@ import org.koin.compose.koinInject
 class NavControllerProvider {
     private lateinit var navController: NavController
 
-    fun get() = navController
+    fun get(): NavController = navController
 
     fun reset(navController: NavController) {
         this.navController = navController

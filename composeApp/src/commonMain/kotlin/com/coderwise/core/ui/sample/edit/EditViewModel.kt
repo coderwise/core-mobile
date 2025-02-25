@@ -1,6 +1,5 @@
 package com.coderwise.core.ui.sample.edit
 
-import androidx.lifecycle.viewModelScope
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
@@ -8,7 +7,6 @@ import com.coderwise.core.ui.arch.Action
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
-import kotlinx.coroutines.launch
 
 class EditViewModel(
     private val sampleId: String,
@@ -20,45 +18,33 @@ class EditViewModel(
     mapper = { it.asUiState() }
 ) {
     init {
-        viewModelScope.launch {
+        asyncAction {
             sampleRepository.flowById(sampleId).collect { outcome ->
                 outcome.onSuccess { sample ->
-                    reduce {
-                        it.copy(sample = sample)
-                    }
+                    reduce { copy(sample = sample) }
                 }
             }
         }
     }
 
-    override fun reduce(state: EditModelState, action: Action): EditModelState {
-        return state
-    }
-
-    override fun handle(action: Action) {
+    override fun onAction(action: Action) {
         when (action) {
             is EditAction.ValueUpdated -> reduce {
-                it.copy(sample = it.sample?.copy(value = action.value))
+                copy(sample = sample?.copy(value = action.value))
             }
 
-            is EditAction.Save -> effect { state ->
-                state.sample ?: return@effect
-                reduce {
-                    it.copy(sample = null, isProgress = true)
-                }
+            is EditAction.Save -> asyncAction { state ->
+                state.sample ?: return@asyncAction
+                reduce { copy(sample = null, isProgress = true) }
 
                 sampleRepository.update(state.sample).onSuccess {
-                    reduce {
-                        it.copy(isProgress = false)
-                    }
-                    effect {
+                    reduce { copy(isProgress = false) }
+                    asyncAction {
                         uiMessenger.showMessage("Sample updated")
                     }
                     navigationRouter.navigateUp()
                 }.onError {
-                    reduce {
-                        it.copy(isProgress = false)
-                    }
+                    reduce { copy(isProgress = false) }
                     uiMessenger.showMessage("Error updating sample")
                 }
             }
