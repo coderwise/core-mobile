@@ -28,9 +28,9 @@ open class BaseViewModel<ModelState, UiState>(
         }
     }
 
-    protected fun <TState> TState.sideEffect(block: suspend () -> Unit): TState {
+    protected fun <State> State.sideEffect(block: suspend (State) -> Unit): State {
         viewModelScope.launch {
-            block()
+            block(this@sideEffect)
         }
         return this
     }
