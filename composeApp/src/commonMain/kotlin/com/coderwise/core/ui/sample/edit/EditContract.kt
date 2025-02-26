@@ -2,12 +2,7 @@ package com.coderwise.core.ui.sample.edit
 
 import com.coderwise.core.data.Sample
 import com.coderwise.core.ui.arch.Action
-import kotlinx.serialization.Serializable
 
-@Serializable
-data class EditRoute(
-    val id: String
-)
 
 data class EditModelState(
     val sample: Sample? = null,

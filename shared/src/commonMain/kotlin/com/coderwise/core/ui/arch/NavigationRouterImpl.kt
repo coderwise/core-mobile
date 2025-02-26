@@ -1,8 +1,11 @@
 package com.coderwise.core.ui.arch
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.navigation.NavController
+import kotlinx.coroutines.flow.map
 import org.koin.compose.koinInject
 
 class NavControllerProvider {
@@ -18,6 +21,11 @@ class NavControllerProvider {
 class NavigationRouterImpl(
     private val navControllerProvider: NavControllerProvider,
 ) : NavigationRouter {
+    @Composable
+    override fun currentRouteAsState(): State<String?> =
+        navControllerProvider.get().currentBackStackEntryFlow.map { it.destination.route }
+            .collectAsState(null)
+
     override fun navigate(route: Any, addToBackStack: Boolean) {
         navControllerProvider.get().navigate(route = route) {
             if (!addToBackStack) {

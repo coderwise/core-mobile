@@ -2,10 +2,6 @@ package com.coderwise.core.ui.sample
 
 import com.coderwise.core.data.Sample
 import com.coderwise.core.ui.arch.Action
-import kotlinx.serialization.Serializable
-
-@Serializable
-data object SampleRoute
 
 data class SampleUiState(
     val items: List<Item>

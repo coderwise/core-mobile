@@ -3,11 +3,12 @@ package com.coderwise.core.ui.sample
 import com.coderwise.core.data.Sample
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.domain.arch.onSuccess
+import com.coderwise.core.ui.Edit
+import com.coderwise.core.ui.Route
 import com.coderwise.core.ui.arch.Action
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.ReduxViewModel
 import com.coderwise.core.ui.arch.UiMessenger
-import com.coderwise.core.ui.sample.edit.EditRoute
 import kotlinx.datetime.Clock
 
 class SampleViewModel(
@@ -34,7 +35,7 @@ class SampleViewModel(
         when (action) {
             is SampleAction.ItemClicked -> asyncAction { state ->
                 uiMessenger.showMessage("Item clicked: ${action.id}")
-                navRouter.navigate(EditRoute(action.id))
+                navRouter.navigate(Edit(action.id))
             }
 
             is SampleAction.AddButtonClicked -> asyncAction { state ->

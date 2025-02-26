@@ -6,9 +6,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -18,9 +17,7 @@ import androidx.navigation.toRoute
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
 import com.coderwise.core.ui.component.CoreTopBar
-import com.coderwise.core.ui.sample.SampleRoute
 import com.coderwise.core.ui.sample.SampleScreen
-import com.coderwise.core.ui.sample.edit.EditRoute
 import com.coderwise.core.ui.sample.edit.EditScreen
 import com.coderwise.core.ui.theme.Core_LibraryTheme
 
@@ -31,26 +28,37 @@ fun App() {
         val snackbarHostState = remember { SnackbarHostState() }
         rememberUiMessenger(snackbarHostState)
 
+        val navController = rememberNavController()
+        val navRouter = rememberNavRouter(navController)
+        val currentRoute by navRouter.currentRouteAsState()
+        val showBackNavigation = currentRoute.hasBackNavigation()
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 CoreTopBar(
-                    title = "Title"
+                    title = "Title",
+                    showBackNavigation = showBackNavigation,
+                    onNavigationClick = navRouter::navigateUp
                 )
             },
             snackbarHost = { SnackbarHost(snackbarHostState) }
         ) { innerPadding ->
-            val navController = rememberNavController()
-            rememberNavRouter(navController)
 
             NavHost(
                 navController = navController,
-                startDestination = SampleRoute,
+                startDestination = Sample,
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable<SampleRoute> { SampleScreen() }
-                composable<EditRoute> { EditScreen(args = it.toRoute()) }
+                composable<Sample> { SampleScreen() }
+                composable<Edit> { EditScreen(args = it.toRoute<Edit>()) }
             }
         }
     }
+}
+
+private fun String?.hasBackNavigation() = when {
+    null == this -> false
+    this == Sample::class.qualifiedName -> false
+    else -> true
 }
