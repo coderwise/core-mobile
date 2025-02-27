@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -47,20 +47,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.compose.ui.tooling.preview)
 
     // DI
     implementation(libs.koin.android)
-    implementation(libs.koin.android.compose)
-
-    // date-time library
-    implementation(libs.kotlinx.datetime)
-
-    debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlinx.coroutines.test)

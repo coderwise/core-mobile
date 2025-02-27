@@ -3,22 +3,18 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlinSerialization)
 
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 
     id("maven-publish")
 }
 
 kotlin {
     androidTarget {
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                }
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
         publishAllLibraryVariants()
     }
@@ -35,11 +31,6 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.ui)
-            implementation(libs.compose.material3)
-            implementation(libs.androidx.ui.tooling.preview.android)
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -49,8 +40,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             implementation(libs.navigation.compose)
-
-            implementation(libs.lifecycle.viewmodel.compose)
 
             // datastore
             implementation(libs.androidx.datastore)
@@ -64,7 +53,6 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
-            //implementation(libs.mockk)
         }
     }
 }
@@ -82,7 +70,7 @@ android {
 }
 
 dependencies {
-    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(compose.uiTooling)
 }
 
 publishing {

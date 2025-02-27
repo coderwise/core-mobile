@@ -1,22 +1,19 @@
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlinSerialization)
 
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
     androidTarget {
         compilations.all {
             compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                }
+                compilerOptions { jvmTarget.set(JvmTarget.JVM_1_8) }
             }
         }
     }
@@ -28,14 +25,10 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "composeAppKit"
+            isStatic = true
         }
     }
 
-// Source set declarations.
-// Declaring a target automatically creates a source set with the same name. By default, the
-// Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
-// common to share sources between related targets.
-// See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
     sourceSets {
         commonMain.dependencies {
             implementation(project(":shared"))
@@ -47,7 +40,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.lifecycle.viewmodel.compose)
+            //implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.navigation.compose)
 
             implementation(libs.kotlinx.serialization.protobuf)
@@ -65,16 +58,6 @@ kotlin {
             implementation(libs.androidx.datastore.core.okio)
             implementation(libs.kotlinx.serialization.protobuf)
         }
-
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
-
-        androidMain.dependencies {
-        }
-
-        iosMain.dependencies {
-        }
     }
 }
 
@@ -91,5 +74,5 @@ android {
 }
 
 dependencies {
-    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(compose.uiTooling)
 }
