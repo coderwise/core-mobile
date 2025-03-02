@@ -3,6 +3,7 @@ package com.coderwise.core.data.utils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlin.collections.ifEmpty
 
 class MemCache<Entity, Id>(
@@ -27,10 +28,13 @@ class MemCache<Entity, Id>(
     }
 
     fun update(entity: Entity): Id {
-        val mutableCopy = cacheFlow.value.toMutableMap()
-        mutableCopy[identify(entity)] = entity
-        cacheFlow.value = mutableCopy
-        return identify(entity)
+        val id = identify(entity)
+        cacheFlow.update {
+            it.toMutableMap().apply {
+                this[id] = entity
+            }
+        }
+        return id
     }
 
     fun merge(list: List<Entity>) {

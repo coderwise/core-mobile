@@ -2,7 +2,6 @@ package com.coderwise.core.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -21,38 +20,42 @@ import com.coderwise.core.ui.sample.SampleScreen
 import com.coderwise.core.ui.sample.edit.EditScreen
 import com.coderwise.core.ui.theme.Core_LibraryTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
     Core_LibraryTheme {
-        val snackbarHostState = remember { SnackbarHostState() }
-        rememberUiMessenger(snackbarHostState)
+        RootUi()
+    }
+}
 
-        val navController = rememberNavController()
-        val navRouter = rememberNavRouter(navController)
-        val currentRoute by navRouter.currentRouteAsState()
-        val showBackNavigation = currentRoute.hasBackNavigation()
+@Composable
+private fun RootUi() {
+    val snackbarHostState = remember { SnackbarHostState() }
+    rememberUiMessenger(snackbarHostState)
 
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                CoreTopBar(
-                    title = "Title",
-                    showBackNavigation = showBackNavigation,
-                    onNavigationClick = navRouter::navigateUp
-                )
-            },
-            snackbarHost = { SnackbarHost(snackbarHostState) }
-        ) { innerPadding ->
+    val navController = rememberNavController()
+    val navRouter = rememberNavRouter(navController)
+    val currentRoute by navRouter.currentRouteAsState()
+    val showBackNavigation = currentRoute.hasBackNavigation()
 
-            NavHost(
-                navController = navController,
-                startDestination = Sample,
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                composable<Sample> { SampleScreen() }
-                composable<Edit> { EditScreen(args = it.toRoute<Edit>()) }
-            }
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            CoreTopBar(
+                title = "Title",
+                showBackNavigation = showBackNavigation,
+                onNavigationClick = navRouter::navigateUp
+            )
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { innerPadding ->
+
+        NavHost(
+            navController = navController,
+            startDestination = Sample,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable<Sample> { SampleScreen() }
+            composable<Edit> { EditScreen(args = it.toRoute<Edit>()) }
         }
     }
 }

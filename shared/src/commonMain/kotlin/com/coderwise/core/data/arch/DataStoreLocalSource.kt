@@ -1,6 +1,8 @@
 package com.coderwise.core.data.arch
 
 import androidx.datastore.core.DataStore
+import com.coderwise.core.domain.arch.Outcome
+import com.coderwise.core.domain.arch.dataOrNull
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -21,35 +23,40 @@ open class DataStoreLocalSource<Entity, Id, Record : Any>(
     protected val dataStore: DataStore<DataStoreRecord<Record>>
 ) : LocalSource<Entity, Id> {
 
-    override val flow: Flow<List<Entity>> =
-        dataStore.data.map { data -> data.list.map { recordToEntity(it) } }
+    override val flow: Flow<Outcome<List<Entity>>> =
+        dataStore.data.map { data -> Outcome.Success(data.list.map { recordToEntity(it) }) }
 
-    override fun flowById(id: Id): Flow<Entity> = flow.transform { list ->
+    override fun flowById(id: Id): Flow<Outcome<Entity>> = flow.transform { outcome ->
         try {
-            emit(list.first { identify(it) == id })
+            val entity = outcome.dataOrNull()?.first { identify(it) == id }
+                ?: throw NoSuchElementException()
+
+            emit(Outcome.Success(entity))
         } catch (_: NoSuchElementException) {
-            // NOOP
+            // NOOP Outcome.Error(NoSuchElementException())
         }
     }
 
-    override suspend fun update(entity: Entity): Id {
+    override suspend fun update(entity: Entity): Outcome<Id> {
         val entityId = identify(entity)
         dataStore.updateData { data ->
             data.upsert(entity)
         }
-        return entityId
+        return Outcome.Success(entityId)
     }
 
-    override suspend fun delete(id: Id) {
+    override suspend fun delete(id: Id): Outcome<Unit> {
         dataStore.updateData { data ->
             data.delete(id)
         }
+        return Outcome.Success(Unit)
     }
 
-    override suspend fun merge(list: List<Entity>) {
+    override suspend fun merge(list: List<Entity>): Outcome<Unit> {
         dataStore.updateData { data ->
             data.copy(list = list.map { entityToRecord(it) })
         }
+        return Outcome.Success(Unit)
     }
 
     override suspend fun isEmpty(): Boolean = dataStore.data.first().list.isEmpty()

@@ -19,7 +19,7 @@ class NavControllerProvider {
 }
 
 class NavigationRouterImpl(
-    private val navControllerProvider: NavControllerProvider,
+    private val navControllerProvider: NavControllerProvider
 ) : NavigationRouter {
     @Composable
     override fun currentRouteAsState(): State<String?> =

@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -42,16 +41,11 @@ android {
 
 dependencies {
     implementation(project(":composeApp"))
-    implementation(project(":shared"))
+//    implementation(project(":core"))
 
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
 
     // DI
     implementation(libs.koin.android)
-
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.mockk)
 }
