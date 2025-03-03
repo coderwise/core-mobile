@@ -19,7 +19,7 @@ open class BaseViewModel<ModelState, UiState>(
         modelState.reduce(reducer)
     }
 
-    protected open fun reduce(state: ModelState, action: Action): ModelState = state
+    protected open fun reduce(state: ModelState, action: Any): ModelState = state
 
     protected fun asyncAction(block: suspend (ModelState) -> Unit) {
         val modelState = modelState.value
@@ -35,12 +35,12 @@ open class BaseViewModel<ModelState, UiState>(
         return this
     }
 
-    fun dispatch(action: Action) {
+    fun <T : Any> dispatch(action: T) {
         modelState.reduce { reduce(it, action) }
         viewModelScope.launch {
             onAction(action)
         }
     }
 
-    protected open fun onAction(action: Action) {}
+    protected open fun onAction(action: Any) {}
 }

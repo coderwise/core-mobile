@@ -3,7 +3,6 @@ package com.coderwise.core.ui.sample.edit
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
-import com.coderwise.core.ui.arch.Action
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
@@ -27,7 +26,7 @@ class EditViewModel(
         }
     }
 
-    override fun onAction(action: Action) {
+    override fun onAction(action: Any) {
         when (action) {
             is EditAction.ValueUpdated -> reduce {
                 copy(sample = sample?.copy(value = action.value))

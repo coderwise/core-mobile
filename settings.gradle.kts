@@ -30,3 +30,5 @@ rootProject.name = "Core_Library"
 include(":shared")
 include(":androidApp")
 include(":composeApp")
+include(":permissions")
+

@@ -32,10 +32,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":shared"))
+            implementation(project(":permissions"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -51,8 +53,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             // datastore
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.core.okio)
+            //implementation(libs.androidx.datastore)
+            //implementation(libs.androidx.datastore.core.okio)
             implementation(libs.kotlinx.serialization.protobuf)
         }
     }
