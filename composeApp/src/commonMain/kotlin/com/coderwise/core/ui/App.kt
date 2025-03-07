@@ -21,6 +21,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.coderwise.core.permissions.CAMERA
+import com.coderwise.core.permissions.LOCATION
+import com.coderwise.core.permissions.MICROPHONE
+import com.coderwise.core.permissions.Permission
+import com.coderwise.core.permissions.ProcessPermissionRequestEffect
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
 import com.coderwise.core.ui.component.CoreTopBar
@@ -29,11 +34,6 @@ import com.coderwise.core.ui.permissions.PermissionsScreen
 import com.coderwise.core.ui.sample.SampleScreen
 import com.coderwise.core.ui.sample.edit.EditScreen
 import com.coderwise.core.ui.theme.Core_LibraryTheme
-import com.coderwise.permissions.CAMERA
-import com.coderwise.permissions.LOCATION
-import com.coderwise.permissions.MICROPHONE
-import com.coderwise.permissions.Permission
-import com.coderwise.permissions.ProcessPermissionRequestEffect
 
 @Composable
 fun App() {

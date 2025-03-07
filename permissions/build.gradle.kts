@@ -10,7 +10,7 @@ plugins {
 
 kotlin {
     androidLibrary {
-        namespace = "com.coderwise.permissions"
+        namespace = "com.coderwise.core.permissions"
         compileSdk = 35
         minSdk = 24
 
@@ -27,7 +27,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //implementation(libs.kotlin.stdlib)
             implementation(libs.kotlinx.coroutines.core)
 
             implementation(compose.runtime)
@@ -58,5 +57,5 @@ kotlin {
     }
 }
 
-group = "com.coderwise.permissions"
+group = "com.coderwise.core.permissions"
 version = "1.0"

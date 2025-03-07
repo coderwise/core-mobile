@@ -1,4 +1,4 @@
-package com.coderwise.permissions
+package com.coderwise.core
 
 import io.mockk.every
 import io.mockk.mockk

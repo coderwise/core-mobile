@@ -1,4 +1,4 @@
-package com.coderwise.permissions.di
+package com.coderwise.core.permissions.di
 
 import org.koin.core.module.Module
 

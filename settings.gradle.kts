@@ -32,3 +32,5 @@ include(":androidApp")
 include(":composeApp")
 include(":permissions")
 
+include(":core-time")
+include(":core-location")

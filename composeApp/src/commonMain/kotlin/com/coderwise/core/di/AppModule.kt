@@ -7,11 +7,11 @@ import com.coderwise.core.data.arch.DataStoreRecord
 import com.coderwise.core.data.di.coreDataModule
 import com.coderwise.core.data.local.DataStoreSampleSource
 import com.coderwise.core.data.utils.DataStoreCreator
+import com.coderwise.core.permissions.di.permissionsModule
 import com.coderwise.core.ui.di.coreUiModule
 import com.coderwise.core.ui.permissions.PermissionsViewModel
 import com.coderwise.core.ui.sample.SampleViewModel
 import com.coderwise.core.ui.sample.edit.EditViewModel
-import com.coderwise.permissions.di.permissionsModule
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.KoinAppDeclaration

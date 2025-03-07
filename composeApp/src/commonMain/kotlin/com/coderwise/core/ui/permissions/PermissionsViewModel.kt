@@ -1,13 +1,13 @@
 package com.coderwise.core.ui.permissions
 
+import com.coderwise.core.permissions.CAMERA
+import com.coderwise.core.permissions.LOCATION
+import com.coderwise.core.permissions.MICROPHONE
+import com.coderwise.core.permissions.Permission
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
-import com.coderwise.permissions.CAMERA
-import com.coderwise.permissions.LOCATION
-import com.coderwise.permissions.MICROPHONE
-import com.coderwise.permissions.Permission
-import com.coderwise.permissions.PermissionService
-import com.coderwise.permissions.STORAGE
+import com.coderwise.core.permissions.PermissionService
+import com.coderwise.core.permissions.STORAGE
 
 class PermissionsViewModel(
     private val navigationRouter: NavigationRouter,
