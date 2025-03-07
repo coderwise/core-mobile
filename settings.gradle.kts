@@ -30,7 +30,7 @@ rootProject.name = "Core_Library"
 include(":shared")
 include(":androidApp")
 include(":composeApp")
-include(":permissions")
+include(":core-permissions")
 
 include(":core-time")
 include(":core-location")
