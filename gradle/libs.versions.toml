@@ -1,25 +1,24 @@
 [versions]
-agp = "8.9.0-rc02"
+agp = "8.9.0"
 kotlin = "2.1.10"
-androidx-activityCompose = "1.10.1"
+activityCompose = "1.10.1"
 lifecycleRuntimeKtx = "2.8.7"
 koin = "4.0.0"
 datastore = "1.1.3"
 kotlinxSerialization = "1.8.0"
-compose-multiplatform = "1.7.3"
+composeMultiplatform = "1.8.0-alpha03"
 navigationCompose = "2.8.0-alpha10" # 2.8.0-alpha13 is breaking the build!!!
 kotlinxCoroutines = "1.10.1"
 mockk = "1.13.5"
 kotlinxDatetime = "0.6.2"
 
 [libraries]
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
-
 androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore-core-okio", version.ref = "datastore" }
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -41,6 +40,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
-composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

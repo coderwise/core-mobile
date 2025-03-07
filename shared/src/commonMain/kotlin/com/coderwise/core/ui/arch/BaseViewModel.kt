@@ -2,6 +2,7 @@ package com.coderwise.core.ui.arch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -11,7 +12,7 @@ open class BaseViewModel<ModelState, UiState>(
     initialState: ModelState,
     mapper: (ModelState) -> UiState
 ) : ViewModel() {
-    private val modelState = ReducerStateFlow(initialState, viewModelScope)
+    protected val modelState = ReducerStateFlow(initialState, viewModelScope)
 
     val uiState = modelState.map(mapper).stateIn(viewModelScope, Eagerly, mapper(initialState))
 
@@ -21,9 +22,9 @@ open class BaseViewModel<ModelState, UiState>(
 
     protected open fun reduce(state: ModelState, action: Any): ModelState = state
 
-    protected fun asyncAction(block: suspend (ModelState) -> Unit) {
+    protected fun asyncAction(block: suspend (ModelState) -> Unit): Job {
         val modelState = modelState.value
-        viewModelScope.launch {
+        return viewModelScope.launch {
             block(modelState)
         }
     }

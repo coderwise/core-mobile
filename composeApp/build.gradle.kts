@@ -53,8 +53,6 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             // datastore
-            //implementation(libs.androidx.datastore)
-            //implementation(libs.androidx.datastore.core.okio)
             implementation(libs.kotlinx.serialization.protobuf)
         }
     }

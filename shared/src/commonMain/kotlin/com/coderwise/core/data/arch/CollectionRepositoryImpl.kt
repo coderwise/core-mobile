@@ -9,15 +9,14 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-interface RemoteSource<Entity> {
-    suspend fun fetchList(): Outcome<List<Entity>>
-}
 
-class CollectionRepositoryImpl<Entity, Id>(
+class CollectionRepositoryImpl<Entity, Id, FetchQuery>(
     private val local: LocalSource<Entity, Id>,
-    private val remote: RemoteSource<Entity>? = null,
+    private val remote: RemoteSource<Entity, FetchQuery>? = null,
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 ) {
+    private var fetchQuery: FetchQuery? = null
+
     fun flow(): Flow<Outcome<List<Entity>>> = local.flow.also {
         refreshFromRemote()
     }
@@ -31,7 +30,7 @@ class CollectionRepositoryImpl<Entity, Id>(
     private fun refreshFromRemote() {
         scope.launch {
             if (local.isEmpty()) {
-                remote?.fetchList()?.let { outcome ->
+                remote?.fetchList(fetchQuery)?.let { outcome ->
                     outcome.onSuccess {
                         local.merge(it)
                     }.onError {

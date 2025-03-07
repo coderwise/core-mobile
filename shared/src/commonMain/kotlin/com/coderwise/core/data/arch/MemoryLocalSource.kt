@@ -34,4 +34,9 @@ open class MemoryLocalSource<Entity, Id>(
 
     override suspend fun update(entity: Entity): Outcome<Id> =
         Outcome.Success(memCache.update(entity))
+
+    override suspend fun clear(): Outcome<Unit> {
+        memCache.clear()
+        return Outcome.Success(Unit)
+    }
 }

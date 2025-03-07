@@ -19,7 +19,7 @@ class SampleRepositoryImpl(
     private val memory = MemoryLocalSource<Sample, Int>(
         identify = { it.value.hashCode() }
     )
-    private val impl = CollectionRepositoryImpl<Sample, String>(
+    private val impl = CollectionRepositoryImpl<Sample, String, Unit>(
         local = disk,
         remote = null
     )

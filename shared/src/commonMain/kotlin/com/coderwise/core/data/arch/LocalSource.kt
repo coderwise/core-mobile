@@ -10,4 +10,5 @@ interface LocalSource<Entity, Id> {
     suspend fun delete(id: Id): Outcome<Unit>
     suspend fun merge(list: List<Entity>): Outcome<Unit>
     suspend fun isEmpty(): Boolean
+    suspend fun clear(): Outcome<Unit> = merge(emptyList())
 }
