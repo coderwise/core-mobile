@@ -2,8 +2,6 @@ package com.coderwise.core.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -29,7 +27,9 @@ import com.coderwise.core.permissions.ProcessPermissionRequestEffect
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
 import com.coderwise.core.ui.component.CoreTopBar
-import com.coderwise.core.ui.permissions.Permissions
+import com.coderwise.core.ui.location.LocationRoute
+import com.coderwise.core.ui.location.LocationScreen
+import com.coderwise.core.ui.permissions.PermissionsRoute
 import com.coderwise.core.ui.permissions.PermissionsScreen
 import com.coderwise.core.ui.sample.SampleScreen
 import com.coderwise.core.ui.sample.edit.EditScreen
@@ -56,39 +56,27 @@ private fun RootUi() {
     val currentRoute by navRouter.currentRouteAsState()
     val showBackNavigation = currentRoute.hasBackNavigation()
 
-    var currentDestination by rememberSaveable { mutableStateOf("HOME") }
+    var currentDestination by rememberSaveable { mutableStateOf(NavItems.SAMPLE.routeId()) }
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
-            item(
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Home,
-                        contentDescription = "Home"
-                    )
-                },
-                label = { Text("Home") },
-                selected = currentDestination == "HOME",
-                onClick = {
-                    currentDestination = "HOME"
-                    navRouter.navigate(Sample)
-                }
-            )
-
-            item(
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Home,
-                        contentDescription = "Permissions"
-                    )
-                },
-                label = { Text("Permissions") },
-                selected = currentDestination == "PERMISSIONS",
-                onClick = {
-                    currentDestination = "PERMISSIONS"
-                    navRouter.navigate(Permissions)
-                }
-            )
+            NavItems.entries.forEach {
+                val navItem = it
+                item(
+                    icon = {
+                        Icon(
+                            imageVector = navItem.imageVector,
+                            contentDescription = navItem.name
+                        )
+                    },
+                    label = { Text(navItem.name) },
+                    selected = currentDestination == navItem.routeId(),
+                    onClick = {
+                        currentDestination = navItem.routeId()
+                        navRouter.navigate(navItem.route)
+                    }
+                )
+            }
         }
     ) {
         Scaffold(
@@ -111,7 +99,8 @@ private fun RootUi() {
                 composable<Sample> { SampleScreen() }
                 composable<Edit> { EditScreen(args = it.toRoute<Edit>()) }
 
-                composable<Permissions> { PermissionsScreen() }
+                composable<PermissionsRoute> { PermissionsScreen() }
+                composable<LocationRoute> { LocationScreen() }
             }
         }
     }
@@ -120,5 +109,7 @@ private fun RootUi() {
 private fun String?.hasBackNavigation() = when {
     null == this -> false
     this == Sample::class.qualifiedName -> false
+    this == PermissionsRoute::class.qualifiedName -> false
+    this == LocationRoute::class.qualifiedName -> false
     else -> true
 }

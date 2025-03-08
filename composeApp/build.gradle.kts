@@ -32,7 +32,9 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":shared"))
+            implementation(project(":core-ui"))
             implementation(project(":core-permissions"))
+            implementation(project(":core-location"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)

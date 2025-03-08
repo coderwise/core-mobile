@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
+import kotlinx.datetime.Instant
 
 class LocationServiceImpl(
     private val locationManager: LocationManager,
@@ -24,8 +25,8 @@ class LocationServiceImpl(
     override val status: Flow<LocationService.Status> = _status
 
     @SuppressLint("MissingPermission")
-    override val coordinates: Flow<LatLon> = callbackFlow {
-        val callback = LocationListener { location -> trySend(location.asLatLon()) }
+    override val coordinates: Flow<GpsMessage> = callbackFlow {
+        val callback = LocationListener { location -> trySend(location.asGpsMessage()) }
 
         locationManager.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
@@ -53,7 +54,18 @@ class LocationServiceImpl(
         replay = 1
     )
 
-    private fun Location.asLatLon() = LatLon(latitude, longitude)
+    private fun Location.asGpsMessage() = GpsMessage(
+        latLon = LatLon(latitude, longitude),
+        horizontalAccuracy = accuracy,
+        altitude = altitude,
+        verticalAccuracy = verticalAccuracyMeters,
+        speed = speed,
+        speedAccuracyMps = speedAccuracyMetersPerSecond,
+        bearing = bearing,
+        bearingAccuracyDegrees = bearingAccuracyDegrees,
+        timestamp = Instant.fromEpochMilliseconds(time),
+        provider = provider
+    )
 
     companion object {
         private const val RETRY_DELAY = 5000L

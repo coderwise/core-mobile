@@ -3,7 +3,7 @@ package com.coderwise.core.location
 import kotlinx.coroutines.flow.Flow
 
 interface LocationService {
-    val coordinates: Flow<LatLon>
+    val coordinates: Flow<GpsMessage>
 
     val status: Flow<Status>
 

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
+import kotlinx.datetime.toKotlinInstant
 import platform.CoreLocation.CLLocation
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
@@ -19,7 +20,6 @@ import platform.CoreLocation.kCLLocationAccuracyBest
 import platform.Foundation.NSError
 import platform.darwin.NSObject
 
-@OptIn(ExperimentalForeignApi::class)
 class LocationServiceImpl : LocationService {
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
     private val locationManager = CLLocationManager()
@@ -28,14 +28,14 @@ class LocationServiceImpl : LocationService {
 
     override val status: Flow<LocationService.Status> = _status
 
-    override val coordinates: Flow<LatLon> = callbackFlow {
+    override val coordinates: Flow<GpsMessage> = callbackFlow {
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.startUpdatingLocation()
         val locationDelegate = LocationDelegate()
         locationDelegate.onLocationUpdate = { location ->
-            location?.let { trySend(location) }
+            location?.let { trySend(location.asGpsMessage()) }
         }
 
         locationManager.delegate = locationDelegate
@@ -54,14 +54,12 @@ class LocationServiceImpl : LocationService {
 
     private class LocationDelegate : NSObject(), CLLocationManagerDelegateProtocol {
         // Define a callback to receive location updates
-        var onLocationUpdate: ((LatLon?) -> Unit)? = null
+        var onLocationUpdate: ((CLLocation?) -> Unit)? = null
 
         override fun locationManager(manager: CLLocationManager, didUpdateLocations: List<*>) {
             didUpdateLocations.lastOrNull()?.let {
                 val location = it as CLLocation
-                location.coordinate.useContents {
-                    onLocationUpdate?.invoke(LatLon(latitude, longitude))
-                }
+                onLocationUpdate?.invoke(location)
             }
         }
 
@@ -69,4 +67,20 @@ class LocationServiceImpl : LocationService {
             onLocationUpdate?.invoke(null)
         }
     }
+}
+
+@OptIn(ExperimentalForeignApi::class)
+private fun CLLocation.asGpsMessage() = coordinate.useContents {
+    GpsMessage(
+        latLon = LatLon(latitude, longitude),
+        horizontalAccuracy = horizontalAccuracy.toFloat(),
+        altitude = altitude,
+        verticalAccuracy = verticalAccuracy.toFloat(),
+        speed = speed.toFloat(),
+        speedAccuracyMps = speedAccuracy.toFloat(),
+        bearing = course.toFloat(),
+        bearingAccuracyDegrees = courseAccuracy.toFloat(),
+        timestamp = timestamp.toKotlinInstant(),
+        provider = sourceInformation?.description
+    )
 }

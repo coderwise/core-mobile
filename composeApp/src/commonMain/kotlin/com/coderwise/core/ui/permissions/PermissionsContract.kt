@@ -3,7 +3,7 @@ package com.coderwise.core.ui.permissions
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object Permissions
+data object PermissionsRoute
 
 data class PermissionsUiState(
     val location: PermissionUiState,

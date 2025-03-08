@@ -18,7 +18,7 @@ class AndroidPermissionHelper(
     fun checkShowRationale(permission: Permission): Boolean = showRationale(permission)
 }
 
-actual val permissionsModule: Module = module {
+actual val corePermissionsModule: Module = module {
     single { AndroidPermissionHelper() }
 
     single<PermissionService> {

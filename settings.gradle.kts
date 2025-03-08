@@ -34,3 +34,4 @@ include(":core-permissions")
 
 include(":core-time")
 include(":core-location")
+include(":core-ui")

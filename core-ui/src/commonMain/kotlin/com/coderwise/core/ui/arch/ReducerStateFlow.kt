@@ -2,9 +2,8 @@ package com.coderwise.core.ui.arch
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.runningFold
@@ -17,12 +16,12 @@ class ReducerStateFlow<State>(
     scope: CoroutineScope
 ) : StateFlow<State> {
 
-    private val actions = Channel<Reducer<State>>(BUFFERED)
+    private val actions = Channel<Reducer<State>>(Channel.BUFFERED)
 
     private val stateFlow = actions
         .receiveAsFlow()
         .runningFold(initialState) { state, reducer -> reducer(state) }
-        .stateIn(scope, Eagerly, initialState)
+        .stateIn(scope, SharingStarted.Eagerly, initialState)
 
     override val replayCache: List<State> get() = stateFlow.replayCache
 

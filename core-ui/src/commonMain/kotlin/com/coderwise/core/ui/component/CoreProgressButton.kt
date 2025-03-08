@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.coderwise.core.ui.utils.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -43,26 +42,24 @@ fun CoreProgressButton(
 
 @Preview
 @Composable
-private fun CoreProgressButtonPreview() {
-    MaterialTheme {
-        Surface {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CoreProgressButton(
-                    text = "Button",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {}
-                CoreProgressButton(
-                    text = "Progress",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    isProgress = true
-                ) {}
-            }
+internal fun CoreProgressButtonPreview() {
+    CorePreview {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CoreProgressButton(
+                text = "Button",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {}
+            CoreProgressButton(
+                text = "Progress",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                isProgress = true
+            ) {}
         }
     }
 }

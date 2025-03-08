@@ -46,7 +46,7 @@ fun CoreTopBar(
 
 @Preview
 @Composable
-private fun CoreTopBarPreview() {
+internal fun CoreTopBarPreview() {
     CorePreview {
         Column {
             CoreTopBar(

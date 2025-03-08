@@ -7,7 +7,8 @@ import com.coderwise.core.data.arch.DataStoreRecord
 import com.coderwise.core.data.di.coreDataModule
 import com.coderwise.core.data.local.DataStoreSampleSource
 import com.coderwise.core.data.utils.DataStoreCreator
-import com.coderwise.core.permissions.di.permissionsModule
+import com.coderwise.core.location.di.coreLocationModule
+import com.coderwise.core.permissions.di.corePermissionsModule
 import com.coderwise.core.ui.di.coreUiModule
 import com.coderwise.core.ui.location.LocationViewModel
 import com.coderwise.core.ui.permissions.PermissionsViewModel
@@ -28,7 +29,8 @@ fun initKoin(koinConfig: KoinAppDeclaration? = null) {
 val appModule = module {
     includes(coreDataModule)
     includes(coreUiModule)
-    includes(permissionsModule)
+    includes(corePermissionsModule)
+    includes(coreLocationModule)
 
     factory {
         DataStoreSampleSource(
@@ -48,5 +50,5 @@ val appModule = module {
     viewModel { SampleViewModel(get(), get(), get()) }
     viewModel { EditViewModel(get(), get(), get(), get()) }
     viewModel { PermissionsViewModel(get(), get()) }
-    viewModel { LocationViewModel() }
+    viewModel { LocationViewModel(get()) }
 }

@@ -28,7 +28,7 @@ fun PermissionsScreen(
 }
 
 @Composable
-private fun PermissionsContent(
+internal fun PermissionsContent(
     uiState: PermissionsUiState,
     onAction: (PermissionsAction) -> Unit
 ) {
@@ -36,17 +36,17 @@ private fun PermissionsContent(
         modifier = Modifier.fillMaxSize()
     ) {
         PermissionItem(
-            uiState.location,
-            { onAction(PermissionsAction.LocationPermissionClicked) })
+            uiState.location
+        ) { onAction(PermissionsAction.LocationPermissionClicked) }
         PermissionItem(
-            uiState.camera,
-            { onAction(PermissionsAction.CameraPermissionClicked) })
+            uiState.camera
+        ) { onAction(PermissionsAction.CameraPermissionClicked) }
         PermissionItem(
-            uiState.microphone,
-            { onAction(PermissionsAction.MicrophonePermissionClicked) })
+            uiState.microphone
+        ) { onAction(PermissionsAction.MicrophonePermissionClicked) }
         PermissionItem(
-            uiState.storage,
-            { onAction(PermissionsAction.StoragePermissionClicked) })
+            uiState.storage
+        ) { onAction(PermissionsAction.StoragePermissionClicked) }
     }
 }
 
