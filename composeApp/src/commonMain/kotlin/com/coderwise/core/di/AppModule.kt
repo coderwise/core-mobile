@@ -9,6 +9,7 @@ import com.coderwise.core.data.local.DataStoreSampleSource
 import com.coderwise.core.data.utils.DataStoreCreator
 import com.coderwise.core.permissions.di.permissionsModule
 import com.coderwise.core.ui.di.coreUiModule
+import com.coderwise.core.ui.location.LocationViewModel
 import com.coderwise.core.ui.permissions.PermissionsViewModel
 import com.coderwise.core.ui.sample.SampleViewModel
 import com.coderwise.core.ui.sample.edit.EditViewModel
@@ -47,4 +48,5 @@ val appModule = module {
     viewModel { SampleViewModel(get(), get(), get()) }
     viewModel { EditViewModel(get(), get(), get(), get()) }
     viewModel { PermissionsViewModel(get(), get()) }
+    viewModel { LocationViewModel() }
 }
