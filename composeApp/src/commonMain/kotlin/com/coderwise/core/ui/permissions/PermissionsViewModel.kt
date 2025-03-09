@@ -4,14 +4,14 @@ import com.coderwise.core.permissions.CAMERA
 import com.coderwise.core.permissions.LOCATION
 import com.coderwise.core.permissions.MICROPHONE
 import com.coderwise.core.permissions.Permission
-import com.coderwise.core.ui.arch.BaseViewModel
-import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.permissions.PermissionService
 import com.coderwise.core.permissions.STORAGE
+import com.coderwise.core.ui.OsSettingsService
+import com.coderwise.core.ui.arch.BaseViewModel
 
 class PermissionsViewModel(
-    private val navigationRouter: NavigationRouter,
-    private val permissionService: PermissionService
+    private val permissionService: PermissionService,
+    private val settingsService: OsSettingsService
 ) : BaseViewModel<PermissionsUiState, PermissionsUiState>(
     initialState = PermissionsUiState.initial(),
     mapper = { it }
@@ -19,50 +19,46 @@ class PermissionsViewModel(
     init {
         asyncAction {
             permissionService.statusFlow(Permission.LOCATION).collect {
-                reduce { copy(location = location.copy(isGranted = it == Permission.Status.GRANTED)) }
+                reduce { copy(location = location.copy(status = it)) }
             }
         }
         asyncAction {
             permissionService.statusFlow(Permission.CAMERA).collect {
-                reduce { copy(camera = camera.copy(isGranted = it == Permission.Status.GRANTED)) }
+                reduce { copy(camera = camera.copy(status = it)) }
             }
         }
         asyncAction {
             permissionService.statusFlow(Permission.MICROPHONE).collect {
-                reduce { copy(microphone = microphone.copy(isGranted = it == Permission.Status.GRANTED)) }
+                reduce { copy(microphone = microphone.copy(status = it)) }
             }
         }
         asyncAction {
             permissionService.statusFlow(Permission.STORAGE).collect {
-                reduce { copy(storage = storage.copy(isGranted = it == Permission.Status.GRANTED)) }
+                reduce { copy(storage = storage.copy(status = it)) }
             }
         }
     }
 
     override fun onAction(action: Any) {
         when (action) {
-            is PermissionsAction.LocationPermissionClicked -> {
-                asyncAction {
-                    permissionService.requestPermission(Permission.LOCATION)
-                }
+            is PermissionsAction.LocationPermissionClicked -> asyncAction {
+                permissionService.requestPermission(Permission.LOCATION)
             }
 
-            is PermissionsAction.CameraPermissionClicked -> {
-                asyncAction {
-                    permissionService.requestPermission(Permission.CAMERA)
-                }
+            is PermissionsAction.CameraPermissionClicked -> asyncAction {
+                permissionService.requestPermission(Permission.CAMERA)
             }
 
-            is PermissionsAction.MicrophonePermissionClicked -> {
-                asyncAction {
-                    permissionService.requestPermission(Permission.MICROPHONE)
-                }
+            is PermissionsAction.MicrophonePermissionClicked -> asyncAction {
+                permissionService.requestPermission(Permission.MICROPHONE)
             }
 
-            is PermissionsAction.StoragePermissionClicked -> {
-                asyncAction {
-                    permissionService.requestPermission(Permission.STORAGE)
-                }
+            is PermissionsAction.StoragePermissionClicked -> asyncAction {
+                permissionService.requestPermission(Permission.STORAGE)
+            }
+
+            is PermissionsAction.OnSettingsButtonClicked -> asyncAction {
+                settingsService.openSettings()
             }
 
             else -> {

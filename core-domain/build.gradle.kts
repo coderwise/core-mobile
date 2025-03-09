@@ -8,8 +8,8 @@ plugins {
 kotlin {
     androidLibrary {
         namespace = "com.coderwise.core.domain"
-        compileSdk = 35
-        minSdk = 24
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
 
         withHostTestBuilder {
         }
@@ -41,4 +41,4 @@ publishing {
 }
 
 group = "com.coderwise.core.domain"
-version = "1.0"
+version = libs.versions.coderwiseCore.get()

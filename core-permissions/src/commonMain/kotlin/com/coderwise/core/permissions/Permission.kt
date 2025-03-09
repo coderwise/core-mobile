@@ -5,8 +5,8 @@ import com.coderwise.core.permissions.Permission.Status
 interface Permission {
     enum class Status {
         GRANTED,
-        NOT_GRANTED,
-        NOT_GRANTED_PERMANENTLY
+        PENDING,
+        DENIED
     }
 
     companion object

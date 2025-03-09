@@ -52,4 +52,4 @@ publishing {
 }
 
 group = "com.coderwise.core.ui"
-version = "1.0"
+version = libs.versions.coderwiseCore.get()

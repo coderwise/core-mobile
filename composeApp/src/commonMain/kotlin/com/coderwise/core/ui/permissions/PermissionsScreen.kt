@@ -9,9 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.coderwise.core.ui.component.BoxyRow
 import com.coderwise.core.ui.theme.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -22,52 +22,61 @@ fun PermissionsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     PermissionsContent(
-        uiState = uiState,
-        onAction = viewModel::dispatch
+        uiState = uiState, onAction = viewModel::dispatch
     )
 }
 
 @Composable
 internal fun PermissionsContent(
-    uiState: PermissionsUiState,
-    onAction: (PermissionsAction) -> Unit
+    uiState: PermissionsUiState, onAction: (PermissionsAction) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         PermissionItem(
-            uiState.location
-        ) { onAction(PermissionsAction.LocationPermissionClicked) }
+            permissionState = uiState.location,
+            onRequestButtonClicked = { onAction(PermissionsAction.LocationPermissionClicked) },
+            onSettingsButtonClicked = { onAction(PermissionsAction.OnSettingsButtonClicked) })
         PermissionItem(
-            uiState.camera
-        ) { onAction(PermissionsAction.CameraPermissionClicked) }
+            permissionState = uiState.camera,
+            onRequestButtonClicked = { onAction(PermissionsAction.CameraPermissionClicked) },
+            onSettingsButtonClicked = { onAction(PermissionsAction.OnSettingsButtonClicked) })
         PermissionItem(
-            uiState.microphone
-        ) { onAction(PermissionsAction.MicrophonePermissionClicked) }
+            permissionState = uiState.microphone,
+            onRequestButtonClicked = { onAction(PermissionsAction.MicrophonePermissionClicked) },
+            onSettingsButtonClicked = { onAction(PermissionsAction.OnSettingsButtonClicked) })
         PermissionItem(
-            uiState.storage
-        ) { onAction(PermissionsAction.StoragePermissionClicked) }
+            permissionState = uiState.storage,
+            onRequestButtonClicked = { onAction(PermissionsAction.StoragePermissionClicked) },
+            onSettingsButtonClicked = { onAction(PermissionsAction.OnSettingsButtonClicked) })
     }
 }
 
 @Composable
 private fun PermissionItem(
     permissionState: PermissionUiState,
-    onButtonClicked: () -> Unit
+    onRequestButtonClicked: () -> Unit,
+    onSettingsButtonClicked: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+    BoxyRow(
+        modifier = Modifier.padding(16.dp)
     ) {
         Text(
-            text = permissionState.toString(),
-            modifier = Modifier.weight(1f)
+            text = permissionState.toString()
         )
-        Button(
-            onClick = onButtonClicked,
-            enabled = !permissionState.isGranted
-        ) {
-            Text(text = "Request")
+        Row {
+            Button(
+                onClick = onRequestButtonClicked,
+                modifier = Modifier.padding(end = 8.dp),
+                enabled = !permissionState.isGranted
+            ) {
+                Text(text = "Request")
+            }
+            Button(
+                onClick = onSettingsButtonClicked
+            ) {
+                Text(text = "Settings")
+            }
         }
     }
 }

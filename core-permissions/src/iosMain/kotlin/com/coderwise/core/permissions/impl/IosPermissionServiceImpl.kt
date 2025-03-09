@@ -46,7 +46,7 @@ fun Int.asPermissionStatus(): Permission.Status = when (this) {
     kCLAuthorizationStatusAuthorizedWhenInUse -> Permission.Status.GRANTED
 
     kCLAuthorizationStatusRestricted,
-    kCLAuthorizationStatusDenied -> Permission.Status.NOT_GRANTED_PERMANENTLY
+    kCLAuthorizationStatusDenied -> Permission.Status.DENIED
 
-    else -> Permission.Status.NOT_GRANTED
+    else -> Permission.Status.PENDING
 }

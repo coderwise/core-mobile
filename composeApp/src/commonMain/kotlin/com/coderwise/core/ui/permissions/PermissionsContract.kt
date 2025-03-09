@@ -1,5 +1,6 @@
 package com.coderwise.core.ui.permissions
 
+import com.coderwise.core.permissions.Permission
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,11 +24,12 @@ data class PermissionsUiState(
 
 data class PermissionUiState(
     val name: String,
-    val isGranted: Boolean = false,
+    val status: Permission.Status = Permission.Status.PENDING,
     val isLoading: Boolean = true
 ) {
+    val isGranted get() = status == Permission.Status.GRANTED
     override fun toString(): String {
-        return "$name: ${if (isGranted) "Granted" else "Denied"}"
+        return "$name: $status"
     }
 }
 
@@ -36,4 +38,6 @@ sealed interface PermissionsAction {
     data object CameraPermissionClicked : PermissionsAction
     data object MicrophonePermissionClicked : PermissionsAction
     data object StoragePermissionClicked : PermissionsAction
+
+    data object OnSettingsButtonClicked : PermissionsAction
 }

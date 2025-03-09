@@ -34,7 +34,7 @@ abstract class PermissionServiceImpl : PermissionService {
     /**
      * Updates the status of a permission.
      * Because on Android permanently denied permission status is not deterministic after first check:
-     * If the status is [Permission.Status.NOT_GRANTED_PERMANENTLY], update can only be to [Permission.Status.GRANTED]
+     * If the status is [Permission.Status.DENIED], update can only be to [Permission.Status.GRANTED]
      *
      */
     protected fun updateStatus(permission: Permission, status: Permission.Status) {

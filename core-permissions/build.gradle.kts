@@ -11,8 +11,8 @@ plugins {
 kotlin {
     androidLibrary {
         namespace = "com.coderwise.core.permissions"
-        compileSdk = 35
-        minSdk = 24
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
 
         @Suppress("UnstableApiUsage")
         withHostTestBuilder {

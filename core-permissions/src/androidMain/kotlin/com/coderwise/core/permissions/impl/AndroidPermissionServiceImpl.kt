@@ -15,8 +15,8 @@ class AndroidPermissionService(
 
         val status = when {
             isGranted -> Permission.Status.GRANTED
-            !isGranted && !shouldShowRationale -> Permission.Status.NOT_GRANTED_PERMANENTLY
-            else -> Permission.Status.NOT_GRANTED
+            !isGranted && !shouldShowRationale -> Permission.Status.DENIED
+            else -> Permission.Status.PENDING
         }
         updateStatus(permission, status)
         return status
