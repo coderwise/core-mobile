@@ -8,10 +8,9 @@ import kotlinx.cinterop.useContents
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.toKotlinInstant
 import platform.CoreLocation.CLLocation
@@ -21,15 +20,19 @@ import platform.CoreLocation.kCLDistanceFilterNone
 import platform.CoreLocation.kCLLocationAccuracyBest
 import platform.Foundation.NSError
 import platform.darwin.NSObject
+import kotlin.time.Duration.Companion.seconds
 
-class IosLocationServiceImpl : LocationServiceImpl() {
-    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
-    private val locationManager = CLLocationManager()
+class IosLocationServiceImpl(
+    private val locationManager: CLLocationManager = CLLocationManager(),
+    scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+) : LocationServiceImpl(scope) {
 
-    override val gpsMessages: Flow<GpsMessage> = callbackFlow {
+    override fun updatesFlow(configuration: LocationService.Configuration) = callbackFlow {
         locationManager.requestWhenInUseAuthorization()
+
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
+
         locationManager.startUpdatingLocation()
         val locationDelegate = LocationDelegate()
         locationDelegate.onLocationUpdate = { location ->
@@ -44,11 +47,14 @@ class IosLocationServiceImpl : LocationServiceImpl() {
             locationManager.stopUpdatingLocation()
             _status.value = LocationService.Status.STOPPED
         }
-    }.shareIn(
-        scope = scope,
-        started = SharingStarted.Lazily,
-        replay = 1
-    )
+    }.retry { e ->
+        (e is Exception).also {
+            if (it) {
+                _status.value = LocationService.Status.ERROR
+                delay(5.seconds)
+            }
+        }
+    }
 
     private class LocationDelegate : NSObject(), CLLocationManagerDelegateProtocol {
         // Define a callback to receive location updates

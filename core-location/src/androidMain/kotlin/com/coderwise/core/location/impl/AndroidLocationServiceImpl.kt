@@ -9,29 +9,21 @@ import com.coderwise.core.location.LatLon
 import com.coderwise.core.location.LocationService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Instant
+import kotlin.time.Duration.Companion.seconds
 
 class AndroidLocationServiceImpl(
     private val locationManager: LocationManager,
-    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+    scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 ) : LocationServiceImpl(scope) {
 
-    override fun startUpdates(): Job = updatesFlow(configuration)
-        .onEach {
-            _messages.trySend(it)
-        }
-        .launchIn(scope)
-
     @SuppressLint("MissingPermission")
-    private fun updatesFlow(configuration: LocationService.Configuration) = callbackFlow {
+    override fun updatesFlow(configuration: LocationService.Configuration) = callbackFlow {
         val callback = LocationListener { location -> trySend(location.asGpsMessage()) }
 
         locationManager.requestLocationUpdates(
@@ -69,6 +61,6 @@ class AndroidLocationServiceImpl(
     )
 
     companion object {
-        private const val RETRY_DELAY = 5000L
+        private val RETRY_DELAY = 5.seconds
     }
 }

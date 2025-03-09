@@ -10,22 +10,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 abstract class LocationServiceImpl(
-    scope: CoroutineScope
+    private val scope: CoroutineScope
 ) : LocationService {
     private var locationUpdatesJob: Job? = null
 
-    protected var configuration = LocationService.Configuration(1.seconds, 1f)
+    private var configuration = LocationService.Configuration(1.seconds, 1f)
 
     protected val _status = MutableStateFlow(LocationService.Status.STOPPED)
     override val status: Flow<LocationService.Status> = _status
 
-    protected val _messages = Channel<GpsMessage>(BUFFERED)
+    private val _messages = Channel<GpsMessage>(BUFFERED)
     override val gpsMessages: Flow<GpsMessage> = _messages
         .receiveAsFlow()
         .shareIn(
@@ -51,5 +53,11 @@ abstract class LocationServiceImpl(
         start()
     }
 
-    protected abstract fun startUpdates(): Job
+    private fun startUpdates(): Job = updatesFlow(configuration)
+        .onEach {
+            _messages.trySend(it)
+        }
+        .launchIn(scope)
+
+    protected abstract fun updatesFlow(configuration: LocationService.Configuration): Flow<GpsMessage>
 }
