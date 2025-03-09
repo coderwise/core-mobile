@@ -11,6 +11,7 @@ import com.coderwise.core.ui.theme.ScreenPreview
 fun SamplePreview() {
 }
 
+@Preview
 @Composable
 fun LocationContentPreview() {
     ScreenPreview {

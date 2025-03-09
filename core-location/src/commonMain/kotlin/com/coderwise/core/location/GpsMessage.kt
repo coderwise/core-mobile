@@ -13,4 +13,6 @@ data class GpsMessage(
     val bearingAccuracyDegrees: Float,
     val timestamp: Instant,
     val provider: String?
-)
+) {
+    companion object
+}

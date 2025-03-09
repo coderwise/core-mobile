@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     androidLibrary {
-        namespace = "com.coderwise.core.time"
+        namespace = "com.coderwise.core.domain"
         compileSdk = 35
         minSdk = 24
 
@@ -17,29 +17,28 @@ kotlin {
 
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
-            baseName = "core-timeKit"
+            baseName = "core-domainKit"
+            isStatic = true
         }
     }
-
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
-
-            // kotlinx DateTime
-            implementation(libs.kotlinx.datetime)
-
-            // koin
-            implementation(libs.koin.core)
         }
 
         commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
-
-        androidMain.dependencies {
-            implementation(libs.androidx.activity.compose)
-        }
+        androidMain.dependencies {}
+        iosMain.dependencies {}
     }
 }
 
-group = "com.coderwise.core.time"
+publishing {
+    repositories {
+        mavenLocal()
+    }
+}
+
+group = "com.coderwise.core.domain"
 version = "1.0"

@@ -28,6 +28,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core-domain"))
             // datastore
             api(libs.androidx.datastore)
             implementation(libs.androidx.datastore.core.okio)

@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.location.GpsMessage
+import com.coderwise.core.location.LocationService
 import com.coderwise.core.ui.component.BoxyRow
 import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.ui.theme.ScreenPreview
@@ -43,9 +44,14 @@ internal fun LocationContent(
         ServiceControllerCard(
             minTime = uiState.minTime,
             minDistance = uiState.minDistance,
+            status = uiState.locationServiceStatus,
             dispatch = dispatch
         )
 
+        Text(
+            text = "Status ${uiState.locationServiceStatus?.name}",
+            modifier = Modifier.padding(16.dp)
+        )
         uiState.gpsMessage?.let {
             LastLocation(uiState.gpsMessage)
         }
@@ -111,6 +117,7 @@ fun LastLocation(
 fun ServiceControllerCard(
     minTime: String,
     minDistance: String,
+    status: LocationService.Status?,
     dispatch: (LocationAction) -> Unit
 ) {
     Card(
@@ -129,7 +136,7 @@ fun ServiceControllerCard(
             )
             OutlinedTextField(
                 value = minDistance,
-                onValueChange = { dispatch(LocationAction.OnMinDistanceChanged(it))},
+                onValueChange = { dispatch(LocationAction.OnMinDistanceChanged(it)) },
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
@@ -137,18 +144,33 @@ fun ServiceControllerCard(
             )
             Row {
                 CoreProgressButton(
-                    text = "Start",
+                    text = "Configure",
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(0.5f)
-                ) { }
+                ) {
+                    dispatch(LocationAction.OnConfigureClicked)
+                }
+                CoreProgressButton(
+                    text = "Start",
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .weight(0.5f),
+                    enabled = status == LocationService.Status.STOPPED,
+                    isProgress = status == LocationService.Status.STARTING
+                ) {
+                    dispatch(LocationAction.OnStartClicked)
+                }
                 CoreProgressButton(
                     text = "Stop",
                     modifier = Modifier
                         .padding(8.dp)
                         .weight(0.5f),
-                    enabled = false
-                ) { }
+                    enabled = status == LocationService.Status.STARTED,
+                    isProgress = status == LocationService.Status.STOPPING
+                ) {
+                    dispatch(LocationAction.OnStopClicked)
+                }
             }
         }
     }

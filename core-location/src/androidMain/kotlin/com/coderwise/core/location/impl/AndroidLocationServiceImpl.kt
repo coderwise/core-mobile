@@ -1,37 +1,43 @@
-package com.coderwise.core.location
+package com.coderwise.core.location.impl
 
 import android.annotation.SuppressLint
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import com.coderwise.core.location.GpsMessage
+import com.coderwise.core.location.LatLon
+import com.coderwise.core.location.LocationService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.retry
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Instant
 
-class LocationServiceImpl(
+class AndroidLocationServiceImpl(
     private val locationManager: LocationManager,
-    scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
-) : LocationService {
-    private val _status = MutableStateFlow(LocationService.Status.STOPPED)
-    override val status: Flow<LocationService.Status> = _status
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+) : LocationServiceImpl(scope) {
+
+    override fun startUpdates(): Job = updatesFlow(configuration)
+        .onEach {
+            _messages.trySend(it)
+        }
+        .launchIn(scope)
 
     @SuppressLint("MissingPermission")
-    override val coordinates: Flow<GpsMessage> = callbackFlow {
+    private fun updatesFlow(configuration: LocationService.Configuration) = callbackFlow {
         val callback = LocationListener { location -> trySend(location.asGpsMessage()) }
 
         locationManager.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
-            5000,
-            1F,
+            configuration.minTime.inWholeMilliseconds,
+            configuration.minDistance,
             callback
         )
         _status.update { LocationService.Status.STARTED }
@@ -45,14 +51,9 @@ class LocationServiceImpl(
             if (it) {
                 _status.value = LocationService.Status.ERROR
                 delay(RETRY_DELAY)
-                //permissionService.checkPermission(Permission.LOCATION)
             }
         }
-    }.shareIn(
-        scope = scope,
-        started = SharingStarted.Companion.Lazily,
-        replay = 1
-    )
+    }
 
     private fun Location.asGpsMessage() = GpsMessage(
         latLon = LatLon(latitude, longitude),
