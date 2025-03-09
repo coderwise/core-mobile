@@ -8,13 +8,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.coderwise.core.ui.theme.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun PermissionsScreen(
@@ -65,6 +65,7 @@ private fun PermissionItem(
         )
         Button(
             onClick = onButtonClicked,
+            enabled = !permissionState.isGranted
         ) {
             Text(text = "Request")
         }
@@ -73,7 +74,7 @@ private fun PermissionItem(
 
 @Preview
 @Composable
-private fun PermissionsScreenPreview() {
+internal fun PermissionsPreview() {
     CorePreview {
         PermissionsContent(
             uiState = PermissionsUiState.initial()

@@ -5,8 +5,6 @@ import com.coderwise.core.location.LatLon
 import com.coderwise.core.location.LocationService
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.callbackFlow
@@ -14,24 +12,26 @@ import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.toKotlinInstant
 import platform.CoreLocation.CLLocation
+import platform.CoreLocation.CLLocationAccuracy
+import platform.CoreLocation.CLLocationDistance
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
 import platform.CoreLocation.kCLDistanceFilterNone
 import platform.CoreLocation.kCLLocationAccuracyBest
 import platform.Foundation.NSError
 import platform.darwin.NSObject
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 class IosLocationServiceImpl(
-    private val locationManager: CLLocationManager = CLLocationManager(),
-    scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
-) : LocationServiceImpl(scope) {
+    private val locationManager: CLLocationManager = CLLocationManager()
+) : LocationServiceImpl() {
 
     override fun updatesFlow(configuration: LocationService.Configuration) = callbackFlow {
         locationManager.requestWhenInUseAuthorization()
 
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.desiredAccuracy = configuration.minTime.asIosAccuracy()
+        locationManager.distanceFilter = configuration.minDistance.asIosDistanceFilter()
 
         locationManager.startUpdatingLocation()
         val locationDelegate = LocationDelegate()
@@ -71,6 +71,20 @@ class IosLocationServiceImpl(
             onLocationUpdate?.invoke(null)
         }
     }
+}
+
+/**
+ * TODO add selector
+ */
+private fun Float.asIosDistanceFilter(): CLLocationDistance {
+    return kCLDistanceFilterNone
+}
+
+/**
+ * TODO add selector
+ */
+private fun Duration.asIosAccuracy(): CLLocationAccuracy {
+    return kCLLocationAccuracyBest
 }
 
 @OptIn(ExperimentalForeignApi::class)

@@ -3,6 +3,7 @@ package com.coderwise.core.location.impl
 import com.coderwise.core.location.GpsMessage
 import com.coderwise.core.location.LocationService
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
@@ -18,7 +19,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 abstract class LocationServiceImpl(
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 ) : LocationService {
     private var locationUpdatesJob: Job? = null
 

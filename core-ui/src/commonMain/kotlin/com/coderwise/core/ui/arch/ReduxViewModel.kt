@@ -27,12 +27,12 @@ class ReduxStore<State>(
 
     private val reducers = mutableListOf<(State, Action) -> State>().apply {
         // TODO doesn't compile in kotlin multiplatform library
-        //        add { state: State, action: Action ->
-        //            when (action) {
-        //                is ReduxStore<State>.InlineReducerAction -> action.reducer(state)
-        //                else -> state
-        //            }
-        //        }
+//        add { state: State, action: Action ->
+//            if (action is ReduxStore<State>.InlineReducerAction)
+//                action.reducer(state)
+//            else
+//                state
+//        }
     }
 
     val state = actions

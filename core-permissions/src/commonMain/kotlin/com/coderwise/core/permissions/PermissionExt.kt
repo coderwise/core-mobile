@@ -15,3 +15,7 @@ object MicrophonePermission : Permission
 val Permission.Companion.STORAGE: Permission get() = StoragePermission
 
 object StoragePermission : Permission
+
+val Permission.Companion.BLUETOOTH: Permission get() = BluetoothPermission
+
+object BluetoothPermission : Permission

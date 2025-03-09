@@ -4,10 +4,8 @@ import com.coderwise.core.data.Sample
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.ui.Edit
-import com.coderwise.core.ui.Route
-import com.coderwise.core.ui.arch.Action
+import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
-import com.coderwise.core.ui.arch.ReduxViewModel
 import com.coderwise.core.ui.arch.UiMessenger
 import kotlinx.datetime.Clock
 
@@ -15,7 +13,7 @@ class SampleViewModel(
     private val navRouter: NavigationRouter,
     private val uiMessenger: UiMessenger,
     private val sampleRepository: SampleRepository
-) : ReduxViewModel<SampleModelState, SampleUiState>(
+) : BaseViewModel<SampleModelState, SampleUiState>(
     initialState = SampleModelState(),
     mapper = { it.asUiState() }
 ) {
@@ -31,14 +29,14 @@ class SampleViewModel(
         }
     }
 
-    override fun onAction(action: Action) {
+    override fun onAction(action: Any) {
         when (action) {
-            is SampleAction.ItemClicked -> asyncAction { state ->
+            is SampleAction.ItemClicked -> asyncAction {
                 uiMessenger.showMessage("Item clicked: ${action.id}")
                 navRouter.navigate(Edit(action.id))
             }
 
-            is SampleAction.AddButtonClicked -> asyncAction { state ->
+            is SampleAction.AddButtonClicked -> asyncAction {
                 sampleRepository.update(
                     Sample(
                         id = Clock.System.now().epochSeconds.toString(),

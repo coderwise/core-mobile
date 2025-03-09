@@ -2,8 +2,8 @@ package com.coderwise.core.permissions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import com.coderwise.core.permissions.impl.IosPermissionRequestRouter
 import org.koin.compose.koinInject
-import platform.CoreLocation.CLLocationManager
 
 @Composable
 actual fun ProcessPermissionRequestEffect(
@@ -12,9 +12,10 @@ actual fun ProcessPermissionRequestEffect(
     val permissionService = koinInject<PermissionService>()
 
     LaunchedEffect(permission) {
-        val locationManager = CLLocationManager()
+        val permissionRequestRouter = IosPermissionRequestRouter()
+
         permissionService.requests.collect {
-            locationManager.requestWhenInUseAuthorization()
+            permissionRequestRouter.request(permission)
         }
     }
 }

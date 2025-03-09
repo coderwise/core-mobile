@@ -11,7 +11,7 @@ import platform.CoreLocation.kCLAuthorizationStatusDenied
 import platform.CoreLocation.kCLAuthorizationStatusRestricted
 import platform.darwin.NSObject
 
-class IosPermissionService() : PermissionServiceImpl() {
+class IosPermissionService : PermissionServiceImpl() {
     private val permissionDelegate = PermissionDelegate {
         // TODO route requested permission
         checkPermission(Permission.LOCATION)

@@ -13,27 +13,27 @@ data class PermissionsUiState(
 ) {
     companion object {
         fun initial() = PermissionsUiState(
-            location = PermissionUiState("Location", false, true),
-            camera = PermissionUiState("Camera", false, true),
-            microphone = PermissionUiState("Microphone", false, true),
-            storage = PermissionUiState("Storage", false, true)
+            location = PermissionUiState("Location"),
+            camera = PermissionUiState("Camera"),
+            microphone = PermissionUiState("Microphone"),
+            storage = PermissionUiState("Storage")
         )
     }
 }
 
 data class PermissionUiState(
     val name: String,
-    val isGranted: Boolean,
-    val isLoading: Boolean
+    val isGranted: Boolean = false,
+    val isLoading: Boolean = true
 ) {
     override fun toString(): String {
-        return "$name: $isGranted"
+        return "$name: ${if (isGranted) "Granted" else "Denied"}"
     }
 }
 
 sealed interface PermissionsAction {
-    object LocationPermissionClicked : PermissionsAction
-    object CameraPermissionClicked : PermissionsAction
-    object MicrophonePermissionClicked : PermissionsAction
-    object StoragePermissionClicked : PermissionsAction
+    data object LocationPermissionClicked : PermissionsAction
+    data object CameraPermissionClicked : PermissionsAction
+    data object MicrophonePermissionClicked : PermissionsAction
+    data object StoragePermissionClicked : PermissionsAction
 }

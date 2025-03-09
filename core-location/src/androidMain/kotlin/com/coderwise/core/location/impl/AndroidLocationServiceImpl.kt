@@ -7,8 +7,6 @@ import android.location.LocationManager
 import com.coderwise.core.location.GpsMessage
 import com.coderwise.core.location.LatLon
 import com.coderwise.core.location.LocationService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.callbackFlow
@@ -18,9 +16,8 @@ import kotlinx.datetime.Instant
 import kotlin.time.Duration.Companion.seconds
 
 class AndroidLocationServiceImpl(
-    private val locationManager: LocationManager,
-    scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
-) : LocationServiceImpl(scope) {
+    private val locationManager: LocationManager
+) : LocationServiceImpl() {
 
     @SuppressLint("MissingPermission")
     override fun updatesFlow(configuration: LocationService.Configuration) = callbackFlow {
