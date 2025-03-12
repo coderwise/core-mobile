@@ -22,7 +22,7 @@ data object Sample : Route {
 }
 
 @Serializable
-data class Edit(val id: String) : Route {
+data class Edit(val id: Int) : Route {
     @Transient
     override val hasBackNavigation: Boolean = true
 }

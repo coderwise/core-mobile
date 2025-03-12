@@ -7,7 +7,7 @@ data class SampleUiState(
     val items: List<Item>
 ) {
     data class Item(
-        val id: String,
+        val id: Int,
         val value: String
     )
 }
@@ -17,6 +17,6 @@ data class SampleModelState(
 )
 
 sealed interface SampleAction : Action {
-    data class ItemClicked(val id: String) : SampleAction
+    data class ItemClicked(val id: Int) : SampleAction
     data object AddButtonClicked : SampleAction
 }

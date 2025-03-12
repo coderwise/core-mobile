@@ -7,8 +7,6 @@ plugins {
 
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-
-    id("maven-publish")
 }
 
 kotlin {
@@ -29,18 +27,13 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core-domain"))
+            implementation(project(":core-data"))
             // datastore
             api(libs.androidx.datastore)
             implementation(libs.androidx.datastore.core.okio)
             implementation(libs.kotlinx.serialization.protobuf)
 
-            // koin
-            implementation(libs.koin.core)
             implementation(libs.koin.compose)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }
@@ -61,11 +54,3 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
-publishing {
-    repositories {
-        mavenLocal()
-    }
-}
-
-group = "com.coderwise.core"
-version = libs.versions.coderwiseCore.get()

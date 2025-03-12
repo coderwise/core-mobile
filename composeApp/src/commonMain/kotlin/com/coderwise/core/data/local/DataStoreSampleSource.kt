@@ -10,7 +10,7 @@ import com.coderwise.core.data.asRecord
 
 class DataStoreSampleSource(
     dataStore: DataStore<DataStoreRecord<SampleRecord>>
-) : DataStoreLocalSource<Sample, String, SampleRecord>(
+) : DataStoreLocalSource<Sample, Int, SampleRecord>(
     identify = { it.id },
     recordToEntity = { it.asDomainModel() },
     entityToRecord = { it.asRecord() },

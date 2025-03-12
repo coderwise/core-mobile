@@ -2,7 +2,10 @@ package com.coderwise.core.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -12,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -19,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.permissions.CAMERA
 import com.coderwise.core.permissions.LOCATION
 import com.coderwise.core.permissions.MICROPHONE
@@ -34,6 +39,8 @@ import com.coderwise.core.ui.permissions.PermissionsScreen
 import com.coderwise.core.ui.sample.SampleScreen
 import com.coderwise.core.ui.sample.edit.EditScreen
 import com.coderwise.core.ui.theme.Core_LibraryTheme
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 @Composable
 fun App() {
@@ -46,6 +53,7 @@ fun App() {
 private fun RootUi() {
     val snackbarHostState = remember { SnackbarHostState() }
     rememberUiMessenger(snackbarHostState)
+    val sampleRepository = koinInject<SampleRepository>()
 
     ProcessPermissionRequestEffect(Permission.LOCATION)
     ProcessPermissionRequestEffect(Permission.CAMERA)
@@ -57,6 +65,7 @@ private fun RootUi() {
     val showBackNavigation = currentRoute.hasBackNavigation()
 
     var currentDestination by rememberSaveable { mutableStateOf(NavItems.SAMPLE.routeId()) }
+    val scope = rememberCoroutineScope()
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -85,7 +94,18 @@ private fun RootUi() {
                 CoreTopBar(
                     title = "Title",
                     showBackNavigation = showBackNavigation,
-                    onNavigationClick = navRouter::navigateUp
+                    onNavigationClick = navRouter::navigateUp,
+                    actions = listOf(
+                        {
+                            IconButton(
+                                onClick = {
+                                    scope.launch { sampleRepository.reset() }
+                                }
+                            ) {
+                                Icon(Icons.Default.Delete, null)
+                            }
+                        }
+                    )
                 )
             },
             snackbarHost = { SnackbarHost(snackbarHostState) }

@@ -52,7 +52,9 @@ open class DataStoreLocalSource<Entity, Id, Record : Any>(
         return Outcome.Success(Unit)
     }
 
-    override suspend fun merge(list: List<Entity>): Outcome<Unit> {
+    override suspend fun merge(list: List<Entity>): Outcome<Unit> = reset(list)
+
+    override suspend fun reset(list: List<Entity>): Outcome<Unit> {
         dataStore.updateData { data ->
             data.copy(list = list.map { entityToRecord(it) })
         }

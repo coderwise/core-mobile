@@ -99,7 +99,7 @@ private fun SamplePreview() {
                 uiState = SampleUiState(
                     items = List(5) {
                         SampleUiState.Item(
-                            id = it.toString(),
+                            id = it,
                             value = "Item $it"
                         )
                     }

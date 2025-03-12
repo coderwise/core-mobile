@@ -39,7 +39,7 @@ class SampleViewModel(
             is SampleAction.AddButtonClicked -> asyncAction {
                 sampleRepository.update(
                     Sample(
-                        id = Clock.System.now().epochSeconds.toString(),
+                        id = Clock.System.now().epochSeconds.toInt(),
                         value = "New sample"
                     )
                 )

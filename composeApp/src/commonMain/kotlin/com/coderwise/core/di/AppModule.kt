@@ -36,7 +36,7 @@ val appModule = module {
         DataStoreSampleSource(
             dataStore = DataStoreCreator.create(
                 defaultValue = DataStoreRecord<SampleRecord>(
-                    List(10) { SampleRecord(it.toString(), "sample $it") }
+                    List(10) { SampleRecord(it, "sample $it") }
                 ),
                 serializer = DataStoreRecord.serializer(SampleRecord.serializer()),
                 fileSystem = get(),

@@ -1,0 +1,113 @@
+package com.coderwise.core.ui.component
+
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+
+@Composable
+fun CoreOutlinedDropdown(
+    options: List<String>,
+    onOptionSelected: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    selectedOption: String? = null,
+    label: String? = null
+) {
+    CoreBaseDropdown(
+        options = options,
+        onOptionSelected = onOptionSelected,
+        modifier = modifier,
+        selectedOption = selectedOption,
+        label = label,
+        outlined = true
+    )
+}
+
+@Composable
+fun CoreDropdown(
+    options: List<String>,
+    onOptionSelected: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    selectedOption: String? = null,
+    label: String
+) {
+    CoreBaseDropdown(
+        options = options,
+        onOptionSelected = onOptionSelected,
+        modifier = modifier,
+        selectedOption = selectedOption,
+        label = label
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun CoreBaseDropdown(
+    options: List<String>,
+    onOptionSelected: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    selectedOption: String? = null,
+    label: String? = null,
+    outlined: Boolean = false
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedIndex by remember {
+        mutableIntStateOf(if (selectedOption != null) options.indexOf(selectedOption) else 0)
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it },
+        //modifier = modifier
+    ) {
+        if (outlined) {
+            OutlinedTextField(
+                modifier = modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+                readOnly = true,
+                value = options[selectedIndex],
+                onValueChange = {},
+                label = { label?.let { Text(label) } },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                colors = ExposedDropdownMenuDefaults.textFieldColors()
+            )
+        } else {
+            TextField(
+                modifier = Modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+                readOnly = true,
+                value = options[selectedIndex],
+                onValueChange = {},
+                label = { label?.let { Text(label) } },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                colors = ExposedDropdownMenuDefaults.textFieldColors()
+            )
+        }
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEachIndexed { index, option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        expanded = false
+                        selectedIndex = index
+                        onOptionSelected(option)
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                )
+            }
+        }
+    }
+}

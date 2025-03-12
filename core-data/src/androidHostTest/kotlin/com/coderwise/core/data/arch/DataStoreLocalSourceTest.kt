@@ -1,22 +1,8 @@
 package com.coderwise.core.data.arch
 
-import androidx.datastore.core.DataStore
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
-import kotlin.test.assertEquals
-
-@Serializable
-internal data class Sample(
-    val id: String,
-    val value: String
-)
-
-@Serializable
-internal data class SampleRecord(
-    val id: String,
-    val value: String
-)
 
 class DataStoreLocalSourceTest {
 //    private val mockDataStore = mockk<DataStore<DataStoreRecord<SampleRecord>>>(relaxed = true)
@@ -29,9 +15,9 @@ class DataStoreLocalSourceTest {
 
     @Test
     fun `DataStoreRecord extensions`() = runTest {
-//        val list = List(5) {
-//            SampleRecord(it.toString(), "existing $it")
-//        }
+        val list = List(5) {
+            SampleRecord(it.toString(), "existing $it")
+        }
 //
 //        val record = list.findById("2", Sample::id, SampleRecord::asDomainModel)
 //        assertEquals("existing 2", record?.value)
@@ -51,6 +37,21 @@ class DataStoreLocalSourceTest {
 //
 //        val newList = list.delete("2", Sample::id, SampleRecord::asDomainModel)
 //        assertEquals(4, newList.size)
+    }
+
+    @Test
+    fun `DataStore error during update`() {
+        // Simulate an error within DataStore during the updateData call.
+        // Verify how the `update` function handles such an exception.
+        // Does it rethrow it or handle it internally?
+        // TODO implement test
+    }
+
+    @Test
+    fun `Non existing entity update`() {
+        // Test updating an entity that does not exist yet in the data store
+        // to make sure it is added correctly.
+        // TODO implement test
     }
 
     @Test
@@ -106,12 +107,6 @@ class DataStoreLocalSourceTest {
         // TODO implement test
     }
 
-    @Test
-    fun `Non existing entity update`() {
-        // Test updating an entity that does not exist yet in the data store
-        // to make sure it is added correctly.
-        // TODO implement test
-    }
 
     @Test
     fun `Concurrent updates to same entity`() {
@@ -119,46 +114,16 @@ class DataStoreLocalSourceTest {
         // for the same entity. Verify the final state of the data store is correct.
         // TODO implement test
     }
-
-    @Test
-    fun `Concurrent updates to different entities`() {
-        // Test multiple concurrent updates to different entities.
-        // Ensure that no data corruption occurs.
-        // TODO implement test
-    }
-
-    @Test
-    fun `DataStore error during update`() {
-        // Simulate an error within DataStore during the updateData call.
-        // Verify how the `update` function handles such an exception.
-        // Does it rethrow it or handle it internally?
-        // TODO implement test
-    }
-
-    @Test
-    fun `Null entity provided`() {
-        // Test the behavior when a null entity is passed to the update method.
-        // Check for potential NullPointerExceptions or if null is handled gracefully.
-        // TODO implement test
-    }
-
-    @Test
-    fun `Null ID during update`() {
-        // Test the scenario where identify function returns null.
-        // Check if it handles correctly.
-        // TODO implement test
-    }
-
-    @Test
-    fun `Empty List for mapToRecord`() {
-        // Test the behavior when list is empty for `mapToRecord` function
-        // TODO implement test
-    }
-
-    @Test
-    fun `Empty List for mapToEntity`() {
-        // Test the behavior when list is empty for `mapToEntity` function
-        // TODO implement test
-    }
-
 }
+
+@Serializable
+internal data class Sample(
+    val id: String,
+    val value: String
+)
+
+@Serializable
+internal data class SampleRecord(
+    val id: String,
+    val value: String
+)

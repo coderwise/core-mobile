@@ -15,6 +15,11 @@ open class MemoryLocalSource<Entity, Id>(
 
     override val flow: Flow<Outcome<List<Entity>>> = memCache.flow().map { Outcome.Success(it) }
 
+    override suspend fun reset(list: List<Entity>): Outcome<Unit> {
+        memCache.set(list)
+        return Outcome.Success(Unit)
+    }
+
     override fun flowById(id: Id): Flow<Outcome<Entity>> = memCache.flowById(id).transform {
         if (it == null) throw Exception("Entity not found")
         emit(Outcome.Success(it))

@@ -8,7 +8,7 @@ import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
 
 class EditViewModel(
-    private val sampleId: String,
+    private val sampleId: Int,
     private val uiMessenger: UiMessenger,
     private val navigationRouter: NavigationRouter,
     private val sampleRepository: SampleRepository

@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SampleRecord(
-    val id: String,
+    val id: Int,
     val value: String
 )
 
@@ -17,18 +17,22 @@ class SampleRepositoryImpl(
     private val disk: DataStoreSampleSource
 ) : SampleRepository {
     private val memory = MemoryLocalSource<Sample, Int>(
-        identify = { it.value.hashCode() }
+        identify = { it.id }
     )
-    private val impl = CollectionRepositoryImpl<Sample, String, Unit>(
+    private val impl = CollectionRepositoryImpl<Sample, Int, Unit>(
         local = disk,
         remote = null
     )
 
-    override val flow: Flow<Outcome<List<Sample>>> = disk.flow
+    override val flow: Flow<Outcome<List<Sample>>> = memory.flow
 
-    override fun flowById(sampleId: String) = disk.flowById(sampleId)
+    override fun flowById(sampleId: Int) = memory.flowById(sampleId)
 
-    override suspend fun update(sample: Sample): Outcome<String> = disk.update(sample)
+    override suspend fun update(sample: Sample): Outcome<Int> = memory.update(sample)
+
+    override suspend fun reset() {
+        memory.reset(listOf())
+    }
 }
 
 fun Sample.asRecord() = SampleRecord(

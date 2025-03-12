@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.coderwise.core.ui.component.CoreOutlinedDropdown
 import com.coderwise.core.location.GpsMessage
 import com.coderwise.core.location.LocationService
 import com.coderwise.core.ui.component.BoxyRow
@@ -126,13 +127,14 @@ fun ServiceControllerCard(
             .fillMaxWidth()
     ) {
         Column {
-            OutlinedTextField(
-                value = minTime,
-                onValueChange = { dispatch(LocationAction.OnMinTimeChanged(it)) },
+            CoreOutlinedDropdown(
+                selectedOption = minTime,
+                onOptionSelected = { dispatch(LocationAction.OnMinTimeChanged(it)) },
+                options = listOf("1", "5", "10"),
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
-                label = { Text("Min Time") }
+                label = "Min Time"
             )
             OutlinedTextField(
                 value = minDistance,
