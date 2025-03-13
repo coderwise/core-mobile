@@ -2,6 +2,7 @@ package com.coderwise.core.data.arch
 
 import com.coderwise.core.data.utils.MemCache
 import com.coderwise.core.domain.arch.Outcome
+import com.coderwise.core.domain.arch.tryOutcome
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
@@ -24,6 +25,8 @@ open class MemoryLocalSource<Entity, Id>(
         if (it == null) throw Exception("Entity not found")
         emit(Outcome.Success(it))
     }
+
+    override suspend fun findById(id: Id): Outcome<Entity> = tryOutcome { memCache.find(id)!! }
 
     override suspend fun delete(id: Id): Outcome<Unit> {
         memCache.delete(id)

@@ -3,6 +3,7 @@ package com.coderwise.core.data.arch
 import androidx.datastore.core.DataStore
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.dataOrNull
+import com.coderwise.core.domain.arch.tryOutcome
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -32,11 +33,15 @@ open class DataStoreLocalSource<Entity, Id, Record : Any>(
                 ?: throw NoSuchElementException()
 
             emit(Outcome.Success(entity))
-        } catch (_: NoSuchElementException) {
-            // NOOP Outcome.Error(NoSuchElementException())
+        } catch (e: NoSuchElementException) {
+            emit(Outcome.Error(e))
         }
     }
 
+    override suspend fun findById(id: Id): Outcome<Entity> = tryOutcome {
+        dataStore.data.first().list.findById(id, identify, recordToEntity)!!
+    }
+    
     override suspend fun update(entity: Entity): Outcome<Id> {
         val entityId = identify(entity)
         dataStore.updateData { data ->

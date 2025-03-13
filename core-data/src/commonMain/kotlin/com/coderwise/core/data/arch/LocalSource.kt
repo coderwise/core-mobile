@@ -6,10 +6,11 @@ import kotlinx.coroutines.flow.Flow
 interface LocalSource<Entity, Id> {
     val flow: Flow<Outcome<List<Entity>>>
     fun flowById(id: Id): Flow<Outcome<Entity>>
+    suspend fun findById(id: Id): Outcome<Entity>
     suspend fun update(entity: Entity): Outcome<Id>
     suspend fun delete(id: Id): Outcome<Unit>
     suspend fun merge(list: List<Entity>): Outcome<Unit>
     suspend fun reset(list: List<Entity>): Outcome<Unit>
     suspend fun isEmpty(): Boolean
-    suspend fun clear(): Outcome<Unit> = merge(emptyList())
+    suspend fun clear(): Outcome<Unit> = reset(emptyList())
 }
