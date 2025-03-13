@@ -53,8 +53,8 @@ fun <T> Outcome<T>.dataOrNull(): T? =
 fun <T, R> Flow<Outcome<T>>.mapSuccess(transform: suspend (T) -> R): Flow<Outcome<R>> =
     map { outcome ->
         when (outcome) {
-            is Outcome.Success -> com.coderwise.core.domain.arch.Outcome.Success(transform(outcome.data))
-            is Outcome.Error -> com.coderwise.core.domain.arch.Outcome.Error(outcome.exception)
+            is Outcome.Success -> Outcome.Success(transform(outcome.data))
+            is Outcome.Error -> outcome
         }
     }
 
@@ -62,4 +62,10 @@ fun <T> Flow<Outcome<T>>.filterSuccess(): Flow<T> = filter {
     it is Outcome.Success
 }.map {
     (it as Outcome.Success).data
+}
+
+suspend fun <T> tryOutcome(block: suspend () -> T): Outcome<T> = try {
+    Outcome.Success(block())
+} catch (e: Exception) {
+    Outcome.Error(e)
 }
