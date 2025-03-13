@@ -18,7 +18,6 @@ class AndroidPermissionService(
             !isGranted && !shouldShowRationale -> Permission.Status.DENIED
             else -> Permission.Status.PENDING
         }
-        updateStatus(permission, status)
         return status
     }
 

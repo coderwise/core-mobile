@@ -1,52 +1,20 @@
 package com.coderwise.core.permissions.impl
 
-import com.coderwise.core.permissions.LOCATION
 import com.coderwise.core.permissions.Permission
-import platform.CoreLocation.CLAuthorizationStatus
-import platform.CoreLocation.CLLocationManager
-import platform.CoreLocation.CLLocationManagerDelegateProtocol
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
-import platform.CoreLocation.kCLAuthorizationStatusAuthorizedWhenInUse
-import platform.CoreLocation.kCLAuthorizationStatusDenied
-import platform.CoreLocation.kCLAuthorizationStatusRestricted
-import platform.darwin.NSObject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 
 class IosPermissionService : PermissionServiceImpl() {
-    private val permissionDelegate = PermissionDelegate {
-        // TODO route requested permission
-        checkPermission(Permission.LOCATION)
+    private val permissionRouter = IosPermissionRouter { permission, status ->
+        updateStatus(permission, status)
     }
 
-    private val locationManager = CLLocationManager().apply {
-        delegate = permissionDelegate
+    override val requests: Flow<Permission> = super.requests.onEach {
+        permissionRouter.request(it)
     }
 
     override fun checkPermission(permission: Permission): Permission.Status {
-        val iosStatus = locationManager.authorizationStatus()
-        val status = iosStatus.asPermissionStatus()
-        updateStatus(permission, status)
+        val status = permissionRouter.check(permission)
         return status
     }
-
-    private class PermissionDelegate(
-        private val onStatusUpdate: (Permission.Status) -> Unit
-    ) : NSObject(), CLLocationManagerDelegateProtocol {
-
-        override fun locationManager(
-            manager: CLLocationManager,
-            didChangeAuthorizationStatus: CLAuthorizationStatus
-        ) {
-            onStatusUpdate(didChangeAuthorizationStatus.asPermissionStatus())
-        }
-    }
-}
-
-fun Int.asPermissionStatus(): Permission.Status = when (this) {
-    kCLAuthorizationStatusAuthorizedAlways,
-    kCLAuthorizationStatusAuthorizedWhenInUse -> Permission.Status.GRANTED
-
-    kCLAuthorizationStatusRestricted,
-    kCLAuthorizationStatusDenied -> Permission.Status.DENIED
-
-    else -> Permission.Status.PENDING
 }

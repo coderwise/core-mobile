@@ -28,21 +28,21 @@ class PermissionsViewModel(
                 reduce { copy(camera = camera.copy(status = it)) }
             }
         }
-        asyncAction {
-            permissionService.statusFlow(Permission.MICROPHONE).collect {
-                reduce { copy(microphone = microphone.copy(status = it)) }
-            }
-        }
-        asyncAction {
-            permissionService.statusFlow(Permission.STORAGE).collect {
-                reduce { copy(storage = storage.copy(status = it)) }
-            }
-        }
-        asyncAction {
-            permissionService.statusFlow(Permission.NOTIFICATIONS).collect {
-                reduce { copy(notifications = notifications.copy(status = it)) }
-            }
-        }
+//        asyncAction {
+//            permissionService.statusFlow(Permission.MICROPHONE).collect {
+//                reduce { copy(microphone = microphone.copy(status = it)) }
+//            }
+//        }
+//        asyncAction {
+//            permissionService.statusFlow(Permission.STORAGE).collect {
+//                reduce { copy(storage = storage.copy(status = it)) }
+//            }
+//        }
+//        asyncAction {
+//            permissionService.statusFlow(Permission.NOTIFICATIONS).collect {
+//                reduce { copy(notifications = notifications.copy(status = it)) }
+//            }
+//        }
     }
 
     override fun onAction(action: Any) {

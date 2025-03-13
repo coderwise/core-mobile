@@ -57,12 +57,6 @@ private fun RootUi() {
     rememberUiMessenger(snackbarHostState)
     val sampleRepository = koinInject<SampleRepository>()
 
-    ProcessPermissionRequestEffect(Permission.LOCATION)
-    ProcessPermissionRequestEffect(Permission.CAMERA)
-    ProcessPermissionRequestEffect(Permission.MICROPHONE)
-    ProcessPermissionRequestEffect(Permission.STORAGE)
-    ProcessPermissionRequestEffect(Permission.NOTIFICATIONS)
-
     val navController = rememberNavController()
     val navRouter = rememberNavRouter(navController)
     val currentRoute by navRouter.currentRouteAsState()

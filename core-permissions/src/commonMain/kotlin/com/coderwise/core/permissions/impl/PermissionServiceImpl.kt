@@ -19,7 +19,7 @@ abstract class PermissionServiceImpl : PermissionService {
 
     override fun statusFlow(permission: Permission): Flow<Permission.Status> = _statuses
         .onStart {
-            checkPermission(permission)
+            updateStatus(permission, checkPermission(permission))
         }
         .filter {
             it[permission] != null
@@ -31,12 +31,6 @@ abstract class PermissionServiceImpl : PermissionService {
         _requests.emit(permission)
     }
 
-    /**
-     * Updates the status of a permission.
-     * Because on Android permanently denied permission status is not deterministic after first check:
-     * If the status is [Permission.Status.DENIED], update can only be to [Permission.Status.GRANTED]
-     *
-     */
     protected fun updateStatus(permission: Permission, status: Permission.Status) {
         _statuses.update {
             it + mapOf(permission to status)

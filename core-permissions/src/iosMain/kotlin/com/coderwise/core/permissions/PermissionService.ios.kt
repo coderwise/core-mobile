@@ -2,7 +2,7 @@ package com.coderwise.core.permissions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.coderwise.core.permissions.impl.IosPermissionRequestRouter
+import com.coderwise.core.permissions.impl.IosPermissionRouter
 import org.koin.compose.koinInject
 
 @Composable
@@ -12,10 +12,6 @@ actual fun ProcessPermissionRequestEffect(
     val permissionService = koinInject<PermissionService>()
 
     LaunchedEffect(permission) {
-        val permissionRequestRouter = IosPermissionRequestRouter()
-
-        permissionService.requests.collect {
-            permissionRequestRouter.request(permission)
-        }
+        permissionService.requests.collect {}
     }
 }
