@@ -10,14 +10,16 @@ data class PermissionsUiState(
     val location: PermissionUiState,
     val camera: PermissionUiState,
     val microphone: PermissionUiState,
-    val storage: PermissionUiState
+    val storage: PermissionUiState,
+    val notifications: PermissionUiState
 ) {
     companion object {
         fun initial() = PermissionsUiState(
             location = PermissionUiState("Location"),
             camera = PermissionUiState("Camera"),
             microphone = PermissionUiState("Microphone"),
-            storage = PermissionUiState("Storage")
+            storage = PermissionUiState("Storage"),
+            notifications = PermissionUiState("Notifications")
         )
     }
 }
@@ -40,4 +42,5 @@ sealed interface PermissionsAction {
     data object StoragePermissionClicked : PermissionsAction
 
     data object OnSettingsButtonClicked : PermissionsAction
+    data object NotificationsPermissionClicked : PermissionsAction
 }

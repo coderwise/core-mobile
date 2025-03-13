@@ -49,6 +49,10 @@ internal fun PermissionsContent(
             permissionState = uiState.storage,
             onRequestButtonClicked = { onAction(PermissionsAction.StoragePermissionClicked) },
             onSettingsButtonClicked = { onAction(PermissionsAction.OnSettingsButtonClicked) })
+        PermissionItem(
+            permissionState = uiState.notifications,
+            onRequestButtonClicked = { onAction(PermissionsAction.NotificationsPermissionClicked) },
+            onSettingsButtonClicked = { onAction(PermissionsAction.OnSettingsButtonClicked) })
     }
 }
 

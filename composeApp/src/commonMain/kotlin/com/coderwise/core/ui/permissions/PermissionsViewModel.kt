@@ -3,6 +3,7 @@ package com.coderwise.core.ui.permissions
 import com.coderwise.core.permissions.CAMERA
 import com.coderwise.core.permissions.LOCATION
 import com.coderwise.core.permissions.MICROPHONE
+import com.coderwise.core.permissions.NOTIFICATIONS
 import com.coderwise.core.permissions.Permission
 import com.coderwise.core.permissions.PermissionService
 import com.coderwise.core.permissions.STORAGE
@@ -37,6 +38,11 @@ class PermissionsViewModel(
                 reduce { copy(storage = storage.copy(status = it)) }
             }
         }
+        asyncAction {
+            permissionService.statusFlow(Permission.NOTIFICATIONS).collect {
+                reduce { copy(notifications = notifications.copy(status = it)) }
+            }
+        }
     }
 
     override fun onAction(action: Any) {
@@ -55,6 +61,10 @@ class PermissionsViewModel(
 
             is PermissionsAction.StoragePermissionClicked -> asyncAction {
                 permissionService.requestPermission(Permission.STORAGE)
+            }
+
+            is PermissionsAction.NotificationsPermissionClicked -> asyncAction {
+                permissionService.requestPermission(Permission.NOTIFICATIONS)
             }
 
             is PermissionsAction.OnSettingsButtonClicked -> asyncAction {

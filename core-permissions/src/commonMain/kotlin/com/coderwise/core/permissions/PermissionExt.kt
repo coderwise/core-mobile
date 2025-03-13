@@ -19,3 +19,7 @@ object StoragePermission : Permission
 val Permission.Companion.BLUETOOTH: Permission get() = BluetoothPermission
 
 object BluetoothPermission : Permission
+
+val Permission.Companion.NOTIFICATIONS: Permission get() = NotificationsPermission
+
+object NotificationsPermission : Permission

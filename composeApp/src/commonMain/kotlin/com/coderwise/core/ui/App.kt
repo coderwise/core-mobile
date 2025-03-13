@@ -27,8 +27,10 @@ import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.permissions.CAMERA
 import com.coderwise.core.permissions.LOCATION
 import com.coderwise.core.permissions.MICROPHONE
+import com.coderwise.core.permissions.NOTIFICATIONS
 import com.coderwise.core.permissions.Permission
 import com.coderwise.core.permissions.ProcessPermissionRequestEffect
+import com.coderwise.core.permissions.STORAGE
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
 import com.coderwise.core.ui.component.CoreTopBar
@@ -58,6 +60,8 @@ private fun RootUi() {
     ProcessPermissionRequestEffect(Permission.LOCATION)
     ProcessPermissionRequestEffect(Permission.CAMERA)
     ProcessPermissionRequestEffect(Permission.MICROPHONE)
+    ProcessPermissionRequestEffect(Permission.STORAGE)
+    ProcessPermissionRequestEffect(Permission.NOTIFICATIONS)
 
     val navController = rememberNavController()
     val navRouter = rememberNavRouter(navController)
