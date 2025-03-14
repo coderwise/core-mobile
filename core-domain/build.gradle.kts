@@ -11,6 +11,7 @@ kotlin {
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = libs.versions.minSdk.get().toInt()
 
+        @Suppress("UnstableApiUsage")
         withHostTestBuilder {
         }
     }
@@ -28,7 +29,9 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
         }
+
         androidMain.dependencies {}
         iosMain.dependencies {}
     }
