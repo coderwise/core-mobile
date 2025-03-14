@@ -58,6 +58,10 @@ kotlin {
             // datastore
             implementation(libs.kotlinx.serialization.protobuf)
         }
+
+        androidMain.dependencies {
+            implementation(libs.compose.ui.tooling)
+        }
     }
 }
 

@@ -14,6 +14,10 @@ import androidx.compose.ui.Modifier
 import com.coderwise.core.ui.utils.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+data class TopBarConfiguration(
+    val actions: List<@Composable () -> Unit> = emptyList()
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoreTopBar(

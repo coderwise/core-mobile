@@ -17,10 +17,13 @@ mockk = "1.13.5"
 kotlinxDatetime = "0.6.2"
 coderwiseCore = "1.0"
 kotlinStdlibVersion = "2.1.10"
+composeTooling = "1.7.8"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeTooling" }
 
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 

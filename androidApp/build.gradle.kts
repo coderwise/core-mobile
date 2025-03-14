@@ -41,7 +41,6 @@ android {
 
 dependencies {
     implementation(project(":composeApp"))
-//    implementation(project(":core"))
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
