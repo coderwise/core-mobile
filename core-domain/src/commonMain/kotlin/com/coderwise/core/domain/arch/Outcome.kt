@@ -3,7 +3,6 @@ package com.coderwise.core.domain.arch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlin.jvm.JvmName
 
 sealed interface Outcome<out T> {
     data class Success<out T>(val data: T) : Outcome<T>
@@ -80,10 +79,6 @@ suspend fun <T> tryOutcome(block: suspend () -> T): Outcome<T> = try {
 
 fun Outcome.Companion.Success() = Outcome.Success(Unit)
 
-/**
- * NOTE: @JvmName annotation is for java to be happy about duplicate function signatures
- */
-@JvmName("outcomeCombine")
 suspend fun <T1, T2, R> Outcome<T1>.combine(
     other: Outcome<T2>,
     transform: suspend (T1, T2) -> R
@@ -93,7 +88,7 @@ suspend fun <T1, T2, R> Outcome<T1>.combine(
     transform(data1, data2)
 }
 
-suspend fun <T1, T2, R> combine(
+suspend fun <T1, T2, R> outcomeCombine(
     outcome1: Outcome<T1>,
     outcome2: Outcome<T2>,
     transform: suspend (a: T1, b: T2) -> R

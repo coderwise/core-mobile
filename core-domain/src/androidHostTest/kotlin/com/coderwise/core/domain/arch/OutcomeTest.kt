@@ -33,7 +33,7 @@ class OutcomeTest {
         val outcome1 = Outcome.Success("test1")
         val outcome2 = tryOutcome<String> { throw testError }
 
-        val actual = combine(outcome1, outcome2) { d1, d2 ->
+        val actual = outcomeCombine(outcome1, outcome2) { d1, d2 ->
             "$d1$d2"
         }
         val expected = Outcome.Error(testError)
