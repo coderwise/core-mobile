@@ -14,7 +14,7 @@ data class SampleRecord(
 )
 
 class SampleRepositoryImpl(
-    private val disk: DataStoreSampleSource
+    disk: DataStoreSampleSource
 ) : SampleRepository {
     private val memory = MemoryLocalSource<Sample, Int>(
         identify = { it.id }

@@ -1,6 +1,8 @@
 [versions]
 
 compileSdk = "35"
+gradle = "8.1.4"
+kotlinGradlePlugin = "1.8.20"
 minSdk = "26"
 
 agp = "8.9.0"
@@ -18,6 +20,7 @@ kotlinxDatetime = "0.6.2"
 coderwiseCore = "1.0"
 kotlinStdlibVersion = "2.1.10"
 composeTooling = "1.7.8"
+jetbrainsKotlinJvm = "2.1.10"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -44,6 +47,10 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlibVersion" }
 
+# plugin development
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -53,3 +60,4 @@ kotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", 
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

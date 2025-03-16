@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,7 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.coderwise.core.ui.theme.Core_LibraryTheme
+import com.coderwise.core.ui.utils.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -93,19 +92,17 @@ private fun ItemsList(
 @Preview
 @Composable
 private fun SamplePreview() {
-    Core_LibraryTheme {
-        Surface {
-            SampleContent(
-                uiState = SampleUiState(
-                    items = List(5) {
-                        SampleUiState.Item(
-                            id = it,
-                            value = "Item $it"
-                        )
-                    }
-                ),
-                dispatch = {}
-            )
-        }
+    CorePreview {
+        SampleContent(
+            uiState = SampleUiState(
+                items = List(5) {
+                    SampleUiState.Item(
+                        id = it,
+                        value = "Item $it"
+                    )
+                }
+            ),
+            dispatch = {}
+        )
     }
 }
