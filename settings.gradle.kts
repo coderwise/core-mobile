@@ -8,6 +8,7 @@ pluginManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
     }

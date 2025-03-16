@@ -13,6 +13,8 @@ object Versioning {
     private fun getTag(): String {
         val revList = "git rev-list --tags --max-count=1".runCommand()
         val result = "git describe --tags $revList".runCommand()
-        return if (result.isNotEmpty()) result else throw GradleException("Error reading tag")
+        val isDirty = "git status --porcelain".runCommand().isNotEmpty()
+        val compiledResult = if (isDirty) "$result-SNAPSHOT" else result
+        return if (result.isNotEmpty()) compiledResult else throw GradleException("Error reading tag")
     }
 }

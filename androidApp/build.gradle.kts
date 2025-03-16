@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
+    //alias(libs.plugins.coreVersioning)
 }
 
 android {
@@ -12,8 +13,8 @@ android {
         applicationId = "com.coderwise.core"
         minSdk = 28
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 1 //versioning.getVersionCode()
+        versionName = "1.0" //versioning.getVersionName()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
