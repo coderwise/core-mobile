@@ -62,8 +62,13 @@ internal fun CoreBaseDropdown(
     outlined: Boolean = false
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedIndex by remember {
-        mutableIntStateOf(if (selectedOption != null) options.indexOf(selectedOption) else 0)
+    var selectedIndex by remember(selectedOption) {
+        mutableIntStateOf(
+            if (selectedOption != null)
+                options.indexOfOrZero(selectedOption)
+            else
+                0
+        )
     }
 
     ExposedDropdownMenuBox(
@@ -83,7 +88,7 @@ internal fun CoreBaseDropdown(
             )
         } else {
             TextField(
-                modifier = Modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+                modifier = modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
                 value = options[selectedIndex],
                 onValueChange = {},
@@ -110,4 +115,9 @@ internal fun CoreBaseDropdown(
             }
         }
     }
+}
+
+private fun <T> List<T>.indexOfOrZero(match: T): Int {
+    val index = indexOf(match)
+    return if (index == -1) 0 else index
 }
