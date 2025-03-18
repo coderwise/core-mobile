@@ -6,4 +6,6 @@ import kotlin.time.Duration
 
 interface TimeService {
     fun time(interval: Duration): Flow<Instant>
+
+    fun now(): Instant
 }

@@ -21,4 +21,6 @@ class TimeServiceImpl(
 
         awaitClose { timer.cancel() }
     }
+
+    override fun now(): Instant = clock.now()
 }
