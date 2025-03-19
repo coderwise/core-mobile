@@ -23,9 +23,14 @@ class UiMessengerImpl(
     private val snackbarHostStateProvider: SnackbarHostStateProvider,
     private val scope: CoroutineScope
 ) : UiMessenger {
-    override fun showMessage(message: String) {
+    override fun showNotification(notification: UiNotification) {
         scope.launch {
-            snackbarHostStateProvider.get().showSnackbar(message)
+            snackbarHostStateProvider.get().showSnackbar(
+                message = notification.message,
+                actionLabel = notification.actionLabel,
+                withDismissAction = notification.withDismissAction,
+                duration = notification.duration
+            )
         }
     }
 }

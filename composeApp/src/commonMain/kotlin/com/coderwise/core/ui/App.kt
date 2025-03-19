@@ -99,7 +99,7 @@ private fun RootUi() {
                     )
                 )
             },
-            snackbarHost = { SnackbarHost(snackbarHostState) }
+            snackbarHost = { CoreSnackbarHost(snackbarHostState) }
         ) { innerPadding ->
 
             NavHost(
@@ -116,6 +116,7 @@ private fun RootUi() {
         }
     }
 }
+
 
 private fun String?.hasBackNavigation() = when {
     null == this -> false

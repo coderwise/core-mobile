@@ -6,6 +6,7 @@ import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
+import com.coderwise.core.ui.arch.UiNotification
 
 class EditViewModel(
     private val sampleId: Int,
@@ -39,12 +40,12 @@ class EditViewModel(
                 sampleRepository.update(state.sample).onSuccess {
                     reduce { copy(isProgress = false) }
                     asyncAction {
-                        uiMessenger.showMessage("Sample updated")
+                        uiMessenger.showNotification(UiNotification("Sample updated"))
                     }
                     navigationRouter.navigateUp()
                 }.onError {
                     reduce { copy(isProgress = false) }
-                    uiMessenger.showMessage("Error updating sample")
+                    uiMessenger.showNotification(UiNotification("Error updating sample"))
                 }
             }
         }

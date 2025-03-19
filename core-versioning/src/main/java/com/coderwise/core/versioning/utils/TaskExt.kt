@@ -19,13 +19,13 @@ internal fun Task.addRenameBundleAction(
             oldFile.copyTo(newFile, overwrite = true)
             if (newFile.exists()) {
                 if (!keepOriginal) oldFile.delete()
-                println("Created file://${newFile.absolutePath}")
+                logger.debug("Created bundle file://${newFile.absolutePath}")
             } else {
                 logger.error("Creating $newOutput from $oldOutput failed.")
             }
         } else {
             if (newFile.exists()) {
-                println("Cached output $oldOutput was already renamed. Set 'keepOriginalBundleFile' if you like to keep those files.")
+                logger.debug("Cached output $oldOutput was already renamed. Set 'keepOriginalBundleFile' if you like to keep those files.")
             } else {
                 logger.error("$oldOutput and $newOutput not found. Try a clean build.")
             }
@@ -46,13 +46,13 @@ internal fun Task.addRenameMappingAction(
             oldOutput.copyTo(newFile, overwrite = true)
             if (newFile.exists()) {
                 oldOutput.delete()
-                println("Created $newOutput")
+                logger.debug("Created mapping $newOutput")
             } else {
                 logger.error("Creating $newOutput from mapping.txt failed.")
             }
         } else {
             if (newFile.exists()) {
-                println("Cached output mapping.txt was already renamed. Set 'keepOriginalMappingFile' if you like to keep those files.")
+                logger.debug("Cached output mapping.txt was already renamed. Set 'keepOriginalMappingFile' if you like to keep those files.")
             } else {
                 logger.error("mapping.txt and $newOutput not found. Try a clean build.")
             }
@@ -61,9 +61,9 @@ internal fun Task.addRenameMappingAction(
 }
 
 internal fun Task.addPrintOutputAction(filepath: String, filename: String) {
-    println(filename)
+    logger.debug(filename)
 
     doLast {
-        if (File(filepath).exists()) println("Created file://${filepath + filename}")
+        if (File(filepath).exists()) logger.debug("Created file://${filepath + filename}")
     }
 }

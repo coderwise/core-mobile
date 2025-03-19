@@ -43,26 +43,40 @@ class VersioningPlugin : Plugin<Project> {
             }
 
             afterEvaluate {
+                println("afterEvaluate")
+                project.logger.error("afterEvaluate")
                 val baseName = project.archivesBaseName()
+                println("BaseName: $baseName")
                 project.tasks.configureEach { task ->
+                    println("Task: ${task.name}")
                     if (task.name.matches(bundleRegex)) {
                         val variantName =
                             task.name.substringAfter("bundle").decapitalize(Locale.ROOT)
+                        println("VariantName: $variantName")
 
                         android.applicationVariants.configureEach { variant ->
                             if (variant.name != variantName) {
                                 val bundleName = "$baseName-${variant.baseName}.aab"
                                 val newBundleName = variant.generateOutputName(baseName, "aab")
+                                println("New bundle name: $newBundleName")
                                 val bundleOutputPath = variant.getBundlePath(project.buildDir)
+                                println("Bundle output path: $bundleOutputPath")
 
                                 task.addRenameBundleAction(
-                                    bundleName,
-                                    newBundleName,
-                                    bundleOutputPath,
-                                    false
+                                    oldOutput = bundleName,
+                                    newOutput = newBundleName,
+                                    outputPath = bundleOutputPath,
+                                    keepOriginal = false
                                 )
 
                                 variant.addRenameMappingAction(task)
+                                if (variant.buildType.isMinifyEnabled) {
+                                    variant.mappingFileProvider.orNull?.firstOrNull()?.let {
+                                        val newMappingName =
+                                            variant.generateOutputName(baseName, "txt")
+                                        task.addRenameMappingAction(it, newMappingName)
+                                    }
+                                }
                             }
                         }
                     } else if (task.name.matches(assembleRegex)) {
@@ -77,6 +91,13 @@ class VersioningPlugin : Plugin<Project> {
                                 }
 
                                 variant.addRenameMappingAction(task)
+                                if (variant.buildType.isMinifyEnabled) {
+                                    variant.mappingFileProvider.orNull?.firstOrNull()?.let {
+                                        val newMappingName =
+                                            variant.generateOutputName(baseName, "txt")
+                                        task.addRenameMappingAction(it, newMappingName)
+                                    }
+                                }
                             }
                         }
                     }
