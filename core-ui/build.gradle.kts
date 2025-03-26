@@ -21,6 +21,9 @@ kotlin {
             isStatic = true
         }
     }
+
+    jvm("desktop")
+
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -38,6 +41,7 @@ kotlin {
         }
 
         androidMain.dependencies {
+            implementation(libs.compose.ui.tooling)
         }
 
         iosMain.dependencies {

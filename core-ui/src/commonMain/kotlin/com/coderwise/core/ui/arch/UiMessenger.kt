@@ -11,4 +11,6 @@ data class UiNotification(
 
 interface UiMessenger {
     fun showNotification(notification: UiNotification)
+
+    fun clearNotifications()
 }

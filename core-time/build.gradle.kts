@@ -11,15 +11,16 @@ kotlin {
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = libs.versions.minSdk.get().toInt()
 
+        @Suppress("UnstableApiUsage")
         withHostTestBuilder {
         }
     }
 
-    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
-        it.binaries.framework {
-            baseName = "core-timeKit"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    jvm()
 
     sourceSets {
         commonMain.dependencies {

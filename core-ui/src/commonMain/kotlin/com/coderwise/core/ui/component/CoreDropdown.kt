@@ -17,11 +17,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CoreOutlinedDropdown(
-    options: List<String>,
-    onOptionSelected: (String) -> Unit,
+fun <T> CoreOutlinedDropdown(
+    options: List<T>,
+    onOptionSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
-    selectedOption: String? = null,
+    selectedOption: T? = null,
     label: String? = null
 ) {
     CoreBaseDropdown(
@@ -35,11 +35,11 @@ fun CoreOutlinedDropdown(
 }
 
 @Composable
-fun CoreDropdown(
-    options: List<String>,
-    onOptionSelected: (String) -> Unit,
+fun <T> CoreDropdown(
+    options: List<T>,
+    onOptionSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
-    selectedOption: String? = null,
+    selectedOption: T? = null,
     label: String
 ) {
     CoreBaseDropdown(
@@ -53,11 +53,11 @@ fun CoreDropdown(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun CoreBaseDropdown(
-    options: List<String>,
-    onOptionSelected: (String) -> Unit,
+internal fun <T> CoreBaseDropdown(
+    options: List<T>,
+    onOptionSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
-    selectedOption: String? = null,
+    selectedOption: T? = null,
     label: String? = null,
     outlined: Boolean = false
 ) {
@@ -80,7 +80,7 @@ internal fun CoreBaseDropdown(
             OutlinedTextField(
                 modifier = modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
-                value = options[selectedIndex],
+                value = options[selectedIndex].toString(),
                 onValueChange = {},
                 label = { label?.let { Text(label) } },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -90,7 +90,7 @@ internal fun CoreBaseDropdown(
             TextField(
                 modifier = modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
-                value = options[selectedIndex],
+                value = options[selectedIndex].toString(),
                 onValueChange = {},
                 label = { label?.let { Text(label) } },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -104,7 +104,7 @@ internal fun CoreBaseDropdown(
         ) {
             options.forEachIndexed { index, option ->
                 DropdownMenuItem(
-                    text = { Text(option) },
+                    text = { Text(option.toString()) },
                     onClick = {
                         expanded = false
                         selectedIndex = index

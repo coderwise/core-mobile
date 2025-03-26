@@ -23,6 +23,7 @@ class UiMessengerImpl(
     private val snackbarHostStateProvider: SnackbarHostStateProvider,
     private val scope: CoroutineScope
 ) : UiMessenger {
+
     override fun showNotification(notification: UiNotification) {
         scope.launch {
             snackbarHostStateProvider.get().showSnackbar(
@@ -31,6 +32,12 @@ class UiMessengerImpl(
                 withDismissAction = notification.withDismissAction,
                 duration = notification.duration
             )
+        }
+    }
+
+    override fun clearNotifications() {
+        scope.launch {
+            snackbarHostStateProvider.get().currentSnackbarData?.dismiss()
         }
     }
 }

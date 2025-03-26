@@ -22,6 +22,9 @@ kotlin {
             isStatic = true
         }
     }
+
+    jvm("desktop")
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)

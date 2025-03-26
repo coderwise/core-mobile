@@ -23,6 +23,9 @@ kotlin {
             isStatic = true
         }
     }
+
+    jvm("desktop")
+
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core-domain"))
