@@ -9,6 +9,7 @@ import com.coderwise.core.data.local.DataStoreSampleSource
 import com.coderwise.core.data.utils.DataStoreCreator
 import com.coderwise.core.location.di.coreLocationModule
 import com.coderwise.core.permissions.di.corePermissionsModule
+import com.coderwise.core.time.di.coreTimeModule
 import com.coderwise.core.ui.di.coreUiModule
 import com.coderwise.core.ui.location.LocationViewModel
 import com.coderwise.core.ui.permissions.PermissionsViewModel
@@ -31,6 +32,7 @@ val appModule = module {
     includes(coreUiModule)
     includes(corePermissionsModule)
     includes(coreLocationModule)
+    includes(coreTimeModule)
 
     factory {
         DataStoreSampleSource(
@@ -47,7 +49,7 @@ val appModule = module {
 
     single<SampleRepository> { SampleRepositoryImpl(get()) }
 
-    viewModel { SampleViewModel(get(), get(), get()) }
+    viewModel { SampleViewModel(get(), get(), get(), get()) }
     viewModel { EditViewModel(get(), get(), get(), get()) }
     viewModel { PermissionsViewModel(get(), get()) }
     viewModel { LocationViewModel(get()) }

@@ -4,17 +4,18 @@ import androidx.compose.material3.SnackbarDuration
 import com.coderwise.core.data.Sample
 import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.domain.arch.onSuccess
+import com.coderwise.core.time.TimeService
 import com.coderwise.core.ui.Edit
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
 import com.coderwise.core.ui.arch.UiNotification
-import kotlinx.datetime.Clock
 
 class SampleViewModel(
     private val navRouter: NavigationRouter,
     private val uiMessenger: UiMessenger,
-    private val sampleRepository: SampleRepository
+    private val sampleRepository: SampleRepository,
+    private val timeService: TimeService
 ) : BaseViewModel<SampleModelState, SampleUiState>(
     initialState = SampleModelState(),
     mapper = { it.asUiState() }
@@ -39,12 +40,12 @@ class SampleViewModel(
             }
 
             is SampleAction.AddButtonClicked -> asyncAction {
-//                sampleRepository.update(
-//                    Sample(
-//                        id = Clock.System.now().toEpochMilliseconds().toInt(),
-//                        value = "New sample"
-//                    )
-//                )
+                sampleRepository.update(
+                    Sample(
+                        id = timeService.now().toEpochMilliseconds().toInt(),
+                        value = "New sample"
+                    )
+                )
                 uiMessenger.showNotification(
                     UiNotification(
                         message = "Add button clicked",

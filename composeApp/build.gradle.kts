@@ -18,11 +18,7 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
             baseName = "composeAppKit"
             isStatic = true
@@ -36,6 +32,7 @@ kotlin {
             implementation(project(":core-data"))
             implementation(project(":core-permissions"))
             implementation(project(":core-location"))
+            implementation(project(":core-time"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
