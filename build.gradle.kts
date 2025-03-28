@@ -7,5 +7,5 @@ plugins {
     alias(libs.plugins.kotlinAndroid) apply false
 
     alias(libs.plugins.kotlinMultiplatformLibrary) apply false
-    alias(libs.plugins.jetbrainsKotlinJvm) apply false
+    alias(libs.plugins.kotlinJvm) apply false
 }

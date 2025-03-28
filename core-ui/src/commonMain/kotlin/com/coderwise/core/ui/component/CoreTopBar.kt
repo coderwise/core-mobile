@@ -11,11 +11,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.coderwise.core.ui.utils.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+
+data class TopBarAction(
+    val imageVector: ImageVector,
+    val contentDescription: String? = null,
+    val onClick: () -> Unit
+)
+
 data class TopBarConfiguration(
-    val actions: List<@Composable () -> Unit> = emptyList()
+    val title: String,
+    val showBackNavigation: Boolean = false,
+    val actions: List<TopBarAction> = emptyList()
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,7 +35,7 @@ fun CoreTopBar(
     modifier: Modifier = Modifier,
     showBackNavigation: Boolean = false,
     onNavigationClick: () -> Unit = {},
-    actions: List<@Composable () -> Unit> = emptyList()
+    actions: List<TopBarAction> = emptyList()
 ) {
     TopAppBar(
         title = { Text(text = title) },
@@ -43,7 +53,16 @@ fun CoreTopBar(
             }
         },
         actions = {
-            actions.forEach { it() }
+            actions.forEach {
+                IconButton(
+                    onClick = it.onClick
+                ) {
+                    Icon(
+                        imageVector = it.imageVector,
+                        contentDescription = it.contentDescription
+                    )
+                }
+            }
         }
     )
 }
@@ -69,14 +88,12 @@ internal fun CoreTopBarPreview() {
                 title = "Trips",
                 showBackNavigation = true,
                 onNavigationClick = {},
-                actions = listOf {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Delete,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                }
+                actions = listOf(
+                    TopBarAction(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Localized description"
+                    ) {}
+                )
             )
         }
     }

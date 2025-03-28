@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ import com.coderwise.core.data.SampleRepository
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
 import com.coderwise.core.ui.component.CoreTopBar
+import com.coderwise.core.ui.component.TopBarAction
 import com.coderwise.core.ui.location.LocationRoute
 import com.coderwise.core.ui.location.LocationScreen
 import com.coderwise.core.ui.permissions.PermissionsRoute
@@ -87,15 +89,7 @@ private fun RootUi() {
                     showBackNavigation = showBackNavigation,
                     onNavigationClick = navRouter::navigateUp,
                     actions = listOf(
-                        {
-                            IconButton(
-                                onClick = {
-                                    scope.launch { sampleRepository.reset() }
-                                }
-                            ) {
-                                Icon(Icons.Default.Delete, null)
-                            }
-                        }
+                        TopBarAction(Icons.Default.Delete) { scope.launch { sampleRepository.reset() } }
                     )
                 )
             },

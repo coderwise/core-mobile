@@ -43,4 +43,4 @@ kotlin {
 }
 
 group = "com.coderwise.core.time"
-version = "1.0"
+version = libs.versions.coderwiseCore.get()

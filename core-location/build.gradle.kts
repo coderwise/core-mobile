@@ -46,4 +46,4 @@ kotlin {
 }
 
 group = "com.coderwise.core.location"
-version = "1.0"
+version = libs.versions.coderwiseCore.get()

@@ -2,9 +2,9 @@ package com.coderwise.core.ui.component
 
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -78,7 +78,7 @@ internal fun <T> CoreBaseDropdown(
     ) {
         if (outlined) {
             OutlinedTextField(
-                modifier = modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+                modifier = modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
                 value = options[selectedIndex].toString(),
                 onValueChange = {},
@@ -88,7 +88,7 @@ internal fun <T> CoreBaseDropdown(
             )
         } else {
             TextField(
-                modifier = modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+                modifier = modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
                 value = options[selectedIndex].toString(),
                 onValueChange = {},

@@ -2,7 +2,7 @@ package com.coderwise.core.ui.utils
 
 import android.content.Context
 import android.content.Intent
-import androidx.core.uri.Uri
+import android.net.Uri
 
 fun Context.openPage(
     action: String,

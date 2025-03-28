@@ -58,7 +58,7 @@ kotlin {
 }
 
 group = "com.coderwise.core.permissions"
-version = "1.0"
+version = libs.versions.coderwiseCore.get()
 
 publishing {
 
