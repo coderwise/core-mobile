@@ -22,25 +22,17 @@ class MemCache<Entity, Id>(
     fun getAll(): List<Entity>? = cacheFlow.value.values.toList().ifEmpty { null }
 
     fun delete(id: Id) {
-        val mutableCopy = cacheFlow.value.toMutableMap()
-        mutableCopy.remove(id)
-        cacheFlow.value = mutableCopy
+        cacheFlow.value = cacheFlow.value - id
     }
 
     fun update(entity: Entity): Id {
         val id = identify(entity)
-        cacheFlow.update {
-            it.toMutableMap().apply {
-                this[id] = entity
-            }
-        }
+        cacheFlow.value = cacheFlow.value + (id to entity)
         return id
     }
 
     fun merge(list: List<Entity>) {
-        val mutableCopy = cacheFlow.value.toMutableMap()
-        mutableCopy.putAll(list.associateBy { identify(it) })
-        cacheFlow.value = mutableCopy
+        cacheFlow.value = cacheFlow.value + list.associateBy { identify(it) }
     }
 
     fun find(id: Id): Entity? = cacheFlow.value[id]

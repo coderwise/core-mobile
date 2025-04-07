@@ -20,7 +20,7 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    jvm("desktop")
+    jvm()
 
     sourceSets {
         commonMain.dependencies {
@@ -31,9 +31,6 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
         }
-
-        androidMain.dependencies {}
-        iosMain.dependencies {}
     }
 }
 

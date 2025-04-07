@@ -4,7 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.coderwise.core.ui.location.LocationRoute
 import com.coderwise.core.ui.permissions.PermissionsRoute

@@ -9,17 +9,11 @@ kotlin {
         namespace = "com.coderwise.core.location"
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = libs.versions.minSdk.get().toInt()
-
-        @Suppress("UnstableApiUsage")
-        withHostTestBuilder {
-        }
     }
 
-    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
-        it.binaries.framework {
-            baseName = "core-locationKit"
-        }
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     jvm()
 
@@ -32,9 +26,6 @@ kotlin {
 
             // koin
             implementation(libs.koin.core)
-        }
-
-        commonTest.dependencies {
         }
 
         androidMain.dependencies {
