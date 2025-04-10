@@ -7,7 +7,6 @@ plugins {
 }
 
 kotlin {
-
     androidLibrary {
         namespace = "com.coderwise.core.data"
         compileSdk = libs.versions.compileSdk.get().toInt()
@@ -22,7 +21,7 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    jvm("desktop")
+    jvm()
 
     sourceSets {
         commonMain.dependencies {

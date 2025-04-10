@@ -2,15 +2,17 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinMultiplatformLibrary)
 
-    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
+
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeMultiplatform)
 
     id("maven-publish")
 }
 
 kotlin {
     androidLibrary {
-        namespace = "com.coderwise.core.ui"
+        namespace = "com.coderwise.core.auth.ui"
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = libs.versions.minSdk.get().toInt()
     }
@@ -21,6 +23,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core-ui"))
+            implementation(project(":core-domain"))
+            implementation(project(":core-auth:auth-domain"))
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -29,11 +35,14 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.navigation.compose)
-
             // koin
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.navigation.compose)
+
+            implementation(libs.kotlinx.serialization.protobuf)
         }
     }
 }
@@ -44,5 +53,5 @@ publishing {
     }
 }
 
-group = "com.coderwise.core.ui"
+group = "com.coderwise.core.auth"
 version = libs.versions.coderwiseCore.get()

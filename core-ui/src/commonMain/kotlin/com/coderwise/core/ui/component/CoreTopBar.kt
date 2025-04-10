@@ -22,23 +22,20 @@ data class TopBarAction(
     val onClick: () -> Unit
 )
 
-data class TopBarConfiguration(
-    val title: String,
-    val showBackNavigation: Boolean = false,
-    val actions: List<TopBarAction> = emptyList()
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoreTopBar(
-    title: String,
     modifier: Modifier = Modifier,
+    title: String? = null,
+    show: Boolean = true,
     showBackNavigation: Boolean = false,
     onNavigationClick: () -> Unit = {},
     actions: List<TopBarAction> = emptyList()
 ) {
+    if (!show) return
+
     TopAppBar(
-        title = { Text(text = title) },
+        title = { title?.let { Text(text = title) } },
         modifier = modifier,
         navigationIcon = {
             if (showBackNavigation) {

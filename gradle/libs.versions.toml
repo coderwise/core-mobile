@@ -4,20 +4,23 @@ compileSdk = "35"
 minSdk = "26"
 
 agp = "8.9.1"
-kotlin = "2.1.10"
+kotlin = "2.1.20"
 kotlinGradlePlugin = "1.8.20"
 activityCompose = "1.10.1"
 lifecycleRuntimeKtx = "2.8.7"
-koin = "4.0.2"
+koin = "4.0.4"
 datastore = "1.1.4"
-kotlinxSerialization = "1.8.0"
+kotlinxSerialization = "1.8.1"
 composeMultiplatform = "1.8.0-beta01"
-navigationCompose = "2.8.0-alpha10" # 2.8.0-alpha13 is breaking the build!!!
+navigationCompose = "2.8.0-alpha13" # 2.8.0-alpha13 is breaking the build!!!
 kotlinxCoroutines = "1.10.1"
 mockk = "1.13.17"
 kotlinxDatetime = "0.6.2"
 coderwiseCore = "1.0"
 composeTooling = "1.7.8"
+runner = "1.6.2"
+core = "1.6.1"
+junit = "1.2.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -47,6 +50,9 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 # plugin development
 gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

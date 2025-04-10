@@ -1,40 +1,23 @@
 package com.coderwise.core.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import com.coderwise.core.data.SampleRepository
+import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
-import com.coderwise.core.ui.component.CoreTopBar
-import com.coderwise.core.ui.component.TopBarAction
-import com.coderwise.core.ui.location.LocationRoute
-import com.coderwise.core.ui.location.LocationScreen
-import com.coderwise.core.ui.permissions.PermissionsRoute
-import com.coderwise.core.ui.permissions.PermissionsScreen
-import com.coderwise.core.ui.sample.SampleScreen
-import com.coderwise.core.ui.sample.edit.EditScreen
+import com.coderwise.core.ui.component.CoreScaffold
+import com.coderwise.core.ui.component.NavItem
+import com.coderwise.core.ui.component.ScaffoldState
 import com.coderwise.core.ui.theme.Core_LibraryTheme
-import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
 
 @Composable
 fun App() {
@@ -47,72 +30,32 @@ fun App() {
 private fun RootUi() {
     val snackbarHostState = remember { SnackbarHostState() }
     rememberUiMessenger(snackbarHostState)
-    val sampleRepository = koinInject<SampleRepository>()
 
     val navController = rememberNavController()
-    val navRouter = rememberNavRouter(navController)
-    val currentRoute by navRouter.currentRouteAsState()
-    val showBackNavigation = currentRoute.hasBackNavigation()
+    rememberNavRouter(navController)
 
-    var currentDestination by rememberSaveable { mutableStateOf(NavItems.SAMPLE.routeId()) }
-    val scope = rememberCoroutineScope()
+    val scaffoldState = ScaffoldState().apply {
+        showTopBar = true
+        showBackNavigation = false
+        topBarTitle = "Home"
+        showBottomBar = true
+        bottomBarNavItems = listOf(
+            NavItem(ListRoute, UiText.Plain("Home"), Icons.Default.Home),
+            NavItem(PermissionsRoute, UiText.Plain("Permissions"), Icons.Default.Settings),
+            NavItem(LocationRoute, UiText.Plain("Location"), Icons.Default.LocationOn)
+        )
+    }
 
-    NavigationSuiteScaffold(
-        navigationSuiteItems = {
-            NavItems.entries.forEach {
-                val navItem = it
-                item(
-                    icon = {
-                        Icon(
-                            imageVector = navItem.imageVector,
-                            contentDescription = navItem.name
-                        )
-                    },
-                    label = { Text(navItem.name) },
-                    selected = currentDestination == navItem.routeId(),
-                    onClick = {
-                        currentDestination = navItem.routeId()
-                        navRouter.navigate(navItem.route)
-                    }
-                )
-            }
-        }
-    ) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                CoreTopBar(
-                    title = "Title",
-                    showBackNavigation = showBackNavigation,
-                    onNavigationClick = navRouter::navigateUp,
-                    actions = listOf(
-                        TopBarAction(Icons.Default.Delete) { scope.launch { sampleRepository.reset() } }
-                    )
-                )
-            },
-            snackbarHost = { CoreSnackbarHost(snackbarHostState) }
-        ) { innerPadding ->
-
-            NavHost(
-                navController = navController,
-                startDestination = Sample,
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                composable<Sample> { SampleScreen() }
-                composable<Edit> { EditScreen(args = it.toRoute<Edit>()) }
-
-                composable<PermissionsRoute> { PermissionsScreen() }
-                composable<LocationRoute> { LocationScreen() }
-            }
+    CoreScaffold(
+        navController = navController,
+        scaffoldState = scaffoldState,
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = ListRoute,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            sampleNavigationGraph()
         }
     }
-}
-
-
-private fun String?.hasBackNavigation() = when {
-    null == this -> false
-    this == Sample::class.qualifiedName -> false
-    this == PermissionsRoute::class.qualifiedName -> false
-    this == LocationRoute::class.qualifiedName -> false
-    else -> true
 }

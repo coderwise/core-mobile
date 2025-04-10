@@ -16,6 +16,31 @@ import androidx.compose.ui.unit.dp
 import com.coderwise.core.ui.utils.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+sealed interface ProgressButtonState {
+    data object Progress : ProgressButtonState
+    data class Button(val text: String) : ProgressButtonState
+    data class Disabled(val text: String) : ProgressButtonState
+}
+
+@Composable
+fun CoreProgressButton(
+    state: ProgressButtonState,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    CoreProgressButton(
+        text = when (state) {
+            is ProgressButtonState.Button -> state.text
+            is ProgressButtonState.Disabled -> state.text
+            is ProgressButtonState.Progress -> ""
+        },
+        modifier = modifier,
+        isProgress = state is ProgressButtonState.Progress,
+        enabled = state !is ProgressButtonState.Disabled,
+        onClick = onClick
+    )
+}
+
 @Composable
 fun CoreProgressButton(
     text: String,

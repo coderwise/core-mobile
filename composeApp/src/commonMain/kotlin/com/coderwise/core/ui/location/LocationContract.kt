@@ -4,9 +4,6 @@ import com.coderwise.core.location.GpsMessage
 import com.coderwise.core.location.LocationService
 import kotlinx.serialization.Serializable
 
-@Serializable
-data object LocationRoute
-
 data class LocationUiState(
     val gpsMessage: GpsMessage? = null,
     val minTime: String = "1",

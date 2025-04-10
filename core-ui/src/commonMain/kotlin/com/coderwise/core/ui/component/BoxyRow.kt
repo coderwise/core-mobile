@@ -57,13 +57,11 @@ private fun BoxyRowPreview() {
         BoxyRow {
             Text(
                 text = "Text 1",
-                modifier = Modifier.padding(8.dp),
-                color = Color.White
+                modifier = Modifier.padding(8.dp)
             )
             Text(
                 text = "Text 2",
-                modifier = Modifier.padding(8.dp),
-                color = Color.White
+                modifier = Modifier.padding(8.dp)
             )
         }
     }

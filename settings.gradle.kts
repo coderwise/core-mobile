@@ -1,3 +1,11 @@
+@file:Suppress("UnstableApiUsage")
+
+include(":shared")
+
+
+include(":core-auth:auth-domain")
+
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     repositories {
@@ -38,3 +46,5 @@ include(":core-ui")
 include(":core-domain")
 include(":core-data")
 include(":core-versioning")
+
+include("core-auth:auth-ui")

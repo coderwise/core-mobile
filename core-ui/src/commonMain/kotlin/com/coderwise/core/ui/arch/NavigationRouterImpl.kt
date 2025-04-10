@@ -18,15 +18,27 @@ class NavControllerProvider {
     }
 }
 
+
 class NavigationRouterImpl(
-    private val navControllerProvider: NavControllerProvider
+    private val navControllerProvider: NavControllerProvider,
 ) : NavigationRouter {
     @Composable
-    override fun currentRouteAsState(): State<String?> =
+    override fun currentRouteIdAsState(): State<String?> =
         navControllerProvider.get().currentBackStackEntryFlow.map { it.destination.route }
             .collectAsState(null)
 
     override fun navigate(route: Any, addToBackStack: Boolean) {
+        navControllerProvider.get().navigate(route = route) {
+            if (!addToBackStack) {
+                val popUpRoute = currentRoute()
+                if (popUpRoute != null) {
+                    popUpTo(popUpRoute) { inclusive = true }
+                }
+            }
+        }
+    }
+
+    override fun navigate(route: String, addToBackStack: Boolean) {
         navControllerProvider.get().navigate(route = route) {
             if (!addToBackStack) {
                 val popUpRoute = currentRoute()

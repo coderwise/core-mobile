@@ -16,6 +16,7 @@ kotlin {
         }
     }
 
+    //noinspection WrongGradleMethod
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
             baseName = "composeAppKit"
@@ -31,6 +32,8 @@ kotlin {
             implementation(project(":core-permissions"))
             implementation(project(":core-location"))
             implementation(project(":core-time"))
+            implementation(project(":core-auth:auth-domain"))
+            implementation(project(":core-auth:auth-ui"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
