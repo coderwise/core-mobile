@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.coderwise.core.auth.ui.authNavigationGraph
 import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
@@ -28,9 +29,6 @@ fun App() {
 
 @Composable
 private fun RootUi() {
-    val snackbarHostState = remember { SnackbarHostState() }
-    rememberUiMessenger(snackbarHostState)
-
     val navController = rememberNavController()
     rememberNavRouter(navController)
 
@@ -56,6 +54,7 @@ private fun RootUi() {
             modifier = Modifier.padding(innerPadding)
         ) {
             sampleNavigationGraph()
+            authNavigationGraph()
         }
     }
 }

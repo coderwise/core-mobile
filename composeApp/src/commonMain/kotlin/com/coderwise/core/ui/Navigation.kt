@@ -43,11 +43,4 @@ fun NavGraphBuilder.sampleNavigationGraph() {
 
         EditScreen()
     }
-    composable<LoginRoute> {
-        scaffold {
-            showTopBar = false
-            showBottomBar = false
-        }
-        LoginScreen()
-    }
 }
