@@ -30,7 +30,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Core_Library"
-include(":composeApp")
+include(":sampleApp:composeApp")
+
 include(":core-permissions")
 
 include(":core-time")
