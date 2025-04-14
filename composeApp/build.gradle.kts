@@ -1,8 +1,9 @@
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinSerialization)
 
     alias(libs.plugins.composeMultiplatform)
@@ -12,7 +13,7 @@ plugins {
 kotlin {
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 
@@ -58,20 +59,37 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling)
+            implementation(libs.androidx.lifecycle.runtime.ktx)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
     }
 }
 
 android {
-    namespace = "com.coderwise.core.composeApp"
+    namespace = "com.coderwise.core.sample"
     compileSdk = libs.versions.compileSdk.get().toInt()
+
     defaultConfig {
+        applicationId = "com.coderwise.core.sample.androidApp"
         minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = 35
+        versionCode = 1 //versioning.getVersionCode()
+        versionName = "1.0" //versioning.getVersionName()
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 

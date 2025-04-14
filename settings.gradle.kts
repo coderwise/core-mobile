@@ -30,7 +30,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Core_Library"
-include(":androidApp")
 include(":composeApp")
 include(":core-permissions")
 
