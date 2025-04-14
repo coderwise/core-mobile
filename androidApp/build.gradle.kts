@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "com.coderwise.core"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.coderwise.core"
-        minSdk = 28
+        minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = 35
         versionCode = 1 //versioning.getVersionCode()
         versionName = "1.0" //versioning.getVersionName()

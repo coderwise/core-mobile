@@ -2,8 +2,6 @@ package com.coderwise.core.ui
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.coderwise.core.auth.ui.login.LoginRoute
-import com.coderwise.core.auth.ui.login.LoginScreen
 import com.coderwise.core.ui.component.scaffold
 import com.coderwise.core.ui.list.ListScreen
 import com.coderwise.core.ui.list.edit.EditScreen

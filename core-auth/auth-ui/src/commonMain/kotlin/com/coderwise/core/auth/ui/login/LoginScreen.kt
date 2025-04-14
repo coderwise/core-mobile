@@ -93,6 +93,7 @@ private fun LoginContent(
             )
         }
         CoreProgressButton(
+            text = "Login",
             state = uiState.loginButtonState,
             onClick = { dispatch(LoginAction.LoginButtonClicked) },
             modifier = Modifier
@@ -132,7 +133,7 @@ private fun LoginPreview() {
                 userName = "username",
                 password = "password",
                 rememberMe = true,
-                loginButtonState = ProgressButtonState.Button("Login"),
+                loginButtonState = ProgressButtonState.Button,
                 isLoading = false
             )
         ) {}

@@ -7,17 +7,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.arch.rememberUiMessenger
 
 @Composable
 fun CoreScaffold(
-    navController: NavHostController,
+    navController: NavHostController = rememberNavController(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     bottomBar: (@Composable () -> Unit)? = null,
     content: @Composable (PaddingValues) -> Unit
 ) {
     rememberUiMessenger(snackbarHostState)
+    rememberNavRouter(navController)
 
     CompositionLocalProvider(LocalScaffoldState provides scaffoldState) {
         Scaffold(

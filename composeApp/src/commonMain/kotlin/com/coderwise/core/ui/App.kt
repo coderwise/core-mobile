@@ -5,19 +5,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.coderwise.core.auth.ui.authNavigationGraph
 import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.arch.rememberNavRouter
-import com.coderwise.core.ui.arch.rememberUiMessenger
 import com.coderwise.core.ui.component.CoreScaffold
 import com.coderwise.core.ui.component.NavItem
-import com.coderwise.core.ui.component.ScaffoldState
+import com.coderwise.core.ui.component.rememberScaffoldState
 import com.coderwise.core.ui.theme.Core_LibraryTheme
 
 @Composable
@@ -32,7 +29,7 @@ private fun RootUi() {
     val navController = rememberNavController()
     rememberNavRouter(navController)
 
-    val scaffoldState = ScaffoldState().apply {
+    val scaffoldState = rememberScaffoldState().apply {
         showTopBar = true
         showBackNavigation = false
         topBarTitle = "Home"

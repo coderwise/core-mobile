@@ -18,22 +18,19 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 sealed interface ProgressButtonState {
     data object Progress : ProgressButtonState
-    data class Button(val text: String) : ProgressButtonState
-    data class Disabled(val text: String) : ProgressButtonState
+    data object Button : ProgressButtonState
+    data object Disabled : ProgressButtonState
 }
 
 @Composable
 fun CoreProgressButton(
+    text: String,
     state: ProgressButtonState,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     CoreProgressButton(
-        text = when (state) {
-            is ProgressButtonState.Button -> state.text
-            is ProgressButtonState.Disabled -> state.text
-            is ProgressButtonState.Progress -> ""
-        },
+        text = text,
         modifier = modifier,
         isProgress = state is ProgressButtonState.Progress,
         enabled = state !is ProgressButtonState.Disabled,
