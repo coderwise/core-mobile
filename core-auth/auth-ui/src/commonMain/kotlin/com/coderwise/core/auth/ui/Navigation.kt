@@ -6,6 +6,7 @@ import com.coderwise.core.auth.ui.login.LoginRoute
 import com.coderwise.core.auth.ui.login.LoginScreen
 import com.coderwise.core.auth.ui.recover.RecoverRoute
 import com.coderwise.core.auth.ui.register.RegisterRoute
+import com.coderwise.core.auth.ui.register.RegisterScreen
 import com.coderwise.core.ui.component.scaffold
 
 fun NavGraphBuilder.authNavigationGraph() {
@@ -17,7 +18,7 @@ fun NavGraphBuilder.authNavigationGraph() {
         LoginScreen()
     }
     composable<RegisterRoute> {
-
+        RegisterScreen()
     }
     composable<RecoverRoute> {}
 }

@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core-auth:auth-server")
+
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     repositories {

@@ -16,7 +16,8 @@ data class RegisterModelState(
 data class RegisterUiState(
     val userName: String,
     val password: String,
-    val registerButtonState: ProgressButtonState
+    val registerButtonState: ProgressButtonState,
+    val isLoading: Boolean
 )
 
 sealed interface RegisterAction : Action {

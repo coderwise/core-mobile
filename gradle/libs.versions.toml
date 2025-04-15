@@ -11,13 +11,14 @@ lifecycleRuntimeKtx = "2.8.7"
 koin = "4.0.4"
 datastore = "1.1.4"
 kotlinxSerialization = "1.8.1"
-composeMultiplatform = "1.8.0-beta01"
+composeMultiplatform = "1.8.0-beta02"
 navigationCompose = "2.8.0-alpha13" # 2.8.0-alpha13 is breaking the build!!!
 kotlinxCoroutines = "1.10.2"
 mockk = "1.14.0"
 kotlinxDatetime = "0.6.2"
 coderwiseCore = "1.0"
 composeTooling = "1.7.8"
+ktor = "3.1.2"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -58,5 +59,7 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 
 coreVersioning = { id = "com.coderwise.core.versioning", version = "coderwiseCore" }

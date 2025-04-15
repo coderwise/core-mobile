@@ -1,4 +1,4 @@
-package com.coderwise.core.sample.ui
+package com.coderwise.core.sample
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -10,6 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.coderwise.core.auth.ui.authNavigationGraph
+import com.coderwise.core.sample.ui.ListRoute
+import com.coderwise.core.sample.ui.LocationRoute
+import com.coderwise.core.sample.ui.PermissionsRoute
+import com.coderwise.core.sample.ui.sampleNavigationGraph
 import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.component.CoreScaffold

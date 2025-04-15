@@ -1,4 +1,4 @@
-package com.coderwise.core.sample.di
+package com.coderwise.core.sample
 
 import com.coderwise.core.sample.data.di.sampleDataModule
 import com.coderwise.core.sample.ui.di.sampleUiModule
