@@ -15,4 +15,6 @@ interface SampleRepository {
 
     suspend fun update(sample: Sample): Outcome<Int>
     suspend fun reset()
+
+    suspend fun fetchAll(): Outcome<Unit>
 }

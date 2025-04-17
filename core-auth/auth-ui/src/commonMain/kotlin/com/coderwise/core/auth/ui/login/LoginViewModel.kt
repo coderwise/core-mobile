@@ -2,7 +2,7 @@ package com.coderwise.core.auth.ui.login
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.coderwise.core.auth.domain.LoginService
+import com.coderwise.core.auth.domain.AuthRepository
 import com.coderwise.core.auth.ui.recover.RecoverRoute
 import com.coderwise.core.auth.ui.register.RegisterRoute
 import com.coderwise.core.domain.arch.onError
@@ -17,7 +17,7 @@ class LoginViewModel(
     savedStateHandle: SavedStateHandle,
     private val navigationRouter: NavigationRouter,
     private val uiMessenger: UiMessenger,
-    private val loginService: LoginService
+    private val authRepository: AuthRepository
 ) : BaseViewModel<LoginModelState, LoginUiState>(
     initialState = LoginModelState(),
     mapper = { it.asUiState() }
@@ -58,7 +58,7 @@ class LoginViewModel(
         reduce {
             copy(isProgress = true)
         }
-        loginService.login(state.userName, state.password).onSuccess {
+        authRepository.login(state.userName, state.password).onSuccess {
             navigationRouter.navigate(args.onSuccessRoute, false)
         }.onError {
             reduce {

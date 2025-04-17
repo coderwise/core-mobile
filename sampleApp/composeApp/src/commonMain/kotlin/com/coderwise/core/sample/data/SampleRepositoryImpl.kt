@@ -4,6 +4,10 @@ import com.coderwise.core.data.arch.CollectionRepositoryImpl
 import com.coderwise.core.data.arch.MemoryLocalSource
 import com.coderwise.core.sample.data.local.DataStoreSampleSource
 import com.coderwise.core.domain.arch.Outcome
+import com.coderwise.core.domain.arch.mapSuccess
+import com.coderwise.core.domain.arch.onSuccess
+import com.coderwise.core.auth.data.remote.AuthTokenProvider
+import com.coderwise.core.sample.data.remote.SampleRemoteSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
 
@@ -14,7 +18,8 @@ data class SampleRecord(
 )
 
 class SampleRepositoryImpl(
-    disk: DataStoreSampleSource
+    disk: DataStoreSampleSource,
+    private val network: SampleRemoteSource
 ) : SampleRepository {
     private val memory = MemoryLocalSource<Sample, Int>(
         identify = { it.id }
@@ -33,6 +38,10 @@ class SampleRepositoryImpl(
     override suspend fun reset() {
         memory.reset(listOf())
     }
+
+    override suspend fun fetchAll(): Outcome<Unit> = network.fetchAll().onSuccess {
+        memory.reset(it)
+    }.mapSuccess { }
 }
 
 fun Sample.asRecord() = SampleRecord(

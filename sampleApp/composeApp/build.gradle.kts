@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -33,8 +32,10 @@ kotlin {
             implementation(project(":core-permissions"))
             implementation(project(":core-location"))
             implementation(project(":core-time"))
+
             implementation(project(":core-auth:auth-domain"))
             implementation(project(":core-auth:auth-ui"))
+            implementation(project(":core-auth:auth-data"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -56,12 +57,24 @@ kotlin {
 
             // datastore
             implementation(libs.kotlinx.serialization.protobuf)
+
+            // ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
         }
 
         androidMain.dependencies {
             implementation(libs.androidx.lifecycle.runtime.ktx)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
+
+            implementation(libs.ktor.client.okhttp)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

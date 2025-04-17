@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":core-auth:auth-server")
-
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
@@ -34,6 +32,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Core_Library"
 include(":sampleApp:composeApp")
+include(":sampleApp:server")
 
 include(":core-permissions")
 
@@ -46,3 +45,5 @@ include(":core-versioning")
 
 include(":core-auth:auth-ui")
 include(":core-auth:auth-domain")
+include(":core-auth:auth-data")
+include(":core-auth:auth-server")

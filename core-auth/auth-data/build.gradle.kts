@@ -1,14 +1,20 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinMultiplatformLibrary)
+    alias(libs.plugins.kotlinSerialization)
+
     id("maven-publish")
 }
 
 kotlin {
     androidLibrary {
-        namespace = "com.coderwise.core.auth.domain"
+        namespace = "com.coderwise.core.data"
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = libs.versions.minSdk.get().toInt()
+
+        @Suppress("UnstableApiUsage")
+        withHostTestBuilder {
+        }
     }
 
     iosX64()
@@ -20,8 +26,15 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core-domain"))
+            implementation(project(":core-data"))
+            implementation(project(":core-auth:auth-domain"))
 
             implementation(libs.kotlinx.coroutines.core)
+
+            // ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
     }
 }
