@@ -1,21 +1,18 @@
 package com.coderwise.core.sample.data.di
 
-import com.coderwise.core.auth.data.AuthRepositoryImpl
-import com.coderwise.core.auth.data.remote.AuthApi
-import com.coderwise.core.auth.domain.AuthRepository
+import com.coderwise.core.auth.data.di.authDataModule
 import com.coderwise.core.auth.domain.User
 import com.coderwise.core.auth.domain.UserRepository
-import com.coderwise.core.sample.data.SampleRecord
-import com.coderwise.core.sample.data.SampleRepositoryImpl
 import com.coderwise.core.data.arch.DataStoreRecord
 import com.coderwise.core.data.di.coreDataModule
 import com.coderwise.core.data.remote.UrlProvider
-import com.coderwise.core.sample.data.local.DataStoreSampleSource
 import com.coderwise.core.data.utils.DataStoreCreator
 import com.coderwise.core.location.di.coreLocationModule
 import com.coderwise.core.permissions.di.corePermissionsModule
+import com.coderwise.core.sample.data.SampleRecord
 import com.coderwise.core.sample.data.SampleRepository
-import com.coderwise.core.auth.data.remote.AuthTokenProvider
+import com.coderwise.core.sample.data.SampleRepositoryImpl
+import com.coderwise.core.sample.data.local.DataStoreSampleSource
 import com.coderwise.core.sample.data.remote.SampleRemoteSource
 import com.coderwise.core.time.di.coreTimeModule
 import io.ktor.client.HttpClient
@@ -34,6 +31,7 @@ val sampleDataModule = module {
     includes(corePermissionsModule)
     includes(coreLocationModule)
     includes(coreTimeModule)
+    includes(authDataModule)
 
     single<UserRepository> {
         object : UserRepository {
@@ -48,8 +46,6 @@ val sampleDataModule = module {
         }
     }
 
-    factory { AuthApi(get(), get()) }
-    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
 
     factory {
         DataStoreSampleSource(
@@ -62,18 +58,6 @@ val sampleDataModule = module {
                 pathProducer = get()
             )
         )
-    }
-
-    single<AuthTokenProvider> {
-        object : AuthTokenProvider {
-            private var token: String? = null
-
-            override fun get(): String = token ?: throw IllegalStateException("No token")
-
-            override fun reset(token: String) {
-                this.token = token
-            }
-        }
     }
 
     factory { SampleRemoteSource(get(), get(), get()) }

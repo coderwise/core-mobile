@@ -14,22 +14,26 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
+import java.util.Date
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 fun Application.configureAuth(
-    authConfig: AuthConfig
+    config: JWTConfig
 ) {
     install(Authentication) {
         jwt {
-            realm = authConfig.realm
+            realm = config.realm
             verifier(
                 JWT
-                    .require(Algorithm.HMAC256(authConfig.jwtSecret))
-                    .withAudience(authConfig.jwtAudience)
-                    .withIssuer(authConfig.jwtIssuer)
+                    .require(Algorithm.HMAC256(config.secret))
+                    .withAudience(config.audience)
+                    .withIssuer(config.issuer)
                     .build()
             )
             validate { credential ->
-                if (credential.payload.audience.contains(authConfig.jwtAudience))
+                if (credential.payload.audience.contains(config.audience))
                     JWTPrincipal(credential.payload)
                 else
                     null
@@ -42,15 +46,19 @@ fun Application.configureAuth(
 
     routing {
         post("/login") {
-            val request = call.receive<LoginRequest>()
-            val user = request.username
+            val loginRequest = call.receive<LoginRequest>()
 //                users.find { it.username == request.username && it.password == request.password }
 
             val token = JWT.create()
-                .withAudience("audience")
-                .withIssuer("issuer")
-                .withClaim("username", user)
-                .sign(Algorithm.HMAC256("secret"))
+                .withAudience(config.audience)
+                .withIssuer(config.issuer)
+                .withClaim("username", loginRequest.username)
+                .withExpiresAt(
+                    Date(
+                        Clock.System.now().plus(config.expiration).toEpochMilliseconds()
+                    )
+                )
+                .sign(Algorithm.HMAC256(config.secret))
 
             call.respond(HttpStatusCode.OK, LoginResponse(token))
         }

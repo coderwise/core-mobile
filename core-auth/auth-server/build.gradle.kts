@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlinSerialization)
+
+    id("java-library")
+    id("maven-publish")
 }
 
 dependencies {
@@ -12,3 +15,22 @@ dependencies {
     implementation(libs.ktor.server.auth)
     implementation(libs.ktor.server.auth.jwt)
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            artifactId = project.name
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+            }
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+group = "com.coderwise.core.auth"
+version = libs.versions.coderwiseCore.get()
