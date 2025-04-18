@@ -20,11 +20,7 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             artifactId = project.name
-            versionMapping {
-                usage("java-api") {
-                    fromResolutionOf("runtimeClasspath")
-                }
-            }
+            from(components["kotlin"])
         }
     }
     repositories {

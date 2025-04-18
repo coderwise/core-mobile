@@ -8,5 +8,5 @@ data class AuthResult(
 
 interface AuthRepository {
     suspend fun login(userName: String, password: String): Outcome<AuthResult>
-    suspend fun register(userName: String, password: String): Outcome<AuthResult>
+    suspend fun register(userName: String, password: String): Outcome<Unit>
 }

@@ -15,7 +15,7 @@ fun Application.configureRoutes() {
             call.respondText("Hello, world!")
         }
         authenticate {
-            get("/sample") {
+            get("/samples") {
                 val list = List(10) { SampleDto(it, "value $it") }
                 call.respond(HttpStatusCode.OK, list)
             }

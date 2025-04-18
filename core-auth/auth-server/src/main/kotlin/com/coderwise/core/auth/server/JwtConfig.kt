@@ -2,7 +2,7 @@ package com.coderwise.core.auth.server
 
 import kotlin.time.Duration
 
-data class JWTConfig(
+data class JwtConfig(
     val realm: String,
     val audience: String,
     val issuer: String,

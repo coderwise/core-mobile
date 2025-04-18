@@ -3,6 +3,7 @@ package com.coderwise.core.auth.data.remote
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LoginResponse(
-    val token: String
+data class AuthRequest(
+    val username: String,
+    val password: String
 )

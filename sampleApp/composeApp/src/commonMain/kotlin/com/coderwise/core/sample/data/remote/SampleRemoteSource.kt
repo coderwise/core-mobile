@@ -19,7 +19,7 @@ class SampleRemoteSource(
 ) {
     suspend fun fetchAll(): Outcome<List<Sample>> = tryOutcome {
         val list: List<SampleResponse> = apiCall {
-            httpClient.get("${baseUrl.get()}/sample") {
+            httpClient.get("${baseUrl.get()}/samples") {
                 contentType(ContentType.Application.Json)
                 bearerAuth(authToken.get())
             }

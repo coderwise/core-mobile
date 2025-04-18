@@ -2,8 +2,8 @@ package com.coderwise.core.auth.server
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.coderwise.core.auth.data.remote.LoginRequest
-import com.coderwise.core.auth.data.remote.LoginResponse
+import com.coderwise.core.auth.data.remote.AuthRequest
+import com.coderwise.core.auth.data.remote.AuthResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -14,29 +14,28 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
-import java.util.Date
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 fun Application.configureAuth(
-    config: JWTConfig
+    tokenConfig: JwtConfig,
+    findUser: suspend (String) -> User?,
+    createUser: suspend (User) -> Boolean,
+    tokenService: JwtService = JwtService(),
+    hashingService: HashingService = HashingService()
 ) {
     install(Authentication) {
         jwt {
-            realm = config.realm
+            realm = tokenConfig.realm
             verifier(
-                JWT
-                    .require(Algorithm.HMAC256(config.secret))
-                    .withAudience(config.audience)
-                    .withIssuer(config.issuer)
-                    .build()
+                JWT.require(Algorithm.HMAC256(tokenConfig.secret))
+                    .withAudience(tokenConfig.audience).withIssuer(tokenConfig.issuer).build()
             )
             validate { credential ->
-                if (credential.payload.audience.contains(config.audience))
-                    JWTPrincipal(credential.payload)
-                else
-                    null
+                if (credential.payload.audience.contains(tokenConfig.audience)) JWTPrincipal(
+                    credential.payload
+                )
+                else null
             }
             challenge { _, _ ->
                 call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
@@ -45,22 +44,62 @@ fun Application.configureAuth(
     }
 
     routing {
+        //TODO change error messages
         post("/login") {
-            val loginRequest = call.receive<LoginRequest>()
-//                users.find { it.username == request.username && it.password == request.password }
+            val request = call.receive<AuthRequest>()
 
-            val token = JWT.create()
-                .withAudience(config.audience)
-                .withIssuer(config.issuer)
-                .withClaim("username", loginRequest.username)
-                .withExpiresAt(
-                    Date(
-                        Clock.System.now().plus(config.expiration).toEpochMilliseconds()
-                    )
-                )
-                .sign(Algorithm.HMAC256(config.secret))
+            val user = findUser(request.username) ?: run {
+                call.respond(HttpStatusCode.Conflict, "Incorrect username")
+                return@post
+            }
+            val isValidPassword = hashingService.verify(
+                value = request.password,
+                saltedHash = SaltedHash(hash = user.password, salt = user.salt)
+            )
+            if (!isValidPassword) {
+                call.respond(HttpStatusCode.Conflict, "Incorrect password")
+                return@post
+            }
 
-            call.respond(HttpStatusCode.OK, LoginResponse(token))
+            val token = tokenService.create(
+                tokenConfig = tokenConfig,
+                tokenClaim = TokenClaim("username", request.username)
+            )
+
+            call.respond(HttpStatusCode.OK, AuthResponse(token))
+        }
+
+        post("/register") {
+            val request = call.receive<AuthRequest>()
+
+            val areFieldsBlank = request.username.isBlank() || request.password.isBlank()
+            val isPwTooShort = request.password.length < 8
+            if (areFieldsBlank || isPwTooShort) {
+                call.respond(HttpStatusCode.Conflict, "Fields may not be blank")
+                return@post
+            }
+
+            val userExists = findUser(request.username) != null
+            if (userExists) {
+                call.respond(HttpStatusCode.Conflict, "User already exists")
+                return@post
+            }
+
+            val saltedHash = hashingService.generateSaltedHash(request.password)
+
+            val user = User(
+                username = request.username,
+                password = saltedHash.hash,
+                salt = saltedHash.salt
+            )
+
+            val wasAcknowledged = createUser(user)
+            if (!wasAcknowledged) {
+                call.respond(HttpStatusCode.Conflict)
+                return@post
+            }
+
+            call.respond(HttpStatusCode.OK)
         }
     }
 }

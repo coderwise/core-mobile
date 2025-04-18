@@ -23,7 +23,7 @@ class AuthRepositoryImpl(
     override suspend fun register(
         userName: String,
         password: String
-    ): Outcome<AuthResult> {
-        TODO("Not yet implemented")
+    ): Outcome<Unit> = tryOutcome {
+        api.register(userName, password)
     }
 }

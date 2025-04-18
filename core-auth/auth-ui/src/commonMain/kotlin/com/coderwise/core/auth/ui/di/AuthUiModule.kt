@@ -10,5 +10,5 @@ val authUiModule = module {
     includes(coreUiModule)
 
     viewModel { LoginViewModel(get(), get(), get(), get()) }
-    viewModel { RegisterViewModel() }
+    viewModel { RegisterViewModel(get(), get(), get()) }
 }
