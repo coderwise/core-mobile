@@ -30,6 +30,17 @@ class LoginViewModel(
         asyncAction {
             reduce { copy(userName = args.userName, password = args.password) }
         }
+        asyncAction {
+            sessionRepository.credentials.collect {
+                reduce {
+                    copy(
+                        userName = it.userName,
+                        password = it.password,
+                        rememberMe = it.rememberMe
+                    )
+                }
+            }
+        }
     }
 
     override fun onAction(action: Any) {

@@ -14,12 +14,12 @@ import com.coderwise.core.sample.ui.ListRoute
 import com.coderwise.core.sample.ui.LocationRoute
 import com.coderwise.core.sample.ui.PermissionsRoute
 import com.coderwise.core.sample.ui.sampleNavigationGraph
+import com.coderwise.core.sample.ui.theme.Core_LibraryTheme
 import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.arch.rememberNavRouter
 import com.coderwise.core.ui.component.CoreScaffold
 import com.coderwise.core.ui.component.NavItem
-import com.coderwise.core.ui.component.rememberScaffoldState
-import com.coderwise.core.sample.ui.theme.Core_LibraryTheme
+import com.coderwise.core.ui.component.scaffold
 
 @Composable
 fun App() {
@@ -33,22 +33,20 @@ private fun RootUi() {
     val navController = rememberNavController()
     rememberNavRouter(navController)
 
-    val scaffoldState = rememberScaffoldState().apply {
-        showTopBar = true
-        showBackNavigation = false
-        topBarTitle = "Home"
-        showBottomBar = true
-        bottomBarNavItems = listOf(
-            NavItem(ListRoute, UiText.Plain("Home"), Icons.Default.Home),
-            NavItem(PermissionsRoute, UiText.Plain("Permissions"), Icons.Default.Settings),
-            NavItem(LocationRoute, UiText.Plain("Location"), Icons.Default.LocationOn)
-        )
-    }
-
     CoreScaffold(
-        navController = navController,
-        scaffoldState = scaffoldState,
+        navController = navController
     ) { innerPadding ->
+        scaffold {
+            showTopBar = true
+            showBackNavigation = false
+            topBarTitle = "Home"
+            showBottomBar = true
+            bottomBarNavItems = listOf(
+                NavItem(ListRoute, UiText.Plain("Home"), Icons.Default.Home),
+                NavItem(PermissionsRoute, UiText.Plain("Permissions"), Icons.Default.Settings),
+                NavItem(LocationRoute, UiText.Plain("Location"), Icons.Default.LocationOn)
+            )
+        }
         NavHost(
             navController = navController,
             startDestination = ListRoute,

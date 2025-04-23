@@ -2,6 +2,7 @@ package com.coderwise.core.sample.ui.profile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.sample.ui.theme.ScreenPreview
+import com.coderwise.core.ui.component.CoreProgressButton
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -28,7 +30,13 @@ fun ProfileContent(
     Column(
         modifier = Modifier.padding(16.dp).fillMaxSize()
     ) {
-        Text(uiState.name)
+        Text(text = uiState.name, modifier = Modifier.padding(bottom = 16.dp))
+
+        CoreProgressButton(
+            text = "Logout",
+            onClick = { dispatch(ProfileAction.Logout) },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+        )
     }
 }
 

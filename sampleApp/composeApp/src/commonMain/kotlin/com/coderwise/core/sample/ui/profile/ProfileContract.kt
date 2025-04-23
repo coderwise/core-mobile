@@ -14,6 +14,6 @@ data class ProfileUiState(
     val name: String
 )
 
-sealed class ProfileAction {
-
+sealed interface ProfileAction {
+    data object Logout : ProfileAction
 }
