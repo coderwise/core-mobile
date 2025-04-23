@@ -7,6 +7,8 @@ import com.coderwise.core.sample.ui.list.ListScreen
 import com.coderwise.core.sample.ui.list.edit.EditScreen
 import com.coderwise.core.sample.ui.location.LocationScreen
 import com.coderwise.core.sample.ui.permissions.PermissionsScreen
+import com.coderwise.core.sample.ui.profile.ProfileRoute
+import com.coderwise.core.sample.ui.profile.ProfileScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -40,5 +42,15 @@ fun NavGraphBuilder.sampleNavigationGraph() {
         }
 
         EditScreen()
+    }
+    composable<ProfileRoute> {
+        scaffold {
+            showBackNavigation = true
+            topBarTitle = "Profile"
+            topBarActions = emptyList()
+            showBottomBar = false
+        }
+
+        ProfileScreen()
     }
 }

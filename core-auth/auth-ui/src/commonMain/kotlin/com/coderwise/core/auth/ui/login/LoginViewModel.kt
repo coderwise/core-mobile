@@ -3,6 +3,7 @@ package com.coderwise.core.auth.ui.login
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.coderwise.core.auth.domain.AuthRepository
+import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.auth.ui.recover.RecoverRoute
 import com.coderwise.core.auth.ui.register.RegisterRoute
 import com.coderwise.core.domain.arch.onError
@@ -17,12 +18,19 @@ class LoginViewModel(
     savedStateHandle: SavedStateHandle,
     private val navigationRouter: NavigationRouter,
     private val uiMessenger: UiMessenger,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val sessionRepository: SessionRepository
 ) : BaseViewModel<LoginModelState, LoginUiState>(
     initialState = LoginModelState(),
     mapper = { it.asUiState() }
 ) {
     private val args = savedStateHandle.toRoute<LoginRoute>()
+
+    init {
+        asyncAction {
+            reduce { copy(userName = args.userName, password = args.password) }
+        }
+    }
 
     override fun onAction(action: Any) {
         when (action) {
@@ -59,6 +67,8 @@ class LoginViewModel(
             copy(isProgress = true)
         }
         authRepository.login(state.userName, state.password).onSuccess {
+            sessionRepository.setRememberMe(state.rememberMe)
+            sessionRepository.setToken(it.token)
             navigationRouter.navigate(args.onSuccessRoute, false)
         }.onError {
             reduce {

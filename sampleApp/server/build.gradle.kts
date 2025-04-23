@@ -25,4 +25,6 @@ dependencies {
     implementation(libs.ktor.server.auth)
 
     implementation(libs.kotlinx.datetime)
+
+    implementation("org.mongodb:mongodb-driver-sync:5.4.0")
 }

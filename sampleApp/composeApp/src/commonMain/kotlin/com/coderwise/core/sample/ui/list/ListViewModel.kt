@@ -2,12 +2,14 @@ package com.coderwise.core.sample.ui.list
 
 import com.coderwise.core.auth.ui.login.LoginRoute
 import com.coderwise.core.domain.arch.onError
+import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.sample.data.Sample
 import com.coderwise.core.sample.data.SampleRepository
-import com.coderwise.core.domain.arch.onSuccess
-import com.coderwise.core.time.TimeService
+import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.sample.ui.EditRoute
 import com.coderwise.core.sample.ui.ListRoute
+import com.coderwise.core.sample.ui.profile.ProfileRoute
+import com.coderwise.core.time.TimeService
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
@@ -18,7 +20,8 @@ class ListViewModel(
     private val navRouter: NavigationRouter,
     private val uiMessenger: UiMessenger,
     private val sampleRepository: SampleRepository,
-    private val timeService: TimeService
+    private val timeService: TimeService,
+    private val sessionRepository: SessionRepository
 ) : BaseViewModel<ListModelState, ListUiState>(
     initialState = ListModelState(),
     mapper = { it.asUiState() }
@@ -36,12 +39,16 @@ class ListViewModel(
                 uiMessenger.showNotification(UiNotification(it.message!!))
             }
         }
+        asyncAction {
+            sessionRepository.authenticated().collect {
+                reduce { copy(isAuthenticated = it) }
+            }
+        }
     }
 
     override fun onAction(action: Any) {
         when (action) {
             is ListAction.OnItemClicked -> asyncAction {
-                uiMessenger.showNotification(UiNotification("Item clicked: ${action.id}"))
                 navRouter.navigate(EditRoute(action.id))
             }
 
@@ -54,8 +61,13 @@ class ListViewModel(
                 )
             }
 
-            is ListAction.OnAccountClicked -> asyncAction {
-                navRouter.navigate(LoginRoute(ListRoute.routeId()))
+            is ListAction.OnAccountClicked -> asyncAction { state ->
+                navRouter.navigate(
+                    if (!state.isAuthenticated)
+                        LoginRoute(ListRoute.routeId())
+                    else
+                        ProfileRoute
+                )
             }
         }
     }

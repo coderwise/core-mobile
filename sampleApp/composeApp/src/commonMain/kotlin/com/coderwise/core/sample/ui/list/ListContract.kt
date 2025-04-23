@@ -13,7 +13,8 @@ data class ListUiState(
 }
 
 data class ListModelState(
-    val samples: List<Sample>? = null
+    val samples: List<Sample>? = null,
+    val isAuthenticated: Boolean = false
 )
 
 sealed interface ListAction : Action {

@@ -1,7 +1,7 @@
 package com.coderwise.core.auth.ui.register
 
 import com.coderwise.core.auth.domain.AuthRepository
-import com.coderwise.core.auth.ui.login.LoginRoute
+import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.ui.arch.BaseViewModel
@@ -13,7 +13,8 @@ import com.coderwise.core.ui.component.ProgressButtonState
 class RegisterViewModel(
     private val authRepository: AuthRepository,
     private val uiMessenger: UiMessenger,
-    private val navigationRouter: NavigationRouter
+    private val navigationRouter: NavigationRouter,
+    private val sessionRepository: SessionRepository
 ) : BaseViewModel<RegisterModelState, RegisterUiState>(
     initialState = RegisterModelState(),
     mapper = { it.asUiState() }
@@ -27,6 +28,7 @@ class RegisterViewModel(
                     copy(isProgress = true)
                 }
                 authRepository.register(state.userName, state.password).onSuccess {
+                    sessionRepository.setUserName(state.userName)
                     navigationRouter.navigateUp()
                 }.onError {
                     uiMessenger.showNotification(

@@ -1,6 +1,5 @@
 package com.coderwise.core.auth.ui.login
 
-import com.coderwise.core.auth.domain.User
 import com.coderwise.core.auth.ui.recover.RecoverRoute
 import com.coderwise.core.auth.ui.register.RegisterRoute
 import com.coderwise.core.ui.arch.Action
@@ -11,12 +10,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LoginRoute(
     val onSuccessRoute: String,
+    val userName: String = "",
+    val password: String = "",
     val onRecoverRoute: String = RecoverRoute.routeId(),
     val onRegisterRoute: String = RegisterRoute.routeId()
 )
 
 data class LoginModelState(
-    val user: User? = null,
     val userName: String = "",
     val password: String = "",
     val rememberMe: Boolean = false,

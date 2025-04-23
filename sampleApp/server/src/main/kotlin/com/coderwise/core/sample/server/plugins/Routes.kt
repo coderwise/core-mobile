@@ -1,24 +1,25 @@
 package com.coderwise.core.sample.server.plugins
 
-import io.ktor.http.HttpStatusCode
+import com.coderwise.core.sample.server.routes.sampleRoutes
+import com.coderwise.core.sample.server.data.SampleDataSource
+import com.coderwise.core.sample.server.routes.userRoutes
 import io.ktor.server.application.Application
 import io.ktor.server.auth.authenticate
-import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import kotlinx.serialization.Serializable
 
 fun Application.configureRoutes() {
+    val sampleDataSource = SampleDataSource()
     routing {
         get("/") {
             call.respondText("Hello, world!")
         }
+
         authenticate {
-            get("/samples") {
-                val list = List(10) { SampleDto(it, "value $it") }
-                call.respond(HttpStatusCode.OK, list)
-            }
+            sampleRoutes()
+            userRoutes()
         }
     }
 }

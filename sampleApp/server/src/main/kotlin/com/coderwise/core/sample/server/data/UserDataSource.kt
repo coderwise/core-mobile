@@ -11,4 +11,6 @@ class UserDataSource {
         users.add(user)
         return true
     }
+
+    suspend fun getUserById(id: Int): User? = users.find { it.id == id }
 }
