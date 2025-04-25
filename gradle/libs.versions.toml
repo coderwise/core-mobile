@@ -9,15 +9,15 @@ kotlinGradlePlugin = "1.8.20"
 activityCompose = "1.10.1"
 lifecycleRuntimeKtx = "2.8.7"
 koin = "4.0.4"
-datastore = "1.1.4"
+datastore = "1.1.5"
 kotlinxSerialization = "1.8.1"
 composeMultiplatform = "1.8.0-beta02"
-navigationCompose = "2.8.0-alpha13" # 2.8.0-alpha13 is breaking the build!!!
+navigationCompose = "2.8.0-alpha13"
 kotlinxCoroutines = "1.10.2"
 mockk = "1.14.0"
 kotlinxDatetime = "0.6.2"
 coderwiseCore = "1.0"
-composeTooling = "1.7.8"
+composeTooling = "1.8.0"
 ktor = "3.1.2"
 logback-version = "1.5.18"
 firebaseBom = "33.12.0"
@@ -38,6 +38,7 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -58,6 +59,7 @@ ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = 
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-version" }
 
 kotlinx-serialization-protobuf = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinxSerialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 

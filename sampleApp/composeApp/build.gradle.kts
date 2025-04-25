@@ -36,6 +36,7 @@ kotlin {
             implementation(project(":core-auth:auth-domain"))
             implementation(project(":core-auth:auth-ui"))
             implementation(project(":core-auth:auth-data"))
+            implementation(project(":sampleApp:server-api"))
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -64,7 +65,6 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.auth)
-            //implementation(libs.ktor.client.auth.jwt)
         }
 
         androidMain.dependencies {

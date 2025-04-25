@@ -12,18 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.navigation.NavController
 import com.coderwise.core.ui.arch.UiText
 import kotlinx.coroutines.flow.map
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 data class NavItem<T : Any>(
     val route: T,
     val label: UiText,
-    val icon: ImageVector,
-    val showBackNavigation: Boolean = true,
-    val showBottomBar: Boolean = true,
-    val showTopBar: Boolean = true,
+    val icon: DrawableResource
 ) {
     fun routeId() = route::class.qualifiedName!!
 }
@@ -33,7 +32,7 @@ fun CoreBottomBar(
     navController: NavController,
     navItems: List<NavItem<Any>>,
     modifier: Modifier = Modifier,
-    show: Boolean = true,
+    show: Boolean = true
 ) {
     val currentRouteId by navController.currentRouteIdAsState()
     AnimatedVisibility(
@@ -50,7 +49,7 @@ fun CoreBottomBar(
                             selected = navItem.routeId() == currentRouteId,
                             icon = {
                                 Icon(
-                                    navItem.icon,
+                                    painter = painterResource(navItem.icon),
                                     contentDescription = navItem.label.asString()
                                 )
                             },

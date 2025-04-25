@@ -6,8 +6,7 @@ import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.sample.data.Sample
 import com.coderwise.core.sample.data.SampleRepository
 import com.coderwise.core.auth.domain.SessionRepository
-import com.coderwise.core.sample.ui.EditRoute
-import com.coderwise.core.sample.ui.ListRoute
+import com.coderwise.core.sample.ui.list.edit.EditRoute
 import com.coderwise.core.sample.ui.profile.ProfileRoute
 import com.coderwise.core.time.TimeService
 import com.coderwise.core.ui.arch.BaseViewModel

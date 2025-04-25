@@ -11,9 +11,9 @@ import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 
-fun Route.sampleRoutes() {
-    val sampleDataSource = SampleDataSource()
-
+fun Route.sampleRoutes(
+    sampleDataSource: SampleDataSource
+) {
     route("/samples") {
         get {
             call.respond(HttpStatusCode.OK, sampleDataSource.getSamples())

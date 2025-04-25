@@ -5,6 +5,7 @@ import com.coderwise.core.auth.server.User
 import com.coderwise.core.auth.server.configureAuth
 import com.coderwise.core.sample.server.plugins.configureAuthentication
 import com.coderwise.core.sample.server.plugins.configureDatabase
+import com.coderwise.core.sample.server.plugins.configureKoin
 import com.coderwise.core.sample.server.plugins.configureLogging
 import com.coderwise.core.sample.server.plugins.configureRoutes
 import com.coderwise.core.sample.server.plugins.configureSerialization
@@ -18,6 +19,7 @@ fun main(args: Array<String>): Unit = EngineMain.main(args)
 fun Application.module() {
 
     configureLogging()
+    configureKoin()
     configureSerialization()
     configureAuthentication()
     configureRoutes()

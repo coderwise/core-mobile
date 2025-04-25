@@ -1,6 +1,7 @@
 package com.coderwise.core.sample.ui.di
 
 import com.coderwise.core.auth.ui.di.authUiModule
+import com.coderwise.core.sample.ui.catalog.CatalogViewModel
 import com.coderwise.core.sample.ui.list.ListViewModel
 import com.coderwise.core.sample.ui.list.edit.EditViewModel
 import com.coderwise.core.sample.ui.location.LocationViewModel
@@ -19,4 +20,5 @@ val sampleUiModule = module {
     viewModel { PermissionsViewModel(get(), get()) }
     viewModel { LocationViewModel(get()) }
     viewModel { ProfileViewModel(get(), get(), get()) }
+    viewModel { CatalogViewModel() }
 }

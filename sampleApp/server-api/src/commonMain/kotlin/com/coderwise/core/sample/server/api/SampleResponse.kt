@@ -1,4 +1,4 @@
-package com.coderwise.core.sample.data.remote
+package com.coderwise.core.sample.server.api
 
 import kotlinx.serialization.Serializable
 

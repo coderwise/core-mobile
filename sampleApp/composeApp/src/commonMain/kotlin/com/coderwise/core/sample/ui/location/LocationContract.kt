@@ -1,8 +1,19 @@
 package com.coderwise.core.sample.ui.location
 
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.coderwise.core.location.GpsMessage
 import com.coderwise.core.location.LocationService
 import kotlinx.serialization.Serializable
+
+@Serializable
+data object LocationRoute
+
+fun NavGraphBuilder.locationScreen() {
+    composable<LocationRoute> {
+        LocationScreen()
+    }
+}
 
 data class LocationUiState(
     val gpsMessage: GpsMessage? = null,

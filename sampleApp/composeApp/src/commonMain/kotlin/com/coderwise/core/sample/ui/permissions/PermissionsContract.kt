@@ -1,7 +1,18 @@
 package com.coderwise.core.sample.ui.permissions
 
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.coderwise.core.permissions.Permission
 import kotlinx.serialization.Serializable
+
+@Serializable
+data object PermissionsRoute
+
+fun NavGraphBuilder.permissionsScreen() {
+    composable<PermissionsRoute> {
+        PermissionsScreen()
+    }
+}
 
 data class PermissionsUiState(
     val location: PermissionUiState,

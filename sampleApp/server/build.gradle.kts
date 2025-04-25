@@ -12,6 +12,7 @@ application {
 
 dependencies {
     implementation(project(":core-auth:auth-server"))
+    implementation(project(":sampleApp:server-api"))
 
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
@@ -25,6 +26,9 @@ dependencies {
     implementation(libs.ktor.server.auth)
 
     implementation(libs.kotlinx.datetime)
+
+    implementation(libs.koin.ktor)
+    implementation(libs.koin.logger.slf4j)
 
     implementation("org.mongodb:mongodb-driver-sync:5.4.0")
 }

@@ -1,56 +1,19 @@
 package com.coderwise.core.sample.ui
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import com.coderwise.core.ui.component.scaffold
-import com.coderwise.core.sample.ui.list.ListScreen
-import com.coderwise.core.sample.ui.list.edit.EditScreen
-import com.coderwise.core.sample.ui.location.LocationScreen
-import com.coderwise.core.sample.ui.permissions.PermissionsScreen
-import com.coderwise.core.sample.ui.profile.ProfileRoute
-import com.coderwise.core.sample.ui.profile.ProfileScreen
-import kotlinx.serialization.Serializable
+import com.coderwise.core.sample.ui.catalog.catalogScreen
+import com.coderwise.core.sample.ui.list.edit.editScreen
+import com.coderwise.core.sample.ui.list.listScreen
+import com.coderwise.core.sample.ui.location.locationScreen
+import com.coderwise.core.sample.ui.permissions.permissionsScreen
+import com.coderwise.core.sample.ui.profile.profileScreen
 
-@Serializable
-data object ListRoute
-
-@Serializable
-data class EditRoute(val id: Int)
-
-@Serializable
-data object PermissionsRoute
-
-@Serializable
-data object LocationRoute
 
 fun NavGraphBuilder.sampleNavigationGraph() {
-    composable<ListRoute> {
-        ListScreen()
-    }
-    composable<PermissionsRoute> {
-        PermissionsScreen()
-    }
-    composable<LocationRoute> {
-        LocationScreen()
-    }
-    composable<EditRoute> {
-        scaffold {
-            showBackNavigation = true
-            topBarTitle = "Edit"
-            topBarActions = emptyList()
-            showBottomBar = false
-        }
-
-        EditScreen()
-    }
-    composable<ProfileRoute> {
-        scaffold {
-            showBackNavigation = true
-            topBarTitle = "Profile"
-            topBarActions = emptyList()
-            showBottomBar = false
-        }
-
-        ProfileScreen()
-    }
+    listScreen()
+    permissionsScreen()
+    locationScreen()
+    editScreen()
+    profileScreen()
+    catalogScreen()
 }

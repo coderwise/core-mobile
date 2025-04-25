@@ -5,7 +5,6 @@ import androidx.navigation.toRoute
 import com.coderwise.core.sample.data.SampleRepository
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
-import com.coderwise.core.sample.ui.EditRoute
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger

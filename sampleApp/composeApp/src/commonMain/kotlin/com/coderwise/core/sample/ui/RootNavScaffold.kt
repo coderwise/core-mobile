@@ -15,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.coderwise.core.sample.ui.list.ListRoute
+import com.coderwise.core.sample.ui.location.LocationRoute
+import com.coderwise.core.sample.ui.permissions.PermissionsRoute
 import com.coderwise.core.ui.component.NavItem
 
 @Composable

@@ -1,12 +1,12 @@
 package com.coderwise.core.sample.data.remote
 
+import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.data.remote.UrlProvider
-import com.coderwise.core.data.remote.apiCall
+import com.coderwise.core.data.remote.authApiCall
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.tryOutcome
-import com.coderwise.core.auth.domain.SessionRepository
-import com.coderwise.core.data.remote.authApiCall
 import com.coderwise.core.sample.data.Sample
+import com.coderwise.core.sample.server.api.SampleResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
