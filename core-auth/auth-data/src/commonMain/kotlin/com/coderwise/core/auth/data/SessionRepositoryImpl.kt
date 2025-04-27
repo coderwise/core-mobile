@@ -5,7 +5,6 @@ import com.coderwise.core.auth.domain.Session
 import com.coderwise.core.auth.domain.SessionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onEach
 

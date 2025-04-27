@@ -32,7 +32,7 @@ fun CorePropertyText(
 
 @Preview
 @Composable
-private fun TripsPropertyPreview() {
+private fun CorePropertyTextPreview() {
     CorePreview {
         CorePropertyText(
             text = "Hello",

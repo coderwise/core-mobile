@@ -1,7 +1,6 @@
-package com.coderwise.core.sample.data.local
+package com.coderwise.core.auth.data.remote
 
 import androidx.datastore.core.DataStore
-import com.coderwise.core.auth.data.remote.SessionLocalSource
 import com.coderwise.core.auth.domain.Session
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,7 +21,7 @@ data class SessionRecord(
     }
 }
 
-class SessionLocalSourceImpl(
+class SessionLocalSourceDataStoreImpl(
     private val dataStore: DataStore<SessionRecord>
 ) : SessionLocalSource {
     override val flow: Flow<Session> =
