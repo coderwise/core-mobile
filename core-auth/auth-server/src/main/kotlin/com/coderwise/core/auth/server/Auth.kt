@@ -2,8 +2,8 @@ package com.coderwise.core.auth.server
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.coderwise.core.auth.data.remote.AuthRequest
-import com.coderwise.core.auth.data.remote.AuthResponse
+import com.coderwise.core.auth.api.AuthRequest
+import com.coderwise.core.auth.api.AuthResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install

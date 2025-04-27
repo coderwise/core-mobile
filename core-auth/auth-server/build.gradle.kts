@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core-auth:auth-data"))
+    implementation(project(":core-auth:auth-api"))
 
     implementation(libs.ktor.server.core)
 

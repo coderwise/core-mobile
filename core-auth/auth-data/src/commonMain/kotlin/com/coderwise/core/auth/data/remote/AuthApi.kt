@@ -1,5 +1,7 @@
 package com.coderwise.core.auth.data.remote
 
+import com.coderwise.core.auth.api.AuthRequest
+import com.coderwise.core.auth.api.AuthResponse
 import com.coderwise.core.data.remote.UrlProvider
 import com.coderwise.core.data.remote.apiCall
 import io.ktor.client.HttpClient

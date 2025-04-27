@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     repositories {
@@ -47,3 +48,4 @@ include(":core-auth:auth-ui")
 include(":core-auth:auth-domain")
 include(":core-auth:auth-data")
 include(":core-auth:auth-server")
+include(":core-auth:auth-api")

@@ -1,4 +1,4 @@
-package com.coderwise.core.auth.data.remote
+package com.coderwise.core.auth.api
 
 import kotlinx.serialization.Serializable
 

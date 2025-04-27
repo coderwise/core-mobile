@@ -28,6 +28,7 @@ kotlin {
             implementation(project(":core-domain"))
             implementation(project(":core-data"))
             implementation(project(":core-auth:auth-domain"))
+            implementation(project(":core-auth:auth-api"))
 
             implementation(libs.kotlinx.coroutines.core)
 
