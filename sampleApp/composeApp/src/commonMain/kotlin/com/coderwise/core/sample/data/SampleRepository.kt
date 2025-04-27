@@ -14,7 +14,8 @@ interface SampleRepository {
     val flow: Flow<Outcome<List<Sample>>>
 
     suspend fun update(sample: Sample): Outcome<Int>
-    suspend fun reset()
+
+    suspend fun delete(id: Int): Outcome<Unit>
 
     suspend fun fetchAll(): Outcome<Unit>
 }

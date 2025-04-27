@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.sample.ui.theme.ScreenPreview
 import com.coderwise.core.ui.component.CoreProgressButton
+import com.coderwise.core.ui.component.CorePropertyText
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -30,7 +31,11 @@ fun ProfileContent(
     Column(
         modifier = Modifier.padding(16.dp).fillMaxSize()
     ) {
-        Text(text = uiState.name, modifier = Modifier.padding(bottom = 16.dp))
+        CorePropertyText(
+            text = uiState.name,
+            modifier = Modifier.padding(bottom = 16.dp),
+            label = "Name"
+        )
 
         CoreProgressButton(
             text = "Logout",

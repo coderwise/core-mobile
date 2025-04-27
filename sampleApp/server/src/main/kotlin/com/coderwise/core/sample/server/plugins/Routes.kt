@@ -14,7 +14,7 @@ import kotlin.getValue
 
 fun Application.configureRoutes() {
     val userDataSource by inject<UserDataSource>()
-    val sampleDataSource by inject<SampleDataSource>()
+    val sampleDataSource = SampleDataSource(connectToMongoDB())
 
     routing {
         get("/") {

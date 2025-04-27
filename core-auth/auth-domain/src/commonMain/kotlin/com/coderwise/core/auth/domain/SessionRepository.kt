@@ -1,24 +1,18 @@
 package com.coderwise.core.auth.domain
 
-import com.coderwise.core.domain.arch.Session
 import kotlinx.coroutines.flow.Flow
 
-data class Credentials(
-    val userName: String,
-    val password: String,
-    val rememberMe: Boolean
-)
+interface SessionRepository {
 
-interface SessionRepository : Session {
-    val authToken: String
+    val session: Flow<Session>
 
-    val credentials: Flow<Credentials>
+    suspend fun authToken(): String
 
-    fun authenticated(): Flow<Boolean>
+    suspend fun setToken(token: String)
 
-    fun setToken(token: String)
+    suspend fun setRememberMe(rememberMe: Boolean)
 
-    fun setRememberMe(rememberMe: Boolean)
+    suspend fun setUserName(userName: String)
 
-    fun setUserName(userName: String)
+    suspend fun clear()
 }

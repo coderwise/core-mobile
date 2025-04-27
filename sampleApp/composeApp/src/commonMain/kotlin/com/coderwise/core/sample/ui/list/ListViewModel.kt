@@ -27,20 +27,20 @@ class ListViewModel(
 ) {
     init {
         asyncAction {
+            sessionRepository.session.collect {
+                reduce { copy(isAuthenticated = it.authToken != null) }
+            }
+        }
+        asyncAction {
             sampleRepository.flow.collect { outcome ->
                 outcome.onSuccess { samples ->
-                    reduce { it.copy(samples = samples) }
+                    reduce { copy(samples = samples) }
                 }
             }
         }
         asyncAction {
             sampleRepository.fetchAll().onError {
                 uiMessenger.showNotification(UiNotification(it.message!!))
-            }
-        }
-        asyncAction {
-            sessionRepository.authenticated().collect {
-                reduce { copy(isAuthenticated = it) }
             }
         }
     }
@@ -57,7 +57,7 @@ class ListViewModel(
                         id = timeService.now().toEpochMilliseconds().toInt(),
                         value = "New sample"
                     )
-                )
+                ).onError { uiMessenger.showNotification(UiNotification(it.message!!)) }
             }
 
             is ListAction.OnAccountClicked -> asyncAction { state ->

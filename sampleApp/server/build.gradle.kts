@@ -30,5 +30,7 @@ dependencies {
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
 
-    implementation("org.mongodb:mongodb-driver-sync:5.4.0")
+    implementation(libs.mongodb.driver.core)
+    implementation(libs.mongodb.driver.sync)
+    implementation(libs.bson)
 }

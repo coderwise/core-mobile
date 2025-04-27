@@ -6,6 +6,7 @@ import com.coderwise.core.domain.arch.mapSuccess
 import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.sample.data.remote.SampleRemoteSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -20,14 +21,16 @@ class SampleRepositoryImpl(
     private val memory = MemoryLocalSource<Sample, Int>(
         identify = { it.id }
     )
-    override val flow: Flow<Outcome<List<Sample>>> = memory.flow
+    override val flow: Flow<Outcome<List<Sample>>> = memory.flow //.onStart { fetchAll() }
 
     override fun flowById(sampleId: Int) = memory.flowById(sampleId)
 
-    override suspend fun update(sample: Sample): Outcome<Int> = memory.update(sample)
+    override suspend fun update(sample: Sample): Outcome<Int> = network.update(sample).onSuccess {
+        fetchAll()
+    }
 
-    override suspend fun reset() {
-        memory.reset(listOf())
+    override suspend fun delete(id: Int): Outcome<Unit> = network.delete(id).onSuccess {
+        fetchAll()
     }
 
     override suspend fun fetchAll(): Outcome<Unit> = network.fetchAll().onSuccess {

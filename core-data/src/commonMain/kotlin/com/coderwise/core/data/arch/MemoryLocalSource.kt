@@ -22,8 +22,10 @@ open class MemoryLocalSource<Entity, Id>(
     }
 
     override fun flowById(id: Id): Flow<Outcome<Entity>> = memCache.flowById(id).transform {
-        if (it == null) throw Exception("Entity not found")
-        emit(Outcome.Success(it))
+        if (it == null)
+            emit(Outcome.Error(IllegalStateException("Entity not found")))
+        else
+            emit(Outcome.Success(it))
     }
 
     override suspend fun findById(id: Id): Outcome<Entity> = tryOutcome { memCache.find(id)!! }

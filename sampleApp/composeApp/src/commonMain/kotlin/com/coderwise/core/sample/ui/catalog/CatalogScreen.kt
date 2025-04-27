@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.coderwise.core.sample.ui.theme.ScreenPreview
 import com.coderwise.core.ui.component.CorePasswordField
 import com.coderwise.core.ui.component.CoreProgressButton
+import com.coderwise.core.ui.component.CorePropertyText
 import com.coderwise.core.ui.component.CoreTextField
 import com.coderwise.core.ui.component.CoreTopBar
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -67,6 +68,15 @@ private fun CatalogContent() {
                 CorePasswordField(
                     value = "Core password field",
                     onValueChange = {}
+                )
+            }
+        }
+        item {
+            Text(text = "CorePropertyText", modifier = Modifier.padding(16.dp))
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                CorePropertyText(
+                    text = "Core property text",
+                    label = "Label"
                 )
             }
         }

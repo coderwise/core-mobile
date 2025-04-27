@@ -2,7 +2,7 @@ package com.coderwise.core.sample.ui.profile
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.coderwise.core.sample.data.User
+import com.coderwise.core.auth.domain.Session
 import com.coderwise.core.ui.component.scaffold
 import kotlinx.serialization.Serializable
 
@@ -22,7 +22,7 @@ fun NavGraphBuilder.profileScreen() {
 }
 
 data class ProfileModelState(
-    val user: User? = null
+    val session: Session? = null
 )
 
 data class ProfileUiState(

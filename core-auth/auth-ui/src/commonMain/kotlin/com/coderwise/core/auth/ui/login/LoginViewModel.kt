@@ -31,11 +31,10 @@ class LoginViewModel(
             reduce { copy(userName = args.userName, password = args.password) }
         }
         asyncAction {
-            sessionRepository.credentials.collect {
+            sessionRepository.session.collect {
                 reduce {
                     copy(
-                        userName = it.userName,
-                        password = it.password,
+                        userName = it.userName ?: "",
                         rememberMe = it.rememberMe
                     )
                 }

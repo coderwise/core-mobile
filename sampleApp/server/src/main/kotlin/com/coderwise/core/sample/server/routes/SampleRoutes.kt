@@ -1,7 +1,9 @@
 package com.coderwise.core.sample.server.routes
 
+import com.coderwise.core.sample.server.api.SampleDto
 import com.coderwise.core.sample.server.data.SampleDataSource
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
@@ -16,7 +18,7 @@ fun Route.sampleRoutes(
 ) {
     route("/samples") {
         get {
-            call.respond(HttpStatusCode.OK, sampleDataSource.getSamples())
+            call.respond(HttpStatusCode.OK, sampleDataSource.read())
         }
 
         get("/{id}") {
@@ -25,7 +27,7 @@ fun Route.sampleRoutes(
                 call.respond(HttpStatusCode.BadRequest)
                 return@get
             }
-            val sample = sampleDataSource.getSample(id)
+            val sample = sampleDataSource.read(id)
             if (sample == null) {
                 call.respond(HttpStatusCode.NotFound)
                 return@get
@@ -34,7 +36,9 @@ fun Route.sampleRoutes(
         }
 
         post {
-
+            val sample = call.receive<SampleDto>()
+            sampleDataSource.create(sample)
+            call.respond(HttpStatusCode.OK, sample.id)
         }
 
         patch("/{id?}") {
@@ -49,6 +53,8 @@ fun Route.sampleRoutes(
                 text = "Missing id",
                 status = HttpStatusCode.BadRequest
             )
+            sampleDataSource.delete(id.toInt())
+            call.respond(HttpStatusCode.OK)
         }
     }
 }

@@ -12,5 +12,5 @@ val authDataModule = module {
     factory { AuthApi(get(), get()) }
     single<AuthRepository> { AuthRepositoryImpl(get()) }
 
-    single<SessionRepository> { SessionRepositoryImpl() }
+    single<SessionRepository> { SessionRepositoryImpl(get()) }
 }

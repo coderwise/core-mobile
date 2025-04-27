@@ -37,7 +37,6 @@ fun ListScreen(
         showBackNavigation = false
         topBarTitle = "Home"
         topBarActions = listOf(
-            TopBarAction(Icons.Default.Delete) { },
             TopBarAction(Icons.Default.AccountCircle) { viewModel.dispatch(ListAction.OnAccountClicked) }
         )
         showBottomBar = true

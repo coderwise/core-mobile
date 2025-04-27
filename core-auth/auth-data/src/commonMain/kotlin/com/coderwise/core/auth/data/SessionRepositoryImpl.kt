@@ -1,39 +1,39 @@
 package com.coderwise.core.auth.data
 
-import com.coderwise.core.auth.domain.Credentials
+import com.coderwise.core.auth.data.remote.SessionLocalSource
+import com.coderwise.core.auth.domain.Session
 import com.coderwise.core.auth.domain.SessionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.onEach
 
-class SessionRepositoryImpl : SessionRepository {
+class SessionRepositoryImpl(
+    private val sessionLocalSource: SessionLocalSource
+) : SessionRepository {
     private val _authenticated = MutableStateFlow(false)
-    private val _credentials = MutableStateFlow(Credentials("", "", false))
-    private var token: String? = null
 
-    override val authToken: String
-        get() = token ?: throw IllegalStateException("No token")
+    override suspend fun authToken(): String = session.firstOrNull()?.authToken
+        ?: throw IllegalStateException("No token")
 
-    override val credentials: Flow<Credentials> = _credentials.asStateFlow()
-
-    override fun authenticated(): Flow<Boolean> = _authenticated.asStateFlow()
-
-    override fun setToken(token: String) {
-        this.token = token
-        _authenticated.value = true
+    override val session: Flow<Session> = sessionLocalSource.flow.onEach { session ->
+        _authenticated.value = session.authToken != null
     }
 
-    override fun setRememberMe(rememberMe: Boolean) {
-        _credentials.update { it.copy(rememberMe = rememberMe) }
+    override suspend fun setToken(token: String) {
+        sessionLocalSource.setAuthToken(token)
     }
 
-    override fun setUserName(userName: String) {
-        _credentials.update { it.copy(userName = userName) }
+    override suspend fun setRememberMe(rememberMe: Boolean) {
+        sessionLocalSource.setRememberMe(rememberMe)
     }
 
-    override fun clear() {
-        token = null
-        _authenticated.value = false
+    override suspend fun setUserName(userName: String) {
+        sessionLocalSource.setUserName(userName)
+    }
+
+    override suspend fun clear() {
+        sessionLocalSource.setAuthToken(null)
     }
 }

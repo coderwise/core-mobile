@@ -1,12 +1,10 @@
 package com.coderwise.core.sample.ui.profile
 
 import com.coderwise.core.auth.domain.SessionRepository
-import com.coderwise.core.sample.data.UserRepository
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 
 class ProfileViewModel(
-    private val userRepository: UserRepository,
     private val navigationRouter: NavigationRouter,
     private val sessionRepository: SessionRepository
 ) : BaseViewModel<ProfileModelState, ProfileUiState>(
@@ -15,8 +13,8 @@ class ProfileViewModel(
 ) {
     init {
         asyncAction {
-            userRepository.currentUser()?.let {
-                reduce { copy(user = it) }
+            sessionRepository.session.collect {
+                reduce { copy(session = it) }
             }
         }
     }
@@ -32,5 +30,5 @@ class ProfileViewModel(
 }
 
 private fun ProfileModelState.asUiState() = ProfileUiState(
-    name = user?.name ?: ""
+    name = session?.userName ?: ""
 )

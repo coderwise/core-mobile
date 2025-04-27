@@ -1,6 +1,7 @@
 package com.coderwise.core.sample.data.di
 
 import com.coderwise.core.auth.data.di.authDataModule
+import com.coderwise.core.auth.data.remote.SessionLocalSource
 import com.coderwise.core.data.arch.DataStoreRecord
 import com.coderwise.core.data.di.coreDataModule
 import com.coderwise.core.data.remote.UrlProvider
@@ -10,9 +11,9 @@ import com.coderwise.core.permissions.di.corePermissionsModule
 import com.coderwise.core.sample.data.SampleRecord
 import com.coderwise.core.sample.data.SampleRepository
 import com.coderwise.core.sample.data.SampleRepositoryImpl
-import com.coderwise.core.sample.data.UserRepository
-import com.coderwise.core.sample.data.UserRepositoryImpl
 import com.coderwise.core.sample.data.local.DataStoreSampleSource
+import com.coderwise.core.sample.data.local.SessionLocalSourceImpl
+import com.coderwise.core.sample.data.local.SessionRecord
 import com.coderwise.core.sample.data.remote.SampleRemoteSource
 import com.coderwise.core.time.di.coreTimeModule
 import io.ktor.client.HttpClient
@@ -54,7 +55,16 @@ val sampleDataModule = module {
     factory { SampleRemoteSource(get(), get(), get()) }
     single<SampleRepository> { SampleRepositoryImpl(get()) }
 
-    single<UserRepository> { UserRepositoryImpl() }
+    single<SessionLocalSource> {
+        SessionLocalSourceImpl(
+            DataStoreCreator.create(
+                defaultValue = SessionRecord.DEFAULT,
+                serializer = SessionRecord.serializer(),
+                fileSystem = get(),
+                pathProducer = get()
+            )
+        )
+    }
 }
 
 private fun createHttpClient() = HttpClient {

@@ -33,11 +33,11 @@ class EditViewModel(
 
     override fun onAction(action: Any) {
         when (action) {
-            is EditAction.ValueUpdated -> reduce {
+            is EditAction.OnValueUpdated -> reduce {
                 copy(sample = sample?.copy(value = action.value))
             }
 
-            is EditAction.Save -> asyncAction { state ->
+            is EditAction.OnSave -> asyncAction { state ->
                 state.sample ?: return@asyncAction
                 reduce { copy(sample = null, isProgress = true) }
 
@@ -52,11 +52,28 @@ class EditViewModel(
                     uiMessenger.showNotification(UiNotification("Error updating sample"))
                 }
             }
+
+            is EditAction.OnDelete -> asyncAction { state ->
+                state.sample ?: return@asyncAction
+                reduce { copy(sample = null, isProgress = true) }
+
+                sampleRepository.delete(state.sample.id).onSuccess {
+                    reduce { copy(isProgress = false) }
+                    asyncAction {
+                        uiMessenger.showNotification(UiNotification("Sample deleted"))
+                    }
+                    navigationRouter.navigateUp()
+                }.onError {
+                    reduce { copy(isProgress = false) }
+                    uiMessenger.showNotification(UiNotification(it.message!!))
+                }
+            }
         }
     }
 }
 
 private fun EditModelState.asUiState() = EditUiState(
+    sampleId = sample?.id?.toString() ?: "...",
     sampleValue = sample?.value ?: "...",
     saveEnabled = sample != null && sample.value.isNotBlank() && !isProgress,
     valueEnabled = !isProgress

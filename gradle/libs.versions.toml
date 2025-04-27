@@ -11,7 +11,7 @@ lifecycleRuntimeKtx = "2.8.7"
 koin = "4.0.4"
 datastore = "1.1.5"
 kotlinxSerialization = "1.8.1"
-composeMultiplatform = "1.8.0-beta02"
+composeMultiplatform = "1.8.0-rc01"
 navigationCompose = "2.8.0-alpha13"
 kotlinxCoroutines = "1.10.2"
 mockk = "1.14.0"
@@ -20,7 +20,8 @@ coderwiseCore = "1.0"
 composeTooling = "1.8.0"
 ktor = "3.1.2"
 logback-version = "1.5.18"
-firebaseBom = "33.12.0"
+firebaseBom = "33.13.0"
+mongo-version = "5.4.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -71,6 +72,10 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-admin = { module = "com.google.firebase:firebase-admin", version = "9.4.2" }
+
+mongodb-driver-core = { module = "org.mongodb:mongodb-driver-core", version.ref = "mongo-version" }
+mongodb-driver-sync = { module = "org.mongodb:mongodb-driver-sync", version.ref = "mongo-version" }
+bson = { module = "org.mongodb:bson", version.ref = "mongo-version" }
 
 # plugin development
 gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
