@@ -4,4 +4,8 @@ data class Session(
     val userName: String? = null,
     val rememberMe: Boolean = false,
     val authToken: String? = null
-)
+) {
+    companion object {
+        val DEFAULT = Session()
+    }
+}

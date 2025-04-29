@@ -1,7 +1,7 @@
 package com.coderwise.core.sample.data.di
 
 import com.coderwise.core.auth.data.di.authDataModule
-import com.coderwise.core.auth.data.remote.SessionLocalSource
+import com.coderwise.core.auth.data.local.SessionLocalSource
 import com.coderwise.core.data.arch.DataStoreRecord
 import com.coderwise.core.data.di.coreDataModule
 import com.coderwise.core.data.remote.UrlProvider
@@ -12,9 +12,11 @@ import com.coderwise.core.sample.data.SampleRecord
 import com.coderwise.core.sample.data.SampleRepository
 import com.coderwise.core.sample.data.SampleRepositoryImpl
 import com.coderwise.core.sample.data.local.DataStoreSampleSource
-import com.coderwise.core.auth.data.remote.SessionLocalSourceDataStoreImpl
-import com.coderwise.core.auth.data.remote.SessionRecord
+import com.coderwise.core.auth.data.local.SessionLocalSourceDataStoreImpl
+import com.coderwise.core.auth.data.local.SessionRecord
+import com.coderwise.core.auth.data.remote.AuthUrls
 import com.coderwise.core.sample.data.remote.SampleRemoteSource
+import com.coderwise.core.sample.data.remote.SampleUrls
 import com.coderwise.core.time.di.coreTimeModule
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -25,6 +27,14 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
+object SampleUrlsImpl : SampleUrls, AuthUrls {
+    const val BASE_URL = "http://${UrlProvider.emulatorHost}:8080"
+
+    override val login: String = "$BASE_URL/login"
+    override val register: String = "$BASE_URL/register"
+    override val samples: String = "$BASE_URL/samples"
+}
+
 val sampleDataModule = module {
     includes(coreDataModule)
     includes(corePermissionsModule)
@@ -33,11 +43,7 @@ val sampleDataModule = module {
     includes(authDataModule)
 
     single { createHttpClient() }
-    single<UrlProvider> {
-        object : UrlProvider {
-            override fun get() = "http://${UrlProvider.emulatorHost}:8080"
-        }
-    }
+    factory<AuthUrls> { SampleUrlsImpl }
 
     factory {
         DataStoreSampleSource(
@@ -52,6 +58,7 @@ val sampleDataModule = module {
         )
     }
 
+    factory<SampleUrls> { SampleUrlsImpl }
     factory { SampleRemoteSource(get(), get(), get()) }
     single<SampleRepository> { SampleRepositoryImpl(get()) }
 
@@ -86,11 +93,4 @@ private fun createHttpClient() = HttpClient {
         }
         level = LogLevel.BODY
     }
-//    install(Auth) {
-//        bearer {
-//            loadTokens {
-//                BearerTokens("token", "token")
-//            }
-//        }
-//    }
 }

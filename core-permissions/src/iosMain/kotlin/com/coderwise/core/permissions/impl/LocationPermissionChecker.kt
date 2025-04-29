@@ -11,9 +11,9 @@ import platform.CoreLocation.kCLAuthorizationStatusDenied
 import platform.CoreLocation.kCLAuthorizationStatusRestricted
 import platform.darwin.NSObject
 
-class LocationPermissionDelegate(
+class LocationPermissionChecker(
     private val onStatusUpdate: (Permission, Permission.Status) -> Unit
-) : PermissionDelegate {
+) : PermissionChecker {
     private val permissionDelegate = PermissionDelegate { status ->
         onStatusUpdate(Permission.LOCATION, status)
     }

@@ -17,13 +17,15 @@ fun CoreTextField(
     modifier: Modifier = Modifier,
     label: String? = null,
     enabled: Boolean = true,
+    singleLine: Boolean = false,
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         enabled = enabled,
-        label = { label?.let { Text(it) } }
+        label = { label?.let { Text(it) } },
+        singleLine = singleLine
     )
 }
 

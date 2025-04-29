@@ -88,7 +88,7 @@ android {
     defaultConfig {
         applicationId = "com.coderwise.core.sample.androidApp"
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = 35
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1 //versioning.getVersionCode()
         versionName = "1.0" //versioning.getVersionName()
     }

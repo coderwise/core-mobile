@@ -16,13 +16,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 
+
 @Composable
-fun <T> CoreOutlinedDropdown(
-    options: List<T>,
-    onOptionSelected: (T) -> Unit,
+fun <Item> CoreOutlinedDropdown(
+    options: List<Item>,
+    onOptionSelected: (Item) -> Unit,
     modifier: Modifier = Modifier,
-    selectedOption: T? = null,
-    label: String? = null
+    selectedOption: Item? = null,
+    label: String? = null,
+    itemLabel: (Item) -> String = { it.toString() }
 ) {
     CoreBaseDropdown(
         options = options,
@@ -30,35 +32,39 @@ fun <T> CoreOutlinedDropdown(
         modifier = modifier,
         selectedOption = selectedOption,
         label = label,
+        itemLabel = itemLabel,
         outlined = true
     )
 }
 
 @Composable
-fun <T> CoreDropdown(
-    options: List<T>,
-    onOptionSelected: (T) -> Unit,
+fun <Item> CoreDropdown(
+    options: List<Item>,
+    onOptionSelected: (Item) -> Unit,
     modifier: Modifier = Modifier,
-    selectedOption: T? = null,
-    label: String
+    selectedOption: Item? = null,
+    label: String,
+    itemLabel: (Item) -> String = { it.toString() }
 ) {
     CoreBaseDropdown(
         options = options,
         onOptionSelected = onOptionSelected,
         modifier = modifier,
         selectedOption = selectedOption,
-        label = label
+        label = label,
+        itemLabel = itemLabel
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun <T> CoreBaseDropdown(
-    options: List<T>,
-    onOptionSelected: (T) -> Unit,
+internal fun <Item> CoreBaseDropdown(
+    options: List<Item>,
+    onOptionSelected: (Item) -> Unit,
     modifier: Modifier = Modifier,
-    selectedOption: T? = null,
+    selectedOption: Item? = null,
     label: String? = null,
+    itemLabel: (Item) -> String = { it.toString() },
     outlined: Boolean = false
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -73,14 +79,13 @@ internal fun <T> CoreBaseDropdown(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { expanded = it },
-        //modifier = modifier
+        onExpandedChange = { expanded = it }
     ) {
         if (outlined) {
             OutlinedTextField(
                 modifier = modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
-                value = options[selectedIndex].toString(),
+                value = itemLabel(options[selectedIndex]),
                 onValueChange = {},
                 label = { label?.let { Text(label) } },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -90,7 +95,7 @@ internal fun <T> CoreBaseDropdown(
             TextField(
                 modifier = modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
-                value = options[selectedIndex].toString(),
+                value = itemLabel(options[selectedIndex]),
                 onValueChange = {},
                 label = { label?.let { Text(label) } },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -104,7 +109,7 @@ internal fun <T> CoreBaseDropdown(
         ) {
             options.forEachIndexed { index, option ->
                 DropdownMenuItem(
-                    text = { Text(option.toString()) },
+                    text = { Text(itemLabel(option)) },
                     onClick = {
                         expanded = false
                         selectedIndex = index

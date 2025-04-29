@@ -12,17 +12,17 @@ import io.ktor.http.contentType
 
 class AuthApi(
     private val httpClient: HttpClient,
-    private val baseUrl: UrlProvider
+    private val urls: AuthUrls
 ) {
     suspend fun login(userName: String, password: String): AuthResponse = apiCall {
-        httpClient.post("${baseUrl.get()}/login") {
+        httpClient.post(urls.login) {
             contentType(ContentType.Application.Json)
             setBody(AuthRequest(userName, password))
         }
     }
 
     suspend fun register(userName: String, password: String): Unit = apiCall {
-        httpClient.post("${baseUrl.get()}/register") {
+        httpClient.post(urls.register) {
             contentType(ContentType.Application.Json)
             setBody(AuthRequest(userName, password))
         }

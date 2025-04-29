@@ -44,6 +44,7 @@ fun CorePasswordField(
         modifier = modifier,
         label = { label?.let { Text(label) } },
         enabled = enabled,
+        singleLine = true,
         trailingIcon = {
             IconButton(
                 onClick = { showPassword = !showPassword }

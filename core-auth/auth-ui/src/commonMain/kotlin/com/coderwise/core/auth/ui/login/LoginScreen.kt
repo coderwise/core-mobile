@@ -58,7 +58,8 @@ private fun LoginContent(
                 .padding(8.dp)
                 .fillMaxWidth(),
             label = "Username",
-            enabled = !uiState.isLoading
+            enabled = !uiState.isLoading,
+            singleLine = true
         )
         CorePasswordField(
             value = uiState.password,

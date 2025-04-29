@@ -2,27 +2,28 @@ package com.coderwise.core.permissions.impl
 
 import com.coderwise.core.permissions.CAMERA
 import com.coderwise.core.permissions.LOCATION
+import com.coderwise.core.permissions.NOTIFICATIONS
 import com.coderwise.core.permissions.Permission
 
 class IosPermissionRouter(
     onStatusUpdated: (Permission, Permission.Status) -> Unit
 ) {
-    private val locationPermissionDelegate = LocationPermissionDelegate(onStatusUpdated)
-    private val cameraPermissionDelegate = CameraPermissionDelegate(onStatusUpdated)
+    private val locationPermission = LocationPermissionChecker(onStatusUpdated)
+    private val cameraPermission = CameraPermissionChecker(onStatusUpdated)
+    private val notificationsPermission = NotificationsPermissionChecker(onStatusUpdated)
 
     fun check(permission: Permission): Permission.Status {
-        return when (permission) {
-            Permission.LOCATION -> locationPermissionDelegate.check()
-            Permission.CAMERA -> cameraPermissionDelegate.check()
-            else -> error("Unsupported permission: $permission")
-        }
+        return permissionChecker(permission).check()
     }
 
     fun request(permission: Permission) {
-        when (permission) {
-            Permission.LOCATION -> locationPermissionDelegate.request()
-            Permission.CAMERA -> cameraPermissionDelegate.request()
-            else -> error("Unsupported permission: $permission")
-        }
+        permissionChecker(permission).request()
+    }
+
+    private fun permissionChecker(permission: Permission): PermissionChecker = when (permission) {
+        Permission.LOCATION -> locationPermission
+        Permission.CAMERA -> cameraPermission
+        Permission.NOTIFICATIONS -> notificationsPermission
+        else -> error("Unsupported permission: $permission")
     }
 }

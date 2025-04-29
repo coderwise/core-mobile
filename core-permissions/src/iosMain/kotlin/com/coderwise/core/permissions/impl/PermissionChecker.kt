@@ -2,7 +2,7 @@ package com.coderwise.core.permissions.impl
 
 import com.coderwise.core.permissions.Permission
 
-interface PermissionDelegate {
+interface PermissionChecker {
     fun check(): Permission.Status
 
     fun request()

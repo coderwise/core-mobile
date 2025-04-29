@@ -11,9 +11,9 @@ import platform.AVFoundation.AVMediaTypeVideo
 import platform.AVFoundation.authorizationStatusForMediaType
 import platform.AVFoundation.requestAccessForMediaType
 
-class CameraPermissionDelegate(
+class CameraPermissionChecker(
     private val onStatusUpdate: (Permission, Permission.Status) -> Unit
-) : PermissionDelegate {
+) : PermissionChecker {
     override fun check(): Permission.Status {
         val authorizationStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         return when (authorizationStatus) {

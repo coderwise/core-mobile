@@ -8,13 +8,13 @@ import androidx.compose.runtime.setValue
 
 
 class ScaffoldState {
-    var showTopBar by mutableStateOf(true)
+    var showTopBar by mutableStateOf(false)
     var showBackNavigation by mutableStateOf(false)
     var topBarTitle by mutableStateOf("")
     var topBarActions by mutableStateOf(emptyList<TopBarAction>())
 
     var bottomBarNavItems by mutableStateOf(emptyList<NavItem<Any>>())
-    var showBottomBar by mutableStateOf(true)
+    var showBottomBar by mutableStateOf(false)
 }
 
 val LocalScaffoldState = compositionLocalOf { ScaffoldState() }

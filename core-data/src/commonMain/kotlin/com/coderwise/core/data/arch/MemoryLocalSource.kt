@@ -1,6 +1,6 @@
 package com.coderwise.core.data.arch
 
-import com.coderwise.core.data.utils.MemCache
+import com.coderwise.core.data.utils.MemCacheMany
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.tryOutcome
 import kotlinx.coroutines.flow.Flow
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.transform
 open class MemoryLocalSource<Entity, Id>(
     identify: (Entity) -> Id
 ) : LocalSource<Entity, Id> {
-    private val memCache = MemCache(
+    private val memCache = MemCacheMany(
         identify = identify
     )
 

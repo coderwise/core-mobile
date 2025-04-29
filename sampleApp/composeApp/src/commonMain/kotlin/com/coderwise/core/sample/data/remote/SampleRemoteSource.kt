@@ -2,7 +2,6 @@ package com.coderwise.core.sample.data.remote
 
 import com.coderwise.core.auth.data.remote.authApiCall
 import com.coderwise.core.auth.domain.SessionRepository
-import com.coderwise.core.data.remote.UrlProvider
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.tryOutcome
 import com.coderwise.core.sample.data.Sample
@@ -18,12 +17,12 @@ import io.ktor.http.contentType
 
 class SampleRemoteSource(
     private val httpClient: HttpClient,
-    private val baseUrl: UrlProvider,
+    private val sampleUrls: SampleUrls,
     private val session: SessionRepository
 ) {
     suspend fun fetchAll(): Outcome<List<Sample>> = tryOutcome {
         val list: List<SampleDto> = authApiCall(session) {
-            httpClient.get("${baseUrl.get()}/samples") {
+            httpClient.get(sampleUrls.samples) {
                 contentType(ContentType.Application.Json)
                 bearerAuth(session.authToken())
             }
@@ -33,7 +32,7 @@ class SampleRemoteSource(
 
     suspend fun update(sample: Sample): Outcome<Int> = tryOutcome {
         authApiCall(session) {
-            httpClient.post("${baseUrl.get()}/samples") {
+            httpClient.post(sampleUrls.samples) {
                 contentType(ContentType.Application.Json)
                 bearerAuth(session.authToken())
                 setBody(sample.asDto())
@@ -43,7 +42,7 @@ class SampleRemoteSource(
 
     suspend fun delete(id: Int): Outcome<Unit> = tryOutcome {
         authApiCall(session) {
-            httpClient.delete("${baseUrl.get()}/samples/$id") {
+            httpClient.delete("${sampleUrls.samples}/$id") {
                 contentType(ContentType.Application.Json)
                 bearerAuth(session.authToken())
             }

@@ -9,7 +9,7 @@ class MemCacheTest {
 
     @Test
     fun `when set invoked with empty list, should emit new value`() = runTest {
-        val memCache = MemCache<String, Int>(
+        val memCache = MemCacheMany<String, Int>(
             identify = { it.hashCode() }
         )
 

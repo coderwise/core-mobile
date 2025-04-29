@@ -1,4 +1,4 @@
-package com.coderwise.core.auth.data.remote
+package com.coderwise.core.auth.data.local
 
 import com.coderwise.core.auth.domain.Session
 import kotlinx.coroutines.flow.Flow

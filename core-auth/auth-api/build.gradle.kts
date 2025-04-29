@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinMultiplatformLibrary)
     alias(libs.plugins.kotlinSerialization)
+
+    id("maven-publish")
 }
 
 kotlin {
@@ -23,3 +25,12 @@ kotlin {
         }
     }
 }
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+}
+
+group = "com.coderwise.core.auth"
+version = libs.versions.coderwiseCore.get()

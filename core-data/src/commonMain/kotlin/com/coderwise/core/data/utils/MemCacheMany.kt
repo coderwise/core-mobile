@@ -3,10 +3,9 @@ package com.coderwise.core.data.utils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlin.collections.ifEmpty
 
-class MemCache<Entity, Id>(
+class MemCacheMany<Entity, Id>(
     private val identify: (Entity) -> Id
 ) {
     private val cacheFlow = MutableStateFlow(mapOf<Id, Entity>())
