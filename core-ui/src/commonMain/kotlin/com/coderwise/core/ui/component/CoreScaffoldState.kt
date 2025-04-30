@@ -13,7 +13,7 @@ class ScaffoldState {
     var topBarTitle by mutableStateOf("")
     var topBarActions by mutableStateOf(emptyList<TopBarAction>())
 
-    var bottomBarNavItems by mutableStateOf(emptyList<NavItem<Any>>())
+    var bottomBarNavItems by mutableStateOf(emptyList<NavItem<out Any>>())
     var showBottomBar by mutableStateOf(false)
 }
 

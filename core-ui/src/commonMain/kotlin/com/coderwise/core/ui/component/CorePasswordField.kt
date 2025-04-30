@@ -3,6 +3,7 @@ package com.coderwise.core.ui.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -29,6 +30,7 @@ fun CorePasswordField(
     modifier: Modifier = Modifier,
     label: String? = null,
     enabled: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     showPassword: Boolean = false
 ) {
     var showPassword by remember { mutableStateOf(showPassword) }
@@ -54,7 +56,8 @@ fun CorePasswordField(
                     contentDescription = if (showPassword) "Hide password" else "Show password"
                 )
             }
-        }
+        },
+        keyboardOptions = keyboardOptions
     )
 }
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
@@ -18,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.ui.component.CorePasswordField
 import com.coderwise.core.ui.component.CoreProgressButton
@@ -59,7 +61,8 @@ private fun LoginContent(
                 .fillMaxWidth(),
             label = "Username",
             enabled = !uiState.isLoading,
-            singleLine = true
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
         CorePasswordField(
             value = uiState.password,
@@ -68,7 +71,8 @@ private fun LoginContent(
                 .padding(8.dp)
                 .fillMaxWidth(),
             label = "Password",
-            enabled = !uiState.isLoading
+            enabled = !uiState.isLoading,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
 
         // TODO make to a component

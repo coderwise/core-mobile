@@ -30,7 +30,7 @@ data class NavItem<T : Any>(
 @Composable
 fun CoreBottomBar(
     navController: NavController,
-    navItems: List<NavItem<Any>>,
+    navItems: List<NavItem<out Any>>,
     modifier: Modifier = Modifier,
     show: Boolean = true
 ) {

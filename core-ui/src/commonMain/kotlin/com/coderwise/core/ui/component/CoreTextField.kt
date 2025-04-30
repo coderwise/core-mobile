@@ -2,6 +2,7 @@ package com.coderwise.core.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ fun CoreTextField(
     label: String? = null,
     enabled: Boolean = true,
     singleLine: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     OutlinedTextField(
         value = value,
@@ -25,7 +27,8 @@ fun CoreTextField(
         modifier = modifier,
         enabled = enabled,
         label = { label?.let { Text(it) } },
-        singleLine = singleLine
+        singleLine = singleLine,
+        keyboardOptions = keyboardOptions
     )
 }
 

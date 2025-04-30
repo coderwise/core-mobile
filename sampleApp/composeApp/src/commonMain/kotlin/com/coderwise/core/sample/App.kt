@@ -1,10 +1,6 @@
 package com.coderwise.core.sample
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.auth.ui.authNavigationGraph
 import com.coderwise.core.sample.ui.catalog.CatalogRoute
@@ -17,7 +13,6 @@ import com.coderwise.core.ui.arch.SimpleViewModel
 import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.component.CoreScaffold
 import com.coderwise.core.ui.component.NavItem
-import com.coderwise.core.ui.component.scaffold
 import core_library.sampleapp.composeapp.generated.resources.Res
 import core_library.sampleapp.composeapp.generated.resources.home_24px
 import core_library.sampleapp.composeapp.generated.resources.location_on_24px
@@ -44,38 +39,32 @@ class AppViewModel(
     }
 }
 
+val rootBottomBarNavItems = listOf(
+    NavItem(ListRoute, UiText.Plain("Home"), Res.drawable.home_24px),
+    NavItem(PermissionsRoute, UiText.Plain("Permissions"), Res.drawable.lock_open_24px),
+    NavItem(LocationRoute, UiText.Plain("Location"), Res.drawable.location_on_24px),
+    NavItem(
+        CatalogRoute,
+        UiText.Plain("Catalog"),
+        Res.drawable.outline_atr_24
+    )
+)
+
 @Composable
 private fun RootUi() {
-    val navController = rememberNavController()
-
     koinViewModel<AppViewModel>()
 
     CoreScaffold(
-        navController = navController
-    ) { innerPadding ->
-        scaffold {
+        scaffoldStateBuilder = {
             showTopBar = true
             showBackNavigation = false
             topBarTitle = "Home"
             showBottomBar = true
-            bottomBarNavItems = listOf(
-                NavItem(ListRoute, UiText.Plain("Home"), Res.drawable.home_24px),
-                NavItem(PermissionsRoute, UiText.Plain("Permissions"), Res.drawable.lock_open_24px),
-                NavItem(LocationRoute, UiText.Plain("Location"), Res.drawable.location_on_24px),
-                NavItem(
-                    CatalogRoute,
-                    UiText.Plain("Catalog"),
-                    Res.drawable.outline_atr_24
-                )
-            )
-        }
-        NavHost(
-            navController = navController,
-            startDestination = ListRoute,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            sampleNavigationGraph()
-            authNavigationGraph()
-        }
+            bottomBarNavItems = rootBottomBarNavItems
+        },
+        startDestination = ListRoute
+    ) {
+        sampleNavigationGraph()
+        authNavigationGraph()
     }
 }

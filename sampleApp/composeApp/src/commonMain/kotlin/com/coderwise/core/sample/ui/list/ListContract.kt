@@ -1,5 +1,6 @@
 package com.coderwise.core.sample.ui.list
 
+import androidx.compose.runtime.Immutable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.coderwise.core.sample.data.Sample
@@ -15,6 +16,7 @@ fun NavGraphBuilder.listScreen() {
     }
 }
 
+@Immutable
 data class ListUiState(
     val items: List<Item>
 ) {
