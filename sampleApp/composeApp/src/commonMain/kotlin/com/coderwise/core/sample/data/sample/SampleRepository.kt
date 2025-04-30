@@ -1,4 +1,4 @@
-package com.coderwise.core.sample.data
+package com.coderwise.core.sample.data.sample
 
 import com.coderwise.core.domain.arch.Outcome
 import kotlinx.coroutines.flow.Flow

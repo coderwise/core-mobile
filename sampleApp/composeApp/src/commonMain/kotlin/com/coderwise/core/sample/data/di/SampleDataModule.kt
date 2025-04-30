@@ -2,21 +2,25 @@ package com.coderwise.core.sample.data.di
 
 import com.coderwise.core.auth.data.di.authDataModule
 import com.coderwise.core.auth.data.local.SessionLocalSource
-import com.coderwise.core.data.arch.DataStoreRecord
-import com.coderwise.core.data.di.coreDataModule
-import com.coderwise.core.data.remote.UrlProvider
-import com.coderwise.core.data.utils.DataStoreCreator
-import com.coderwise.core.location.di.coreLocationModule
-import com.coderwise.core.permissions.di.corePermissionsModule
-import com.coderwise.core.sample.data.SampleRecord
-import com.coderwise.core.sample.data.SampleRepository
-import com.coderwise.core.sample.data.SampleRepositoryImpl
-import com.coderwise.core.sample.data.local.DataStoreSampleSource
 import com.coderwise.core.auth.data.local.SessionLocalSourceDataStoreImpl
 import com.coderwise.core.auth.data.local.SessionRecord
 import com.coderwise.core.auth.data.remote.AuthUrls
-import com.coderwise.core.sample.data.remote.SampleRemoteSource
-import com.coderwise.core.sample.data.remote.SampleUrls
+import com.coderwise.core.data.arch.DataStoreRecord
+import com.coderwise.core.data.di.coreDataModule
+import com.coderwise.core.data.di.createDataStore
+import com.coderwise.core.data.remote.UrlProvider
+import com.coderwise.core.location.di.coreLocationModule
+import com.coderwise.core.permissions.di.corePermissionsModule
+import com.coderwise.core.sample.data.profile.ProfileRepository
+import com.coderwise.core.sample.data.profile.ProfileRepositoryImpl
+import com.coderwise.core.sample.data.profile.local.ProfileLocalSource
+import com.coderwise.core.sample.data.profile.local.ProfileRecord
+import com.coderwise.core.sample.data.sample.SampleRecord
+import com.coderwise.core.sample.data.sample.SampleRepository
+import com.coderwise.core.sample.data.sample.SampleRepositoryImpl
+import com.coderwise.core.sample.data.sample.local.DataStoreSampleSource
+import com.coderwise.core.sample.data.sample.remote.SampleRemoteSource
+import com.coderwise.core.sample.data.sample.remote.SampleUrls
 import com.coderwise.core.time.di.coreTimeModule
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -47,13 +51,11 @@ val sampleDataModule = module {
 
     factory {
         DataStoreSampleSource(
-            dataStore = DataStoreCreator.create(
+            dataStore = createDataStore(
                 defaultValue = DataStoreRecord(
                     List(10) { SampleRecord(it, "sample $it") }
                 ),
-                serializer = DataStoreRecord.serializer(SampleRecord.serializer()),
-                fileSystem = get(),
-                pathProducer = get()
+                serializer = DataStoreRecord.serializer(SampleRecord.serializer())
             )
         )
     }
@@ -64,14 +66,20 @@ val sampleDataModule = module {
 
     single<SessionLocalSource> {
         SessionLocalSourceDataStoreImpl(
-            DataStoreCreator.create(
-                defaultValue = SessionRecord.DEFAULT,
-                serializer = SessionRecord.serializer(),
-                fileSystem = get(),
-                pathProducer = get()
+            createDataStore(
+                SessionRecord.DEFAULT, SessionRecord.serializer()
             )
         )
     }
+
+    factory {
+        ProfileLocalSource(
+            createDataStore(
+                ProfileRecord("Local"), ProfileRecord.serializer()
+            )
+        )
+    }
+    single<ProfileRepository> { ProfileRepositoryImpl(get()) }
 }
 
 private fun createHttpClient() = HttpClient {

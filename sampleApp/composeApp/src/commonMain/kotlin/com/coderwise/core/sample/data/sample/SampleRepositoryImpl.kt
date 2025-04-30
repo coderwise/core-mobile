@@ -1,12 +1,11 @@
-package com.coderwise.core.sample.data
+package com.coderwise.core.sample.data.sample
 
 import com.coderwise.core.data.arch.MemoryLocalSource
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.mapSuccess
 import com.coderwise.core.domain.arch.onSuccess
-import com.coderwise.core.sample.data.remote.SampleRemoteSource
+import com.coderwise.core.sample.data.sample.remote.SampleRemoteSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onStart
 import kotlinx.serialization.Serializable
 
 @Serializable

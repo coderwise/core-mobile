@@ -20,7 +20,7 @@ val sampleUiModule = module {
     viewModel { EditViewModel(get(), get(), get(), get()) }
     viewModel { PermissionsViewModel(get(), get()) }
     viewModel { LocationViewModel(get()) }
-    viewModel { ProfileViewModel(get(), get()) }
+    viewModel { ProfileViewModel(get(), get(), get()) }
     viewModel { CatalogViewModel() }
     viewModel { AppViewModel(get()) }
 }

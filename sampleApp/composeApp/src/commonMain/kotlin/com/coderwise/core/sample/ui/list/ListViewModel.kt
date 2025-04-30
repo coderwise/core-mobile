@@ -3,8 +3,8 @@ package com.coderwise.core.sample.ui.list
 import com.coderwise.core.auth.ui.login.LoginRoute
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
-import com.coderwise.core.sample.data.Sample
-import com.coderwise.core.sample.data.SampleRepository
+import com.coderwise.core.sample.data.sample.Sample
+import com.coderwise.core.sample.data.sample.SampleRepository
 import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.sample.ui.list.edit.EditRoute
 import com.coderwise.core.sample.ui.profile.ProfileRoute

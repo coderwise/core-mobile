@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,12 +15,22 @@ import androidx.compose.ui.unit.dp
 import com.coderwise.core.sample.ui.theme.ScreenPreview
 import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.ui.component.CorePropertyText
+import com.coderwise.core.ui.component.TopBarAction
+import com.coderwise.core.ui.component.scaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
+
+    scaffold {
+        topBarActions = listOf(
+            TopBarAction(Icons.Filled.Edit) {
+                viewModel.dispatch(ProfileAction.OnEditClicked)
+            }
+        )
+    }
 
     ProfileContent(uiState, viewModel::dispatch)
 }

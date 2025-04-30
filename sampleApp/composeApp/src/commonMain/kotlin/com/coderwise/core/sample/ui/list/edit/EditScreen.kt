@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.sample.ui.theme.ScreenPreview
+import com.coderwise.core.ui.component.CorePropertyText
+import com.coderwise.core.ui.component.CoreTextField
 import com.coderwise.core.ui.component.TopBarAction
 import com.coderwise.core.ui.component.scaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -47,19 +49,21 @@ private fun EditContent(
     dispatch: (EditAction) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().padding(16.dp)
     ) {
-        Text(
+        CorePropertyText(
             text = uiState.sampleId,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            label = "Id"
         )
 
-        OutlinedTextField(
+        CoreTextField(
             value = uiState.sampleValue,
             onValueChange = { dispatch(EditAction.OnValueUpdated(it)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(8.dp),
+            label = "Value",
         )
         CoreProgressButton(
             text = "Save",

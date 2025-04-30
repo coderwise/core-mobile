@@ -10,7 +10,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
-class CollectionRepositoryImpl<Entity, Id, FetchQuery>(
+interface ManyLocalSource<Entity, Id> {
+    val flow: Flow<Outcome<List<Entity>>>
+    fun flowById(id: Id): Flow<Outcome<Entity>>
+
+    suspend fun create(entity: Entity): Outcome<Id>
+    suspend fun createAll(list: List<Entity>): Outcome<Unit>
+
+    suspend fun read(id: Id): Outcome<Entity>
+    suspend fun readAll(): Outcome<List<Entity>>
+
+    suspend fun update(entity: Entity): Outcome<Id>
+
+    suspend fun delete(id: Id): Outcome<Unit>
+    suspend fun deleteAll(): Outcome<Unit>
+}
+
+class ManyRepositoryImpl<Entity, Id, FetchQuery>(
     private val local: LocalSource<Entity, Id>,
     private val remote: RemoteSource<Entity, FetchQuery>? = null,
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)

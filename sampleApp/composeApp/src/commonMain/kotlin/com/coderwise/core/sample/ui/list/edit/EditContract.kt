@@ -2,7 +2,7 @@ package com.coderwise.core.sample.ui.list.edit
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.coderwise.core.sample.data.Sample
+import com.coderwise.core.sample.data.sample.Sample
 import com.coderwise.core.ui.arch.Action
 import kotlinx.serialization.Serializable
 

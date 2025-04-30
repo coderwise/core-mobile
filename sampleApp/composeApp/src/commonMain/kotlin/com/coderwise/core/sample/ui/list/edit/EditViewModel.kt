@@ -2,7 +2,7 @@ package com.coderwise.core.sample.ui.list.edit
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.coderwise.core.sample.data.SampleRepository
+import com.coderwise.core.sample.data.sample.SampleRepository
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
 import com.coderwise.core.ui.arch.BaseViewModel
