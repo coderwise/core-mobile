@@ -5,7 +5,6 @@ import com.coderwise.core.auth.data.local.SessionLocalSource
 import com.coderwise.core.auth.data.local.SessionLocalSourceDataStoreImpl
 import com.coderwise.core.auth.data.local.SessionRecord
 import com.coderwise.core.auth.data.remote.AuthUrls
-import com.coderwise.core.data.arch.DataStoreRecord
 import com.coderwise.core.data.di.coreDataModule
 import com.coderwise.core.data.di.createDataStore
 import com.coderwise.core.data.remote.UrlProvider
@@ -15,10 +14,9 @@ import com.coderwise.core.sample.data.profile.ProfileRepository
 import com.coderwise.core.sample.data.profile.ProfileRepositoryImpl
 import com.coderwise.core.sample.data.profile.local.ProfileLocalSource
 import com.coderwise.core.sample.data.profile.local.ProfileRecord
-import com.coderwise.core.sample.data.sample.SampleRecord
 import com.coderwise.core.sample.data.sample.SampleRepository
 import com.coderwise.core.sample.data.sample.SampleRepositoryImpl
-import com.coderwise.core.sample.data.sample.local.DataStoreSampleSource
+import com.coderwise.core.sample.data.sample.remote.SampleApi
 import com.coderwise.core.sample.data.sample.remote.SampleRemoteSource
 import com.coderwise.core.sample.data.sample.remote.SampleUrls
 import com.coderwise.core.time.di.coreTimeModule
@@ -49,19 +47,8 @@ val sampleDataModule = module {
     single { createHttpClient() }
     factory<AuthUrls> { SampleUrlsImpl }
 
-    factory {
-        DataStoreSampleSource(
-            dataStore = createDataStore(
-                defaultValue = DataStoreRecord(
-                    List(10) { SampleRecord(it, "sample $it") }
-                ),
-                serializer = DataStoreRecord.serializer(SampleRecord.serializer())
-            )
-        )
-    }
-
     factory<SampleUrls> { SampleUrlsImpl }
-    factory { SampleRemoteSource(get(), get(), get()) }
+    factory { SampleRemoteSource(SampleApi(get(), get(), get())) }
     single<SampleRepository> { SampleRepositoryImpl(get()) }
 
     single<SessionLocalSource> {

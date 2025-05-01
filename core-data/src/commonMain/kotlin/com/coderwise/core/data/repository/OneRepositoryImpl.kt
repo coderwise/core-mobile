@@ -1,11 +1,12 @@
 package com.coderwise.core.data.repository
 
+import com.coderwise.core.data.repository.local.OneInMemorySource
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.onSuccess
 import kotlinx.coroutines.flow.Flow
 
 open class OneRepositoryImpl<Entity>(
-    private val localSource: OneSource<Entity>,
+    private val localSource: OneSource<Entity> = OneInMemorySource(),
     private val remoteSource: OneSource<Entity>? = null
 ) {
     val flow: Flow<Outcome<Entity>> = localSource.flow

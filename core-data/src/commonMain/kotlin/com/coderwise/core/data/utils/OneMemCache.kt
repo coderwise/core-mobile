@@ -3,7 +3,7 @@ package com.coderwise.core.data.utils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class MemCacheOne<Entity>(
+class OneMemCache<Entity>(
     initial: Entity
 ) {
     private val cacheFlow = MutableStateFlow(initial)

@@ -1,21 +1,11 @@
 package com.coderwise.core.sample.data.sample
 
-import com.coderwise.core.domain.arch.Outcome
-import kotlinx.coroutines.flow.Flow
+import com.coderwise.core.domain.repository.Identifiable
+import com.coderwise.core.domain.repository.ManyRepository
 
 data class Sample(
-    val id: Int,
+    override val id: Int,
     val value: String
-)
+) : Identifiable<Int>
 
-interface SampleRepository {
-    fun flowById(sampleId: Int): Flow<Outcome<Sample>>
-
-    val flow: Flow<Outcome<List<Sample>>>
-
-    suspend fun update(sample: Sample): Outcome<Int>
-
-    suspend fun delete(id: Int): Outcome<Unit>
-
-    suspend fun fetchAll(): Outcome<Unit>
-}
+interface SampleRepository : ManyRepository<Int, Sample>

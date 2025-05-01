@@ -82,7 +82,7 @@ private fun EditPreview() {
     ScreenPreview {
         EditContent(
             uiState = EditUiState(
-                sampleId = "1",
+                sampleId = "132123456",
                 sampleValue = "test",
                 saveEnabled = true,
                 valueEnabled = true

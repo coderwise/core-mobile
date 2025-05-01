@@ -35,12 +35,9 @@ class ListViewModel(
             sampleRepository.flow.collect { outcome ->
                 outcome.onSuccess { samples ->
                     reduce { copy(samples = samples) }
+                }.onError {
+                    uiMessenger.showNotification(UiNotification(it.message!!))
                 }
-            }
-        }
-        asyncAction {
-            sampleRepository.fetchAll().onError {
-                uiMessenger.showNotification(UiNotification(it.message!!))
             }
         }
     }
@@ -52,7 +49,7 @@ class ListViewModel(
             }
 
             is ListAction.OnAddButtonClicked -> asyncAction {
-                sampleRepository.update(
+                sampleRepository.create(
                     Sample(
                         id = timeService.now().toEpochMilliseconds().toInt(),
                         value = "New sample"

@@ -3,6 +3,7 @@ package com.coderwise.core.sample
 import androidx.compose.runtime.Composable
 import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.auth.ui.authNavigationGraph
+import com.coderwise.core.sample.data.sample.SampleRepository
 import com.coderwise.core.sample.ui.catalog.CatalogRoute
 import com.coderwise.core.sample.ui.list.ListRoute
 import com.coderwise.core.sample.ui.location.LocationRoute
@@ -28,11 +29,11 @@ fun App() {
 }
 
 class AppViewModel(
-    sessionRepository: SessionRepository
+    sampleRepository: SampleRepository
 ) : SimpleViewModel<Unit>(initialState = Unit) {
     init {
         asyncAction {
-            sessionRepository.session.collect {
+            sampleRepository.syncStatus.collect {
                 it.toString()
             }
         }
@@ -52,7 +53,7 @@ val rootBottomBarNavItems = listOf(
 
 @Composable
 private fun RootUi() {
-    koinViewModel<AppViewModel>()
+    val appViewModel = koinViewModel<AppViewModel>()
 
     CoreScaffold(
         scaffoldStateBuilder = {

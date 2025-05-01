@@ -1,13 +1,12 @@
 package com.coderwise.core.data.utils
 
+import com.coderwise.core.domain.repository.Identifiable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlin.collections.ifEmpty
 
-class MemCacheMany<Entity, Id>(
-    private val identify: (Entity) -> Id
-) {
+class ManyMemCache<Id, Entity: Identifiable<Id>> {
     private val cacheFlow = MutableStateFlow(mapOf<Id, Entity>())
 
     fun flow(): Flow<List<Entity>> = cacheFlow.map { it.values.toList() }
@@ -15,7 +14,7 @@ class MemCacheMany<Entity, Id>(
     fun flowById(id: Id): Flow<Entity?> = cacheFlow.map { it[id] }
 
     fun set(list: List<Entity>) {
-        cacheFlow.value = list.associateBy { identify(it) }
+        cacheFlow.value = list.associateBy { it.id }
     }
 
     fun getAll(): List<Entity>? = cacheFlow.value.values.toList().ifEmpty { null }
@@ -25,13 +24,13 @@ class MemCacheMany<Entity, Id>(
     }
 
     fun update(entity: Entity): Id {
-        val id = identify(entity)
+        val id = entity.id
         cacheFlow.value = cacheFlow.value + (id to entity)
         return id
     }
 
     fun merge(list: List<Entity>) {
-        cacheFlow.value = cacheFlow.value + list.associateBy { identify(it) }
+        cacheFlow.value = cacheFlow.value + list.associateBy { it.id }
     }
 
     fun find(id: Id): Entity? = cacheFlow.value[id]
