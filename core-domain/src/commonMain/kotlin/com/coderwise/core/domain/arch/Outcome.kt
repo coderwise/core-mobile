@@ -46,6 +46,11 @@ suspend fun <T> Outcome<T>.mapError(block: suspend (Throwable) -> Outcome<T>): O
         is Outcome.Error -> block(exception)
     }
 
+suspend fun <T1, T2> Outcome<T1>.then(next: suspend (T1) -> Outcome<T2>): Outcome<T2> =
+    when (this) {
+        is Outcome.Success -> next(this.data)
+        is Outcome.Error -> this
+    }
 
 fun <T> Outcome<T>.dataOrNull(): T? = when (this) {
     is Outcome.Success -> this.data
@@ -56,7 +61,6 @@ fun <T> Outcome<T>.dataOrThrow(): T = when (this) {
     is Outcome.Success -> this.data
     is Outcome.Error -> throw exception
 }
-
 
 fun <T, R> Flow<Outcome<T>>.mapSuccess(transform: suspend (T) -> R): Flow<Outcome<R>> =
     map { outcome ->
@@ -78,12 +82,7 @@ suspend fun <T> tryOutcome(block: suspend () -> T): Outcome<T> = try {
     Outcome.Error(e)
 }
 
-fun Outcome.Companion.Success() = Outcome.Success(Unit)
-
-suspend fun <T1, T2> Outcome<T1>.then(next: suspend (T1) -> Outcome<T2>): Outcome<T2> = when (this) {
-    is Outcome.Success -> next(this.data)
-    is Outcome.Error -> this
-}
+fun Outcome.Companion.success() = Outcome.Success(Unit)
 
 suspend fun <T1, T2, R> Outcome<T1>.combine(
     other: Outcome<T2>,

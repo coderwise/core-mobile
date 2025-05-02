@@ -1,8 +1,10 @@
 package com.coderwise.core.sample.ui.permissions
 
+import androidx.compose.runtime.Immutable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.coderwise.core.permissions.Permission
+import com.coderwise.core.ui.component.scaffold
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,10 +12,17 @@ data object PermissionsRoute
 
 fun NavGraphBuilder.permissionsScreen() {
     composable<PermissionsRoute> {
+        scaffold {
+            showBackNavigation = false
+            topBarTitle = "Permissions"
+            showBottomBar = true
+            topBarActions = listOf()
+        }
         PermissionsScreen()
     }
 }
 
+@Immutable
 data class PermissionsUiState(
     val location: PermissionUiState,
     val camera: PermissionUiState,

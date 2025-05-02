@@ -1,11 +1,15 @@
 package com.coderwise.core.auth.data.remote
 
 import com.coderwise.core.auth.domain.SessionRepository
+import com.coderwise.core.domain.repository.NetworkError
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
 
-suspend inline fun <reified T> authApiCall(session: SessionRepository, block: suspend () -> HttpResponse): T {
+suspend inline fun <reified T> authApiCall(
+    session: SessionRepository,
+    block: suspend () -> HttpResponse
+): T {
     return try {
         val httpResponse = block()
         if (httpResponse.status.isSuccess()) {
@@ -17,6 +21,6 @@ suspend inline fun <reified T> authApiCall(session: SessionRepository, block: su
             throw Exception(httpResponse.status.description)
         }
     } catch (e: Exception) {
-        throw e
+        throw NetworkError(e.message ?: e.toString())
     }
 }

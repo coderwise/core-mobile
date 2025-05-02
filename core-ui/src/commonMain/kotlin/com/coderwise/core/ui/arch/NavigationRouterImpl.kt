@@ -1,70 +1,49 @@
 package com.coderwise.core.ui.arch
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.koinInject
 
-class NavControllerProvider {
-    private lateinit var navController: NavController
 
-    fun get(): NavController = navController
+class NavigationRouterImpl() : NavigationRouter {
+    private val navCommands = MutableSharedFlow<NavCommand>(replay = 1)
+    override val flow: Flow<NavCommand> = navCommands
+    override suspend fun navigate(
+        route: Any,
+        navOptions: (NavOptionsBuilder.() -> Unit)?
+    ) {
+        navCommands.emit(NavCommand.Navigate(route, navOptions))
+    }
 
-    fun reset(navController: NavController) {
-        this.navController = navController
+    override suspend fun navigateUp() {
+        navCommands.emit(NavCommand.NavigateUp)
     }
 }
 
-
-class NavigationRouterImpl(
-    private val navControllerProvider: NavControllerProvider,
-) : NavigationRouter {
-    override val flow: Flow<NavCommand> = flowOf()
-
-    override fun navigate(route: Any, addToBackStack: Boolean) {
-        navControllerProvider.get().navigate(route = route) {
-            if (!addToBackStack) {
-                val popUpRoute = currentRoute()
-                if (popUpRoute != null) {
-                    popUpTo(popUpRoute) { inclusive = true }
-                }
-            }
-        }
-    }
-
-    override fun navigate(route: String, addToBackStack: Boolean) {
-        navControllerProvider.get().navigate(route = route) {
-            if (!addToBackStack) {
-                val popUpRoute = currentRoute()
-                if (popUpRoute != null) {
-                    popUpTo(popUpRoute) { inclusive = true }
-                }
-            }
-        }
-    }
-
-    override fun navigate(route: Any, navOptions: NavOptions) {
-        navControllerProvider.get().navigate(route = route, navOptions = navOptions)
-    }
-
-    override fun navigateUp() {
-        navControllerProvider.get().navigateUp()
-    }
-
-    private fun currentRoute(): String? =
-        navControllerProvider.get().currentBackStackEntry?.destination?.route
-}
 
 @Composable
 fun rememberNavRouter(
     navController: NavController
-): NavigationRouter {
-    koinInject<NavControllerProvider>().apply {
-        reset(navController)
-    }
+) {
     val navRouter = koinInject<NavigationRouter>()
-    return remember { navRouter }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(navController, lifecycleOwner) {
+        navRouter.flow.collect {
+            when (it) {
+                is NavCommand.Navigate -> {
+                    if (it.navOptions != null)
+                        navController.navigate(it.route, it.navOptions)
+                    else
+                        navController.navigate(it.route)
+                }
+
+                is NavCommand.NavigateUp -> navController.navigateUp()
+            }
+        }
+    }
 }

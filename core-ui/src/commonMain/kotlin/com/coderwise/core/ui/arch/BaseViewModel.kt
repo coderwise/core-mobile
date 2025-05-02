@@ -3,10 +3,13 @@ package com.coderwise.core.ui.arch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 open class BaseViewModel<ModelState, UiState>(
     initialState: ModelState,
@@ -14,7 +17,16 @@ open class BaseViewModel<ModelState, UiState>(
 ) : ViewModel() {
     protected val modelState = ReducerStateFlow(initialState, viewModelScope)
 
-    val uiState = modelState.map(mapper).stateIn(viewModelScope, Eagerly, mapper(initialState))
+    val uiState = modelState
+        .onStart { onStart() }
+        .map(mapper)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5.seconds),
+            initialValue = mapper(initialState)
+        )
+
+    protected open fun onStart() {}
 
     protected fun reduce(reducer: ModelState.() -> ModelState) {
         modelState.reduce(reducer)

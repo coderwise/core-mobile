@@ -1,29 +1,26 @@
 package com.coderwise.core.ui.arch
 
-import androidx.compose.runtime.Immutable
-import androidx.navigation.NavOptions
+import androidx.compose.runtime.Stable
+import androidx.navigation.NavOptionsBuilder
 import kotlinx.coroutines.flow.Flow
 
 
-data class NavCommand(
-    val route: Any,
-    val navOptions: NavOptions? = null
-)
+sealed interface NavCommand {
+    data class Navigate(
+        val route: Any,
+        val navOptions: (NavOptionsBuilder.() -> Unit)? = null
+    ) : NavCommand
 
-@Immutable
+    data object NavigateUp : NavCommand
+}
+
+@Stable
 interface NavigationRouter {
     val flow: Flow<NavCommand>
 
-//    @Composable
-//    fun currentRouteIdAsState(): State<String?>
+    suspend fun navigate(route: Any, navOptions: (NavOptionsBuilder.() -> Unit)? = null)
 
-    fun navigate(route: Any, addToBackStack: Boolean = true)
-
-    fun navigate(route: String, addToBackStack: Boolean = true)
-
-    fun navigate(route: Any, navOptions: NavOptions)
-
-    fun navigateUp()
+    suspend fun navigateUp()
 }
 
 fun Any.routeId(): String = this::class.qualifiedName!!

@@ -11,3 +11,7 @@ fun initKoin(koinConfig: KoinAppDeclaration? = null) {
         modules(sampleUiModule, sampleDataModule)
     }
 }
+
+interface Functor<out A> {
+    fun <B> map(block: (A) -> B): Functor<B>
+}

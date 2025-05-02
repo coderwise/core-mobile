@@ -5,6 +5,7 @@ import androidx.navigation.toRoute
 import com.coderwise.core.sample.data.sample.SampleRepository
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
+import com.coderwise.core.domain.repository.NetworkError
 import com.coderwise.core.ui.arch.BaseViewModel
 import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
@@ -39,7 +40,7 @@ class EditViewModel(
 
             is EditAction.OnSave -> asyncAction { state ->
                 state.sample ?: return@asyncAction
-                reduce { copy(sample = null, isProgress = true) }
+                reduce { copy(isProgress = true) }
 
                 sampleRepository.update(state.sample).onSuccess {
                     reduce { copy(isProgress = false) }
@@ -49,7 +50,10 @@ class EditViewModel(
                     navigationRouter.navigateUp()
                 }.onError {
                     reduce { copy(isProgress = false) }
-                    uiMessenger.showNotification(UiNotification("Error updating sample"))
+                    uiMessenger.showNotification(UiNotification(it.toString()))
+                    if (it is NetworkError) {
+                        navigationRouter.navigateUp()
+                    }
                 }
             }
 

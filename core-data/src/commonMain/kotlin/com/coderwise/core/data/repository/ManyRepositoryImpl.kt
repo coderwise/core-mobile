@@ -21,15 +21,14 @@ interface SyncWithRemoteWorker<Id> {
 }
 
 open class ManyRepositoryImpl<Id, Entity : Identifiable<Id>>(
-    private val localSource: ManyLocalSource<Id, Entity> = ManyInMemoryLocalSource(),
-    private val remoteSource: ManyRemoteSource<Id, Entity>? = null
+    protected val localSource: ManyLocalSource<Id, Entity> = ManyInMemoryLocalSource(),
+    protected val remoteSource: ManyRemoteSource<Id, Entity>? = null
 ) : ManyRepository<Id, Entity> {
     private val syncWorker = object : SyncWithRemoteWorker<Id> {
         override val syncStatus: Flow<SyncStatus>
             get() = flowOf(SyncStatus.Synced)
 
         override fun sync(id: Id) {
-
         }
     }
     private val syncStatusCache = MutableStateFlow(SyncStatus.Synced)

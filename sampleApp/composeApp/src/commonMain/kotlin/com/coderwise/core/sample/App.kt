@@ -1,16 +1,14 @@
 package com.coderwise.core.sample
 
 import androidx.compose.runtime.Composable
-import com.coderwise.core.auth.domain.SessionRepository
 import com.coderwise.core.auth.ui.authNavigationGraph
-import com.coderwise.core.sample.data.sample.SampleRepository
+import com.coderwise.core.sample.ui.AppViewModel
 import com.coderwise.core.sample.ui.catalog.CatalogRoute
 import com.coderwise.core.sample.ui.list.ListRoute
 import com.coderwise.core.sample.ui.location.LocationRoute
 import com.coderwise.core.sample.ui.permissions.PermissionsRoute
 import com.coderwise.core.sample.ui.sampleNavigationGraph
 import com.coderwise.core.sample.ui.theme.Core_LibraryTheme
-import com.coderwise.core.ui.arch.SimpleViewModel
 import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.component.CoreScaffold
 import com.coderwise.core.ui.component.NavItem
@@ -28,18 +26,6 @@ fun App() {
     }
 }
 
-class AppViewModel(
-    sampleRepository: SampleRepository
-) : SimpleViewModel<Unit>(initialState = Unit) {
-    init {
-        asyncAction {
-            sampleRepository.syncStatus.collect {
-                it.toString()
-            }
-        }
-    }
-}
-
 val rootBottomBarNavItems = listOf(
     NavItem(ListRoute, UiText.Plain("Home"), Res.drawable.home_24px),
     NavItem(PermissionsRoute, UiText.Plain("Permissions"), Res.drawable.lock_open_24px),
@@ -53,7 +39,7 @@ val rootBottomBarNavItems = listOf(
 
 @Composable
 private fun RootUi() {
-    val appViewModel = koinViewModel<AppViewModel>()
+    koinViewModel<AppViewModel>()
 
     CoreScaffold(
         scaffoldStateBuilder = {
@@ -63,7 +49,7 @@ private fun RootUi() {
             showBottomBar = true
             bottomBarNavItems = rootBottomBarNavItems
         },
-        startDestination = ListRoute
+        startDestination = ListRoute,
     ) {
         sampleNavigationGraph()
         authNavigationGraph()

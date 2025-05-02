@@ -54,11 +54,11 @@ class LoginViewModel(
 
             is LoginAction.LoginButtonClicked -> onLogin()
 
-            is LoginAction.RegisterButtonClicked -> {
+            is LoginAction.RegisterButtonClicked -> asyncAction {
                 navigationRouter.navigate(RegisterRoute)
             }
 
-            is LoginAction.ForgotPasswordButtonClicked -> {
+            is LoginAction.ForgotPasswordButtonClicked -> asyncAction {
                 navigationRouter.navigate(RecoverRoute)
             }
 
@@ -79,7 +79,11 @@ class LoginViewModel(
         authRepository.login(state.userName, state.password).onSuccess {
             sessionRepository.setRememberMe(state.rememberMe)
             sessionRepository.setToken(it.token)
-            navigationRouter.navigate(args.onSuccessRoute, false)
+            navigationRouter.navigate(args.onSuccessRoute) {
+                popUpTo(LoginRoute) {
+                    inclusive = true
+                }
+            }
         }.onError {
             reduce {
                 copy(isProgress = false)
