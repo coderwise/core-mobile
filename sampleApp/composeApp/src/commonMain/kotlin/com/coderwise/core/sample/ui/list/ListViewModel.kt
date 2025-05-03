@@ -60,7 +60,7 @@ class ListViewModel(
             is ListAction.OnAccountClicked -> asyncAction { state ->
                 navRouter.navigate(
                     if (!state.isAuthenticated)
-                        LoginRoute(ListRoute.routeId())
+                        LoginRoute(onSuccessRouteId = ListRoute.routeId())
                     else
                         ProfileRoute
                 )

@@ -26,7 +26,7 @@ interface ManyRepository<Id, Entity : Identifiable<Id>> {
 
     suspend fun readAll(): Outcome<List<Entity>>
 
-    suspend fun update(entity: Entity): Outcome<Id>
+    suspend fun update(entity: Entity): Outcome<Unit>
 
     suspend fun delete(id: Id): Outcome<Unit>
 }

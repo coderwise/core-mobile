@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
-import androidx.navigation.NavOptionsBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.koinInject
@@ -15,9 +14,16 @@ class NavigationRouterImpl() : NavigationRouter {
     override val flow: Flow<NavCommand> = navCommands
     override suspend fun navigate(
         route: Any,
-        navOptions: (NavOptionsBuilder.() -> Unit)?
+        addToBackStack: Boolean
     ) {
-        navCommands.emit(NavCommand.Navigate(route, navOptions))
+        navCommands.emit(NavCommand.NavigateRoute(route, addToBackStack))
+    }
+
+    override suspend fun navigate(
+        route: String,
+        addToBackStack: Boolean
+    ) {
+        navCommands.emit(NavCommand.NavigateString(route, addToBackStack))
     }
 
     override suspend fun navigateUp() {
@@ -35,12 +41,21 @@ fun rememberNavRouter(
     LaunchedEffect(navController, lifecycleOwner) {
         navRouter.flow.collect {
             when (it) {
-                is NavCommand.Navigate -> {
-                    if (it.navOptions != null)
-                        navController.navigate(it.route, it.navOptions)
-                    else
-                        navController.navigate(it.route)
-                }
+                is NavCommand.NavigateRoute -> if (!it.addToBackStack)
+                    navController.navigate(it.route) {
+                        val currentRoute = navController.currentBackStackEntry?.destination?.route
+                        popUpTo(currentRoute ?: "") { inclusive = true }
+                    }
+                else
+                    navController.navigate(it.route)
+
+                is NavCommand.NavigateString -> if (!it.addToBackStack)
+                    navController.navigate(it.route) {
+                        val currentRoute = navController.currentBackStackEntry?.destination?.route
+                        popUpTo(currentRoute ?: "") { inclusive = true }
+                    }
+                else
+                    navController.navigate(it.route)
 
                 is NavCommand.NavigateUp -> navController.navigateUp()
             }

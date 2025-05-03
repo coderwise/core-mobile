@@ -33,7 +33,7 @@ class SampleApi(
         }
     }
 
-    suspend fun update(sample: SampleDto): Int = authApiCall(session) {
+    suspend fun update(sample: SampleDto): Unit = authApiCall(session) {
         httpClient.patch("${sampleUrls.samples}/${sample.id}") {
             contentType(ContentType.Application.Json)
             bearerAuth(session.authToken())

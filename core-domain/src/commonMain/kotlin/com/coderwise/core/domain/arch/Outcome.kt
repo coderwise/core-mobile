@@ -76,7 +76,7 @@ fun <T> Flow<Outcome<T>>.filterSuccess(): Flow<T> = filter {
     (it as Outcome.Success).data
 }
 
-suspend fun <T> tryOutcome(block: suspend () -> T): Outcome<T> = try {
+suspend inline fun <T> tryOutcome(block: suspend () -> T): Outcome<T> = try {
     Outcome.Success(block())
 } catch (e: Exception) {
     Outcome.Error(e)

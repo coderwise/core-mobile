@@ -19,8 +19,8 @@ class SampleRemoteSource(
     }
 
 
-    override suspend fun update(sample: Sample): Outcome<Int> = tryOutcome {
-        api.update(sample.asDto())
+    override suspend fun update(entity: Sample): Outcome<Unit> = tryOutcome {
+        api.update(entity.asDto())
     }
 
     override suspend fun delete(id: Int): Outcome<Unit> = tryOutcome {

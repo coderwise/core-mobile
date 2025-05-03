@@ -1,5 +1,6 @@
 package com.coderwise.core.data.remote
 
+import com.coderwise.core.domain.repository.NetworkError
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
@@ -15,6 +16,6 @@ suspend inline fun <reified T> apiCall(block: suspend () -> HttpResponse): T {
             throw HttpException(httpResponse.status.value, httpResponse.status.description)
         }
     } catch (e: Throwable) {
-        throw e
+        throw NetworkError(e.message ?: e.toString())
     }
 }

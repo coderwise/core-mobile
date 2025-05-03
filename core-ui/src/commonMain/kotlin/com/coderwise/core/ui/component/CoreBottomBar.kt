@@ -59,7 +59,7 @@ fun CoreBottomBar(
                                     launchSingleTop = true
                                     restoreState = true
                                 }
-                            },
+                            }
                         )
                     }
                 }

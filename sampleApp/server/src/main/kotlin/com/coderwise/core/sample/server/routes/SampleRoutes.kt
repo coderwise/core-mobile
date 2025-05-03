@@ -22,11 +22,9 @@ fun Route.sampleRoutes(
         }
 
         get("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest)
-                return@get
-            }
+            val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respondText(
+                "Missing id", status = HttpStatusCode.BadRequest
+            )
             val sample = sampleDataSource.read(id)
             if (sample == null) {
                 call.respond(HttpStatusCode.NotFound)

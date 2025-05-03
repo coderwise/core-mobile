@@ -5,6 +5,7 @@ import com.coderwise.core.data.repository.local.ManyLocalSource
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess
+import com.coderwise.core.domain.arch.success
 import com.coderwise.core.domain.arch.then
 import com.coderwise.core.domain.repository.Identifiable
 import com.coderwise.core.domain.repository.ManyRepository
@@ -35,9 +36,10 @@ open class ManyRepositoryImpl<Id, Entity : Identifiable<Id>>(
 
     override val syncStatus: Flow<SyncStatus> = syncStatusCache
 
-    override val flow: Flow<Outcome<List<Entity>>> = localSource.flow.onStart {
-        remoteSource?.readAll()?.onSuccess { localSource.createAll(it) }
-    }
+    override val flow: Flow<Outcome<List<Entity>>> = localSource.flow
+        .onStart {
+            updateFromRemote()
+        }
 
     override fun flowById(id: Id): Flow<Outcome<Entity>> = localSource.flowById(id)
 
@@ -52,13 +54,14 @@ open class ManyRepositoryImpl<Id, Entity : Identifiable<Id>>(
     override suspend fun read(id: Id): Outcome<Entity> = localSource.read(id)
 
     override suspend fun readAll(): Outcome<List<Entity>> = localSource.readAll()
+        .also { updateFromRemote() }
 
-    override suspend fun update(entity: Entity): Outcome<Id> =
+    override suspend fun update(entity: Entity): Outcome<Unit> =
         localSource.update(entity).then { localId ->
             syncStatusCache.value = SyncStatus.Syncing
             remoteSource?.update(entity)?.onError {
                 syncStatusCache.value = SyncStatus.Error
-            } ?: Outcome.Success(localId)
+            } ?: Outcome.success()
         }
 
     override suspend fun delete(id: Id): Outcome<Unit> = localSource.delete(id).then {
@@ -66,5 +69,15 @@ open class ManyRepositoryImpl<Id, Entity : Identifiable<Id>>(
         remoteSource?.delete(id)?.onError {
             syncStatusCache.value = SyncStatus.Error
         } ?: Outcome.Success(Unit)
+    }
+
+    private suspend fun updateFromRemote() {
+        syncStatusCache.value = SyncStatus.Syncing
+        remoteSource?.readAll()?.onSuccess {
+            localSource.createAll(it)
+            syncStatusCache.value = SyncStatus.Synced
+        }?.onError {
+            syncStatusCache.value = SyncStatus.Error
+        }
     }
 }

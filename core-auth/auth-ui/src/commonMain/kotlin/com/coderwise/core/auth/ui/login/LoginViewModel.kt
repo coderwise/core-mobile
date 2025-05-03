@@ -79,11 +79,7 @@ class LoginViewModel(
         authRepository.login(state.userName, state.password).onSuccess {
             sessionRepository.setRememberMe(state.rememberMe)
             sessionRepository.setToken(it.token)
-            navigationRouter.navigate(args.onSuccessRoute) {
-                popUpTo(LoginRoute) {
-                    inclusive = true
-                }
-            }
+            navigationRouter.navigate(args.onSuccessRouteId, false)
         }.onError {
             reduce {
                 copy(isProgress = false)

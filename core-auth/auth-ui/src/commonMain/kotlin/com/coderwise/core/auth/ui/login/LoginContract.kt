@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginRoute(
-    val onSuccessRoute: String,
+    val onSuccessRouteId: String,
     val userName: String = "",
     val password: String = "",
     val onRecoverRoute: String = RecoverRoute.routeId(),

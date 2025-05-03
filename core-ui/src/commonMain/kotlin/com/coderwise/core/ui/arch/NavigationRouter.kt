@@ -6,9 +6,14 @@ import kotlinx.coroutines.flow.Flow
 
 
 sealed interface NavCommand {
-    data class Navigate(
+    data class NavigateRoute(
         val route: Any,
-        val navOptions: (NavOptionsBuilder.() -> Unit)? = null
+        val addToBackStack: Boolean = true
+    ) : NavCommand
+
+    data class NavigateString(
+        val route: String,
+        val addToBackStack: Boolean = true
     ) : NavCommand
 
     data object NavigateUp : NavCommand
@@ -18,7 +23,9 @@ sealed interface NavCommand {
 interface NavigationRouter {
     val flow: Flow<NavCommand>
 
-    suspend fun navigate(route: Any, navOptions: (NavOptionsBuilder.() -> Unit)? = null)
+    suspend fun navigate(route: Any, addToBackStack: Boolean = true)
+
+    suspend fun navigate(route: String, addToBackStack: Boolean = true)
 
     suspend fun navigateUp()
 }
