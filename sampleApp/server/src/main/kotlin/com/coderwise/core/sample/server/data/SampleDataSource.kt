@@ -47,13 +47,13 @@ class SampleDataSource(
             .map { it.asResponse() }
     }
 
-    suspend fun read(id: Int): SampleDto? {
-        return collection.find(
+    suspend fun read(id: Int): SampleDto? = withContext(Dispatchers.IO) {
+        collection.find(
             Filters.eq("id", id)
         ).firstOrNull()?.let { SampleEntity.fromDocument(it).asResponse() }
     }
 
-    suspend fun update(sample: SampleDto) {
+    suspend fun update(sample: SampleDto): Unit = withContext(Dispatchers.IO) {
         collection.replaceOne(
             Filters.eq("id", sample.id.toString()),
             sample.asRecord().toDocument()

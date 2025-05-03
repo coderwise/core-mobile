@@ -40,10 +40,6 @@ fun Route.sampleRoutes(
         }
 
         patch("/{id?}") {
-            val id = call.parameters["id"] ?: return@patch call.respondText(
-                text = "Missing id",
-                status = HttpStatusCode.BadRequest
-            )
             val sample = call.receive<SampleDto>()
             sampleDataSource.update(sample)
             call.respond(HttpStatusCode.OK)
