@@ -84,7 +84,7 @@ class LoginViewModel(
             reduce {
                 copy(isProgress = false)
             }
-            uiMessenger.showNotification(UiNotification(it.message ?: "Something went wrong"))
+            uiMessenger.showNotification(UiNotification(it.message))
         }
     }
 }

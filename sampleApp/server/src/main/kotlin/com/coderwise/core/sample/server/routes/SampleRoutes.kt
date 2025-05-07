@@ -9,8 +9,8 @@ import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
-import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
+import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 
 fun Route.sampleRoutes(
@@ -39,10 +39,10 @@ fun Route.sampleRoutes(
             call.respond(HttpStatusCode.OK, sample.id)
         }
 
-        patch("/{id?}") {
+        put("/{id?}") {
             val sample = call.receive<SampleDto>()
             sampleDataSource.update(sample)
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.NoContent)
         }
 
         delete("/{id?}") {
@@ -51,7 +51,7 @@ fun Route.sampleRoutes(
                 status = HttpStatusCode.BadRequest
             )
             sampleDataSource.delete(id.toInt())
-            call.respond(HttpStatusCode.OK)
+            call.respond(HttpStatusCode.NoContent)
         }
     }
 }

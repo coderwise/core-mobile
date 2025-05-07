@@ -6,8 +6,11 @@ import kotlinx.coroutines.flow.map
 
 sealed interface Outcome<out T> {
     data class Success<out T>(val data: T) : Outcome<T>
-    data class Error(val exception: Throwable) : Outcome<Nothing> {
-        override fun toString() = exception.message ?: exception.toString()
+
+    data class Error(val error: Throwable) : Outcome<Nothing> {
+        val message: String get() = error.message ?: error.toString()
+
+        override fun toString() = message
     }
 
     companion object
@@ -24,10 +27,10 @@ suspend fun <T> Outcome<T>.onSuccess(
 }
 
 suspend fun <T> Outcome<T>.onError(
-    block: suspend (Throwable) -> Unit
+    block: suspend (Outcome.Error) -> Unit
 ): Outcome<T> = when (this) {
     is Outcome.Error -> {
-        block(exception)
+        block(this)
         this
     }
 
@@ -43,7 +46,7 @@ suspend fun <T, R> Outcome<T>.mapSuccess(block: suspend (T) -> R): Outcome<R> =
 suspend fun <T> Outcome<T>.mapError(block: suspend (Throwable) -> Outcome<T>): Outcome<T> =
     when (this) {
         is Outcome.Success -> this
-        is Outcome.Error -> block(exception)
+        is Outcome.Error -> block(error)
     }
 
 suspend fun <T1, T2> Outcome<T1>.then(next: suspend (T1) -> Outcome<T2>): Outcome<T2> =
@@ -59,7 +62,7 @@ fun <T> Outcome<T>.dataOrNull(): T? = when (this) {
 
 fun <T> Outcome<T>.dataOrThrow(): T = when (this) {
     is Outcome.Success -> this.data
-    is Outcome.Error -> throw exception
+    is Outcome.Error -> throw error
 }
 
 fun <T, R> Flow<Outcome<T>>.mapSuccess(transform: suspend (T) -> R): Flow<Outcome<R>> =

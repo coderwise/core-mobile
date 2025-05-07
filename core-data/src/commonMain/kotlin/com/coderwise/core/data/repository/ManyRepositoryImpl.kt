@@ -44,12 +44,16 @@ open class ManyRepositoryImpl<Id, Entity : Identifiable<Id>>(
     override fun flowById(id: Id): Flow<Outcome<Entity>> = localSource.flowById(id)
 
     override suspend fun create(entity: Entity): Outcome<Id> =
-        localSource.create(entity).then { localId ->
-            syncStatusCache.value = SyncStatus.Syncing
-            remoteSource?.create(entity)?.onError {
-                syncStatusCache.value = SyncStatus.Error
-            } ?: Outcome.Success(localId)
-        }
+        localSource.create(entity)
+            .then { localId ->
+                syncStatusCache.value = SyncStatus.Syncing
+                localSource.read(localId)
+            }
+            .then { localEntity ->
+                remoteSource?.create(localEntity)?.onError {
+                    syncStatusCache.value = SyncStatus.Error
+                } ?: Outcome.Success(localEntity.id)
+            }
 
     override suspend fun read(id: Id): Outcome<Entity> = localSource.read(id)
 

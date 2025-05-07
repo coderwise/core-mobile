@@ -50,8 +50,8 @@ class EditViewModel(
                     navigationRouter.navigateUp()
                 }.onError {
                     reduce { copy(isProgress = false) }
-                    uiMessenger.showNotification(UiNotification(it.toString()))
-                    if (it is NetworkError) {
+                    uiMessenger.showNotification(UiNotification(it.message))
+                    if (it.error is NetworkError) {
                         navigationRouter.navigateUp()
                     }
                 }
@@ -69,7 +69,7 @@ class EditViewModel(
                     navigationRouter.navigateUp()
                 }.onError {
                     reduce { copy(isProgress = false) }
-                    uiMessenger.showNotification(UiNotification(it.message!!))
+                    uiMessenger.showNotification(UiNotification(it.message))
                 }
             }
         }
