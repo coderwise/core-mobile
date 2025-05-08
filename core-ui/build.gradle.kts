@@ -40,19 +40,13 @@ kotlin {
     }
 }
 
-//publishing {
-//    repositories {
-//        mavenLocal()
-//    }
-//}
-
 group = "com.coderwise.core.ui"
 version = libs.versions.coderwiseCore.get()
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-    if (!project.hasProperty("skip-signing")) {
+    if (project.hasProperty("sign")) {
         signAllPublications()
     }
 
@@ -62,7 +56,7 @@ mavenPublishing {
         name = "Core UI library"
         description = "Core UI library"
         inceptionYear = "2025"
-        url = "https://github.com/coderwise/core.mobile/core-ui"
+        url = "https://github.com/coderwise/core.mobile"
         licenses {
             license {
                 name = "The Apache License, Version 2.0"
@@ -78,9 +72,9 @@ mavenPublishing {
             }
         }
         scm {
-            url = "https://github.com/coderwise/core.mobile/core-ui"
-            connection = "scm:git:git://github.com/coderwise/core.mobile/core-ui.git"
-            developerConnection = "scm:git:git://github.com/coderwise/core.mobile/core-ui.git"
+            url = "https://github.com/coderwise/core.mobile"
+            connection = "https://github.com/coderwise/core.mobile.git"
+            developerConnection = "git://github.com/coderwise/core.mobile.git"
         }
     }
 }
