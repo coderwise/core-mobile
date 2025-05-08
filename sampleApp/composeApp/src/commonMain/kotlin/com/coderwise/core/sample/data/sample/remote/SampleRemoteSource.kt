@@ -1,6 +1,6 @@
 package com.coderwise.core.sample.data.sample.remote
 
-import com.coderwise.core.data.repository.ManyRemoteSource
+import com.coderwise.core.data.repository.remote.ManyRemoteSource
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.tryOutcome
 import com.coderwise.core.sample.data.sample.Sample

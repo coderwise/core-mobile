@@ -2,6 +2,7 @@ package com.coderwise.core.data.repository
 
 import com.coderwise.core.data.repository.local.ManyInMemoryLocalSource
 import com.coderwise.core.data.repository.local.ManyLocalSource
+import com.coderwise.core.data.repository.remote.ManyRemoteSource
 import com.coderwise.core.domain.arch.Outcome
 import com.coderwise.core.domain.arch.onError
 import com.coderwise.core.domain.arch.onSuccess

@@ -31,9 +31,11 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Core_Library"
-include(":sampleApp:composeApp")
-include(":sampleApp:server")
-include(":sampleApp:server-api")
+include(
+    ":sampleApp:composeApp",
+    ":sampleApp:server",
+    ":sampleApp:server-api"
+)
 
 include(":core-permissions")
 

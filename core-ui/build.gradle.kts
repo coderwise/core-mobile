@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinMultiplatformLibrary)
@@ -5,7 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 
-    id("maven-publish")
+    alias(libs.plugins.mavenPublish)
 }
 
 kotlin {
@@ -38,11 +40,47 @@ kotlin {
     }
 }
 
-publishing {
-    repositories {
-        mavenLocal()
-    }
-}
+//publishing {
+//    repositories {
+//        mavenLocal()
+//    }
+//}
 
 group = "com.coderwise.core.ui"
 version = libs.versions.coderwiseCore.get()
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    if (!project.hasProperty("skip-signing")) {
+        signAllPublications()
+    }
+
+    coordinates(group.toString(), "core-ui", version.toString())
+
+    pom {
+        name = "Core UI library"
+        description = "Core UI library"
+        inceptionYear = "2025"
+        url = "https://github.com/coderwise/core.mobile/core-ui"
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+        developers {
+            developer {
+                id = "coderwise"
+                name = "Coderwise"
+                url = "https://github.com/coderwise"
+            }
+        }
+        scm {
+            url = "https://github.com/coderwise/core.mobile/core-ui"
+            connection = "scm:git:git://github.com/coderwise/core.mobile/core-ui.git"
+            developerConnection = "scm:git:git://github.com/coderwise/core.mobile/core-ui.git"
+        }
+    }
+}

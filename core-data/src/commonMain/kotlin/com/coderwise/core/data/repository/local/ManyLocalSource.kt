@@ -9,6 +9,10 @@ interface ManyLocalSource<Id, Entity: Identifiable<Id>> {
     fun flowById(id: Id): Flow<Outcome<Entity>>
 
     suspend fun create(entity: Entity): Outcome<Id>
+
+    /**
+     * Create a list of entities and add to local storage.
+     */
     suspend fun createAll(list: List<Entity>): Outcome<Unit>
 
     suspend fun read(id: Id): Outcome<Entity>

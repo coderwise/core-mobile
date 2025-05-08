@@ -16,7 +16,6 @@ val coreUiModule = module {
     single { SnackbarHostStateProvider() }
     single<UiMessenger> { UiMessengerImpl(get(), CoroutineScope(Dispatchers.Main)) }
 
-    //single { NavControllerProvider() }
     single<NavigationRouter> { NavigationRouterImpl() }
 }
 
