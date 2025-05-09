@@ -22,7 +22,7 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    jvm()
+    //jvm()
 
     sourceSets {
         commonMain.dependencies {
