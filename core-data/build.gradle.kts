@@ -64,8 +64,8 @@ mavenPublishing {
     coordinates(group.toString(), "core-data", version.toString())
 
     pom {
-        name = "Core UI library"
-        description = "Core UI library"
+        name = "Core Data library"
+        description = "Core Data library"
         inceptionYear = "2025"
         url = "https://github.com/coderwise/core.mobile"
         licenses {
