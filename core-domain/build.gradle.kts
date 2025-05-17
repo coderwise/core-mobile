@@ -3,7 +3,6 @@ import com.vanniktech.maven.publish.SonatypeHost
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinMultiplatformLibrary)
-
     alias(libs.plugins.mavenPublish)
 }
 
@@ -36,41 +35,6 @@ kotlin {
 
 group = "com.coderwise.core.domain"
 version = libs.versions.coderwiseCore.get()
-
-//ext["signing.keyId"] = null
-//ext["signing.password"] = null
-//ext["signing.secretKeyRingFile"] = null
-
-//publishing {
-//    repositories {
-//        maven {
-//            //name = "central"
-//            url = uri("https://central.sonatype.com/api/v1/")
-//
-//            credentials {
-//                username = System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername")
-//                password = System.getenv("ORG_GRADLE_PROJECT_mavenCentralPassword")
-//            }
-//        }
-//    }
-//
-//    publications.withType<MavenPublication> {
-//        groupId = group.toString()
-//        artifactId = project.name
-//        version = version.toString()
-//
-//        pom {
-//            name = "Core Domain library"
-//            description = "Core Domain library"
-//            inceptionYear = "2025"
-//            url = "https://github.com/coderwise/core.mobile"
-//        }
-//    }
-//}
-//
-//signing {
-//    sign(publishing.publications)
-//}
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
