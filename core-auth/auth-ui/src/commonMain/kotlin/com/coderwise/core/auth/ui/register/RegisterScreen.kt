@@ -8,14 +8,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.coderwise.core.auth.auth_ui.generated.resources.Res
-import com.coderwise.core.auth.auth_ui.generated.resources.login_register
 import com.coderwise.core.ui.component.CorePasswordField
 import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.ui.component.CoreTextField
 import com.coderwise.core.ui.component.ProgressButtonState
 import com.coderwise.core.ui.utils.ScreenPreview
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 

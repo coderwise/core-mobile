@@ -40,7 +40,7 @@ kotlin {
     }
 }
 
-group = "com.coderwise.core.ui"
+group = "com.coderwise.core"
 version = libs.versions.coderwiseCore.get()
 
 mavenPublishing {

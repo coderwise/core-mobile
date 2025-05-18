@@ -26,7 +26,7 @@ kotlin {
     }
 }
 
-group = "com.coderwise.core.auth"
+group = "com.coderwise.core"
 version = libs.versions.coderwiseCore.get()
 
 mavenPublishing {

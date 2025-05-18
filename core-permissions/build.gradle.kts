@@ -59,7 +59,7 @@ kotlin {
     }
 }
 
-group = "com.coderwise.core.permissions"
+group = "com.coderwise.core"
 version = libs.versions.coderwiseCore.get()
 
 mavenPublishing {

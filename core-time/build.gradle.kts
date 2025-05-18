@@ -36,7 +36,7 @@ kotlin {
     }
 }
 
-group = "com.coderwise.core.time"
+group = "com.coderwise.core"
 version = libs.versions.coderwiseCore.get()
 
 mavenPublishing {
