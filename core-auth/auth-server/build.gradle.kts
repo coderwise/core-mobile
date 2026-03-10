@@ -7,6 +7,10 @@ plugins {
     id("maven-publish")
 }
 
+application {
+    mainClass = "io.ktor.server.netty.EngineMain"
+}
+
 dependencies {
     implementation(project(":core-auth:auth-api"))
 
