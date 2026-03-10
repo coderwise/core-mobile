@@ -35,7 +35,7 @@ class NavigationRouterImpl() : NavigationRouter {
 @Composable
 fun rememberNavRouter(
     navController: NavController
-) {
+): NavigationRouter {
     val navRouter = koinInject<NavigationRouter>()
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(navController, lifecycleOwner) {
@@ -61,4 +61,5 @@ fun rememberNavRouter(
             }
         }
     }
+    return navRouter
 }

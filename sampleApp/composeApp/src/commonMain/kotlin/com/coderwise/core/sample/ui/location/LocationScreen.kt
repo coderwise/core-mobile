@@ -23,6 +23,7 @@ import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.sample.ui.theme.ScreenPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun LocationScreen(
@@ -59,6 +60,7 @@ internal fun LocationContent(
     }
 }
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun LastLocation(
     lastLocation: GpsMessage

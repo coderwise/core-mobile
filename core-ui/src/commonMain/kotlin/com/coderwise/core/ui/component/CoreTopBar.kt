@@ -11,13 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import com.coderwise.core.ui.utils.CorePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 data class TopBarAction(
-    val imageVector: ImageVector,
+    val iconPainter: Painter,
     val contentDescription: String? = null,
     val onClick: () -> Unit
 )
@@ -55,7 +56,7 @@ fun CoreTopBar(
                     onClick = it.onClick
                 ) {
                     Icon(
-                        imageVector = it.imageVector,
+                        painter = it.iconPainter,
                         contentDescription = it.contentDescription
                     )
                 }
@@ -87,7 +88,7 @@ internal fun CoreTopBarPreview() {
                 onNavigationClick = {},
                 actions = listOf(
                     TopBarAction(
-                        imageVector = Icons.Filled.Delete,
+                        iconPainter = rememberVectorPainter(Icons.Default.Delete),
                         contentDescription = "Localized description"
                     ) {}
                 )

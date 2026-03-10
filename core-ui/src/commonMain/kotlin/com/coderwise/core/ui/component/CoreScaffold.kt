@@ -17,6 +17,7 @@ import com.coderwise.core.ui.arch.rememberUiMessenger
 
 @Composable
 fun CoreScaffold(
+    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -28,6 +29,7 @@ fun CoreScaffold(
 
     CompositionLocalProvider(LocalScaffoldState provides scaffoldState) {
         Scaffold(
+            modifier = modifier,
             topBar = {
                 CoreTopBar(
                     title = scaffoldState.topBarTitle,
@@ -53,13 +55,15 @@ fun CoreScaffold(
 
 @Composable
 fun CoreScaffold(
+    startDestination: Any,
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
     bottomBar: (@Composable () -> Unit)? = null,
     scaffoldStateBuilder: ScaffoldState.() -> Unit = {},
-    startDestination: Any,
     graphBuilder: NavGraphBuilder.() -> Unit
 ) {
-    val navController: NavHostController = rememberNavController()
     CoreScaffold(
+        modifier = modifier,
         navController = navController,
         bottomBar = bottomBar,
         content = { innerPadding ->

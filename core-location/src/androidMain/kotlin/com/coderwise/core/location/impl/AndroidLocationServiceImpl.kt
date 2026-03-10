@@ -12,8 +12,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.update
-import kotlinx.datetime.Instant
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 class AndroidLocationServiceImpl(
     private val locationManager: LocationManager
@@ -44,6 +45,7 @@ class AndroidLocationServiceImpl(
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun Location.asGpsMessage() = GpsMessage(
         latLon = LatLon(latitude, longitude),
         horizontalAccuracy = accuracy,

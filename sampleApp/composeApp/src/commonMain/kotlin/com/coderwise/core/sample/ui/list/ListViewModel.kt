@@ -14,6 +14,7 @@ import com.coderwise.core.ui.arch.NavigationRouter
 import com.coderwise.core.ui.arch.UiMessenger
 import com.coderwise.core.ui.arch.UiNotification
 import com.coderwise.core.ui.arch.routeId
+import kotlin.time.ExperimentalTime
 
 class ListViewModel(
     private val navRouter: NavigationRouter,
@@ -36,12 +37,13 @@ class ListViewModel(
                 outcome.onSuccess { samples ->
                     reduce { copy(samples = samples) }
                 }.onError {
-                    uiMessenger.showNotification(UiNotification(it.message!!))
+                    uiMessenger.showNotification(UiNotification(it.message))
                 }
             }
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     override fun onAction(action: Any) {
         when (action) {
             is ListAction.OnItemClicked -> asyncAction {
@@ -54,7 +56,7 @@ class ListViewModel(
                         id = timeService.now().toEpochMilliseconds().toInt(),
                         value = "New sample"
                     )
-                ).onError { uiMessenger.showNotification(UiNotification(it.message!!)) }
+                ).onError { uiMessenger.showNotification(UiNotification(it.message)) }
             }
 
             is ListAction.OnAccountClicked -> asyncAction { state ->

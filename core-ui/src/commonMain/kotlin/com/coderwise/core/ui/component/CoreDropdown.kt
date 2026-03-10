@@ -85,7 +85,7 @@ internal fun <Item> CoreBaseDropdown(
             OutlinedTextField(
                 modifier = modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
-                value = itemLabel(options[selectedIndex]),
+                value = options[selectedIndex]?.let { itemLabel(it) }.orEmpty(),
                 onValueChange = {},
                 label = { label?.let { Text(label) } },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },

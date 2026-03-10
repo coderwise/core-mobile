@@ -16,7 +16,7 @@ fun Context.openPage(
             }
         }
         startActivity(intent)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         // NOOP
     }
 }

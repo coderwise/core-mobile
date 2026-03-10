@@ -1,6 +1,8 @@
 package com.coderwise.core.sample
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.navigation.compose.composable
 import com.coderwise.core.auth.ui.authNavigationGraph
 import com.coderwise.core.sample.ui.AppViewModel
 import com.coderwise.core.sample.ui.catalog.CatalogRoute
@@ -42,6 +44,7 @@ private fun RootUi() {
     koinViewModel<AppViewModel>()
 
     CoreScaffold(
+        startDestination = ListRoute,
         scaffoldStateBuilder = {
             showTopBar = true
             showBackNavigation = false
@@ -49,8 +52,8 @@ private fun RootUi() {
             showBottomBar = true
             bottomBarNavItems = rootBottomBarNavItems
         },
-        startDestination = ListRoute,
     ) {
+        composable<Unit> { Text("test")}
         sampleNavigationGraph()
         authNavigationGraph()
     }

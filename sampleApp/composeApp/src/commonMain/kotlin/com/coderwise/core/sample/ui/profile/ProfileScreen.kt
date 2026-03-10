@@ -4,9 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,16 +14,19 @@ import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.ui.component.CorePropertyText
 import com.coderwise.core.ui.component.TopBarAction
 import com.coderwise.core.ui.component.scaffold
+import core_library.sampleapp.composeapp.generated.resources.Res
+import core_library.sampleapp.composeapp.generated.resources.outline_edit_24
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
-
+    val editIconPainter = painterResource(Res.drawable.outline_edit_24)
     scaffold {
         topBarActions = listOf(
-            TopBarAction(Icons.Filled.Edit) {
+            TopBarAction(editIconPainter) {
                 viewModel.dispatch(ProfileAction.OnEditClicked)
             }
         )

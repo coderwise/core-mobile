@@ -1,7 +1,9 @@
 package com.coderwise.core.location
 
-import kotlinx.datetime.Instant
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 data class GpsMessage(
     val latLon: LatLon,
     val horizontalAccuracy: Float = 0f,

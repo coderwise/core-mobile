@@ -15,15 +15,15 @@ jobs:
           java-version: 21
       - name: Publish to MavenCentral
         run: |
-          #./gradlew -Psign=true :core-data:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-domain:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-ui:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-permissions:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-location:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-time:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-auth:auth-data:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-auth:auth-domain:publishAndReleaseToMavenCentral --no-configuration-cache
-          #./gradlew -Psign=true :core-auth:auth-ui:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-data:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-domain:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-ui:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-permissions:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-location:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-time:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-auth:auth-data:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-auth:auth-domain:publishAndReleaseToMavenCentral --no-configuration-cache
+          ./gradlew -Psign=true :core-auth:auth-ui:publishAndReleaseToMavenCentral --no-configuration-cache
           ./gradlew -Psign=true :core-auth:auth-api:publishAndReleaseToMavenCentral --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}

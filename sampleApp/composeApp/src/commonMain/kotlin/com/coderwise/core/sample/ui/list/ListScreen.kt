@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,6 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.coderwise.core.ui.component.TopBarAction
 import com.coderwise.core.ui.component.scaffold
 import com.coderwise.core.ui.utils.ScreenPreview
+import core_library.sampleapp.composeapp.generated.resources.Res
+import core_library.sampleapp.composeapp.generated.resources.outline_account_circle_24
+import core_library.sampleapp.composeapp.generated.resources.outline_add_24
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -31,13 +31,15 @@ fun ListScreen(
     viewModel: ListViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
+    val accountIconPainter = painterResource(Res.drawable.outline_account_circle_24)
     scaffold {
         showTopBar = true
         showBackNavigation = false
         topBarTitle = "Home"
         topBarActions = listOf(
-            TopBarAction(Icons.Default.AccountCircle) { viewModel.dispatch(ListAction.OnAccountClicked) }
+            TopBarAction(
+                iconPainter = accountIconPainter
+            ) { viewModel.dispatch(ListAction.OnAccountClicked) }
         )
         showBottomBar = true
     }
@@ -100,7 +102,7 @@ private fun ItemsList(
                 .padding(16.dp)
                 .align(Alignment.BottomEnd)
         ) {
-            Icon(Icons.Filled.Add, "Add")
+            Icon(painterResource(Res.drawable.outline_add_24), "Add")
         }
     }
 }

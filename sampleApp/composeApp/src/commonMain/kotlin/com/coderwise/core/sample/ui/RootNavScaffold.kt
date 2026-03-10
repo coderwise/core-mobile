@@ -1,10 +1,6 @@
 package com.coderwise.core.sample.ui
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,6 +15,11 @@ import com.coderwise.core.sample.ui.list.ListRoute
 import com.coderwise.core.sample.ui.location.LocationRoute
 import com.coderwise.core.sample.ui.permissions.PermissionsRoute
 import com.coderwise.core.ui.component.NavItem
+import core_library.sampleapp.composeapp.generated.resources.Res
+import core_library.sampleapp.composeapp.generated.resources.home_24px
+import core_library.sampleapp.composeapp.generated.resources.location_on_24px
+import core_library.sampleapp.composeapp.generated.resources.outline_settings_24
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun RootNavScaffold(
@@ -71,7 +72,7 @@ fun <T : Any> NavigationSuiteScope.routeItem(
     item(
         icon = {
             Icon(
-                imageVector = navItem.findImageVector(),
+                painter = painterResource(navItem.findImageVector()),
                 contentDescription = ""
             )
         },
@@ -82,8 +83,8 @@ fun <T : Any> NavigationSuiteScope.routeItem(
 }
 
 private fun Any.findImageVector() = when (this) {
-    is ListRoute -> Icons.Default.Home
-    is PermissionsRoute -> Icons.Default.Settings
-    is LocationRoute -> Icons.Default.LocationOn
-    else -> Icons.Default.Home
+    is ListRoute -> Res.drawable.home_24px
+    is PermissionsRoute -> Res.drawable.outline_settings_24
+    is LocationRoute -> Res.drawable.location_on_24px
+    else -> Res.drawable.home_24px
 }

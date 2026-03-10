@@ -22,6 +22,7 @@ import platform.Foundation.NSError
 import platform.darwin.NSObject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 
 class IosLocationServiceImpl(
     private val locationManager: CLLocationManager = CLLocationManager()
@@ -87,7 +88,7 @@ private fun Duration.asIosAccuracy(): CLLocationAccuracy {
     return kCLLocationAccuracyBest
 }
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, ExperimentalTime::class)
 private fun CLLocation.asGpsMessage() = coordinate.useContents {
     GpsMessage(
         latLon = LatLon(latitude, longitude),

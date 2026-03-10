@@ -4,21 +4,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.sample.ui.theme.ScreenPreview
+import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.ui.component.CorePropertyText
 import com.coderwise.core.ui.component.CoreTextField
 import com.coderwise.core.ui.component.TopBarAction
 import com.coderwise.core.ui.component.scaffold
+import core_library.sampleapp.composeapp.generated.resources.Res
+import core_library.sampleapp.composeapp.generated.resources.outline_delete_24
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -27,12 +26,12 @@ fun EditScreen(
     viewModel: EditViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
+    val deleteIconPainter = painterResource(Res.drawable.outline_delete_24)
     scaffold {
         showBackNavigation = true
         topBarTitle = "Edit"
         topBarActions = listOf(
-            TopBarAction(Icons.Default.Delete) { viewModel.dispatch(EditAction.OnDelete) },
+            TopBarAction(deleteIconPainter) { viewModel.dispatch(EditAction.OnDelete) },
         )
         showBottomBar = false
     }
