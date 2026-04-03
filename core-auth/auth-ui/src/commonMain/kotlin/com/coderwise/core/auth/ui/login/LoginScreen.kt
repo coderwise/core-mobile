@@ -1,8 +1,6 @@
 package com.coderwise.core.auth.ui.login
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,16 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.coderwise.core.ui.component.CoreCheckbox
 import com.coderwise.core.ui.component.CorePasswordField
 import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.ui.component.CoreTextField
@@ -75,28 +72,15 @@ private fun LoginContent(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
 
-        // TODO make to a component
-        Row(
+        CoreCheckbox(
+            checked = uiState.rememberMe,
+            onCheckedChange = { dispatch(LoginAction.RememberMeUpdated(it)) },
+            label = "Remember me",
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Checkbox(
-                checked = uiState.rememberMe,
-                onCheckedChange = { dispatch(LoginAction.RememberMeUpdated(it)) },
-                modifier = Modifier,
-                enabled = !uiState.isLoading
-            )
-            Text(
-                text = "Remember me",
-                modifier = Modifier.clickable {
-                    if (!uiState.isLoading) {
-                        dispatch(LoginAction.RememberMeUpdated(!uiState.rememberMe))
-                    }
-                }
-            )
-        }
+            enabled = !uiState.isLoading
+        )
         CoreProgressButton(
             text = "Login",
             state = uiState.loginButtonState,
