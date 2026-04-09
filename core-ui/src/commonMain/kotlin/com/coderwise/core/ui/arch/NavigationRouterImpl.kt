@@ -2,14 +2,14 @@ package com.coderwise.core.ui.arch
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.compose.koinInject
 
 
-class NavigationRouterImpl() : NavigationRouter {
+class NavigationRouterImpl : NavigationRouter {
     private val navCommands = MutableSharedFlow<NavCommand>(replay = 1)
     override val flow: Flow<NavCommand> = navCommands
     override suspend fun navigate(
