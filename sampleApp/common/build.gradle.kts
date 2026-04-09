@@ -12,6 +12,7 @@ kotlin {
         namespace = "com.coderwise.core.sample"
         compileSdk = libs.versions.compileSdk.get().toInt()
         minSdk = libs.versions.minSdk.get().toInt()
+        androidResources.enable = true
     }
 
     //noinspection WrongGradleMethod

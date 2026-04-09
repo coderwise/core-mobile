@@ -14,11 +14,11 @@ import com.coderwise.core.sample.ui.theme.Core_LibraryTheme
 import com.coderwise.core.ui.arch.UiText
 import com.coderwise.core.ui.component.CoreScaffold
 import com.coderwise.core.ui.component.NavItem
-import core_library.sampleapp.composeapp.generated.resources.Res
-import core_library.sampleapp.composeapp.generated.resources.home_24px
-import core_library.sampleapp.composeapp.generated.resources.location_on_24px
-import core_library.sampleapp.composeapp.generated.resources.lock_open_24px
-import core_library.sampleapp.composeapp.generated.resources.outline_atr_24
+import core_library.sampleapp.common.generated.resources.Res
+import core_library.sampleapp.common.generated.resources.home_24px
+import core_library.sampleapp.common.generated.resources.location_on_24px
+import core_library.sampleapp.common.generated.resources.lock_open_24px
+import core_library.sampleapp.common.generated.resources.outline_atr_24
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable

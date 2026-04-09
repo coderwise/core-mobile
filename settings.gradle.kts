@@ -35,7 +35,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "core-library"
 include(
-    ":sampleApp:composeApp",
+    ":sampleApp:common",
     ":sampleApp:android",
     ":sampleApp:server",
     ":sampleApp:server-api"

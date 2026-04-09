@@ -15,10 +15,10 @@ import com.coderwise.core.sample.ui.list.ListRoute
 import com.coderwise.core.sample.ui.location.LocationRoute
 import com.coderwise.core.sample.ui.permissions.PermissionsRoute
 import com.coderwise.core.ui.component.NavItem
-import core_library.sampleapp.composeapp.generated.resources.Res
-import core_library.sampleapp.composeapp.generated.resources.home_24px
-import core_library.sampleapp.composeapp.generated.resources.location_on_24px
-import core_library.sampleapp.composeapp.generated.resources.outline_settings_24
+import core_library.sampleapp.common.generated.resources.Res
+import core_library.sampleapp.common.generated.resources.home_24px
+import core_library.sampleapp.common.generated.resources.location_on_24px
+import core_library.sampleapp.common.generated.resources.outline_settings_24
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

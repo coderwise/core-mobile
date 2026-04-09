@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeCompiler)
 }
 
 android {
@@ -35,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":sampleApp:composeApp"))
+    implementation(project(":sampleApp:common"))
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.koin.android)

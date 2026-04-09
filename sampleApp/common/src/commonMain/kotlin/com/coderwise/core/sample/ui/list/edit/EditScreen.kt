@@ -15,8 +15,8 @@ import com.coderwise.core.ui.component.CorePropertyText
 import com.coderwise.core.ui.component.CoreTextField
 import com.coderwise.core.ui.component.TopBarAction
 import com.coderwise.core.ui.component.scaffold
-import core_library.sampleapp.composeapp.generated.resources.Res
-import core_library.sampleapp.composeapp.generated.resources.outline_delete_24
+import core_library.sampleapp.common.generated.resources.Res
+import core_library.sampleapp.common.generated.resources.outline_delete_24
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel

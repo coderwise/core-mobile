@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.coderwise.core.ui.component.TopBarAction
 import com.coderwise.core.ui.component.scaffold
 import com.coderwise.core.ui.utils.ScreenPreview
-import core_library.sampleapp.composeapp.generated.resources.Res
-import core_library.sampleapp.composeapp.generated.resources.outline_account_circle_24
-import core_library.sampleapp.composeapp.generated.resources.outline_add_24
+import core_library.sampleapp.common.generated.resources.Res
+import core_library.sampleapp.common.generated.resources.outline_account_circle_24
+import core_library.sampleapp.common.generated.resources.outline_add_24
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
