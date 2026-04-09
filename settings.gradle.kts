@@ -33,7 +33,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Core_Library"
+rootProject.name = "core-library"
 include(
     ":sampleApp:composeApp",
     ":sampleApp:server",
