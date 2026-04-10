@@ -18,6 +18,6 @@ jobs:
           distribution: 'zulu'
           java-version: 21
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew assembleDebug
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew testDebugUnitTest

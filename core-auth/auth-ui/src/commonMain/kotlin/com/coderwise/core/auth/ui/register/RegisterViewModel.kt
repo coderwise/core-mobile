@@ -32,9 +32,7 @@ class RegisterViewModel(
                     navigationRouter.navigateUp()
                 }.onError {
                     uiMessenger.showNotification(
-                        UiNotification(
-                            it.message ?: "Something went wrong"
-                        )
+                        UiNotification(it.message)
                     )
                 }
                 reduce {

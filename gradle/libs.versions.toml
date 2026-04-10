@@ -1,7 +1,12 @@
 [versions]
 
 compileSdk = "36"
+componentsResources = "1.10.3"
+foundation = "1.10.3"
+material3 = "1.9.0"
+materialIconsExtended = "1.7.3"
 minSdk = "26"
+runtime = "1.10.3"
 targetSdk = "36"
 
 agp = "9.1.0"
@@ -23,15 +28,27 @@ ktor = "3.4.2"
 logback-version = "1.5.32"
 firebaseBom = "34.11.0"
 mongo-version = "5.6.4"
+ui = "1.10.3"
+uiToolingPreview = "1.10.3"
 vanniktech = "0.36.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 
+# compose dependencies
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "runtime" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "ui" }
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "componentsResources" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeTooling" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "foundation" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 
+material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
 
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-datastore-core-okio = { group = "androidx.datastore", name = "datastore-core-okio", version.ref = "datastore" }

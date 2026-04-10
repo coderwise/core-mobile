@@ -8,6 +8,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.sample.ui.theme.ScreenPreview
 import com.coderwise.core.ui.component.CoreOutlinedDropdown
@@ -16,7 +17,6 @@ import com.coderwise.core.ui.component.CoreProgressButton
 import com.coderwise.core.ui.component.CorePropertyText
 import com.coderwise.core.ui.component.CoreTextField
 import com.coderwise.core.ui.component.CoreTopBar
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable

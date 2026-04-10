@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.sample.ui.theme.ScreenPreview
 import com.coderwise.core.ui.component.CoreProgressButton
@@ -17,7 +18,6 @@ import com.coderwise.core.ui.component.scaffold
 import core_library.sampleapp.common.generated.resources.Res
 import core_library.sampleapp.common.generated.resources.outline_edit_24
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable

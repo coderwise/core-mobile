@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.coderwise.core.permissions.CAMERA
 import com.coderwise.core.permissions.LOCATION
@@ -21,7 +22,6 @@ import com.coderwise.core.permissions.ProcessPermissionRequestEffect
 import com.coderwise.core.permissions.STORAGE
 import com.coderwise.core.ui.component.BoxyRow
 import com.coderwise.core.sample.ui.theme.CorePreview
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
